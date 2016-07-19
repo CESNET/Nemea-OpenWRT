@@ -1,0 +1,102 @@
+#
+# Copyright (C) 2006-2013 OpenWrt.org
+#
+# This is free software, licensed under the GNU General Public License v2.
+# See /LICENSE for more information.
+#
+
+include $(TOPDIR)/rules.mk
+
+
+PKG_NAME:=nemea-framework
+PKG_REV:=89515d51ad25237a9945c6a2171b5f2bc03471f1
+PKG_VERSION:=$(PKG_REV)
+PKG_RELEASE:=1
+
+PKG_SOURCE_PROTO:=git
+PKG_SOURCE_VERSION:=$(PKG_REV)
+PKG_SOURCE_SUBDIR:=nemea-framework-$(PKG_VERSION)
+PKG_SOURCE_URL:=https://github.com/CESNET/nemea-framework
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_REV).tar.gz
+PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
+
+PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
+
+PKG_FIXUP:=autoreconf
+
+
+PKG_LICENSE:=GPLv2
+PKG_LICENSE_FILES:=COPYING
+
+PKG_MAINTAINER:=Tomas Cejka <cejkat@cesnet.cz>
+
+PKG_INSTALL:=1
+PKG_BUILD_PARALLEL:=1
+
+include $(INCLUDE_DIR)/package.mk
+
+define Package/nemea-framework
+  SECTION:=nemea
+  CATEGORY:=NEMEA
+  DEPENDS:=+libpthread +librt
+  TITLE:=NEMEA system libraries
+  URL:=https://github.com/CESNET/nemea-framework
+  MENU:=1
+endef
+
+define Package/nemea-framework/description
+This package contains a system-independent library for the Nemea system - system for network traffic analysis and anomaly detection.
+endef
+
+define Package/nemea-framework/config
+	source "$(SOURCE)/Config.in"
+endef
+
+TARGET_CFLAGS += \
+	-ffunction-sections \
+	-fdata-sections \
+	--std=gnu99
+
+CONFIGURE_VARS += \
+	ac_cv_linux_vers=$(LINUX_VERSION) \
+	ac_cv_header_libusb_1_0_libusb_h=no \
+	ac_cv_netfilter_can_compile=no
+
+
+CONFIGURE_ARGS += \
+	--enable-shared \
+	--enable-static \
+	--disable-python --disable-pycommon --disable-silent-rules --disable-tests LIBS=-lm --bindir=\$$(bindir)/nemea \
+	--with-build-cc="$(HOSTCC)"
+
+MAKE_FLAGS += \
+	CCOPT="$(TARGET_CFLAGS) -I$(BUILD_DIR)/linux/include"
+
+define Build/Configure
+	$(call Build/Configure/Default)
+endef
+
+define Build/InstallDev
+	$(INSTALL_DIR) $(2)/bin
+	$(CP) $(PKG_BUILD_DIR)/unirec/ur_processor.sh $(2)/bin/
+
+	$(INSTALL_DIR) $(1)/usr/include
+	$(CP) $(PKG_INSTALL_DIR)/usr/include/libtrap* $(1)/usr/include/
+	$(INSTALL_DIR) $(1)/usr/include/nemea-common
+	$(CP) $(PKG_INSTALL_DIR)/usr/include/nemea-common* $(1)/usr/include/
+	$(INSTALL_DIR) $(1)/usr/include/unirec/
+	$(CP) $(PKG_INSTALL_DIR)/usr/include/unirec* $(1)/usr/include/
+
+	$(INSTALL_DIR) $(1)/usr/lib
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/lib*.{a,so*} $(1)/usr/lib/
+
+	$(INSTALL_DIR) $(1)/usr/lib/pkgconfig
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/pkgconfig/*.pc $(1)/usr/lib/pkgconfig
+endef
+
+define Package/nemea-framework/install
+	$(INSTALL_DIR) $(1)/usr/lib
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/lib* $(1)/usr/lib/
+endef
+
+$(eval $(call BuildPackage,nemea-framework,+libpthread,+librt))

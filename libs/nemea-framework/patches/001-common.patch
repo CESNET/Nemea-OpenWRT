@@ -1,0 +1,29 @@
+diff --git a/common/Makefile.am b/common/Makefile.am
+index 1c88cbf..87e0f28 100644
+--- a/common/Makefile.am
++++ b/common/Makefile.am
+@@ -5,9 +5,7 @@ endif
+ 
+ RPMDIR=RPMBUILD
+ lib_LTLIBRARIES=libnemea-common.la
+-libnemea_common_la_SOURCES=configurator/configurator.cpp \
+-                           configurator/configurator-internal.h \
+-                           cuckoo_hash/cuckoo_hash.c \
++libnemea_common_la_SOURCES=cuckoo_hash/cuckoo_hash.c \
+ 			   cuckoo_hash/hashes.h \
+ 			   cuckoo_hash_v2/cuckoo_hash_v2.c \
+ 			   cuckoo_hash_v2/hashes_v2.c \
+diff --git a/common/configure.ac b/common/configure.ac
+index 1f4af68..b6e0b7c 100644
+--- a/common/configure.ac
++++ b/common/configure.ac
+@@ -45,9 +45,6 @@ AC_PROG_LIBTOOL
+ AC_CHECK_PROG(RPMBUILD, rpmbuild, rpmbuild, [""])
+ 
+ 
+-m4_include([m4/ax_libxml2_check.m4])
+-AX_LIBXML2_CHECK()
+-
+ # Checks for libraries.
+ 
+ # Checks for header files.
