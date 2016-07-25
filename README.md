@@ -1,8 +1,8 @@
-# Nemea OpenWrt feed
+# NEMEA OpenWrt feed
 
 ## Description
 
-This is an OpenWrt package feed containing NEMEA system components for exporting flow data.
+This is an OpenWrt package feed containing [NEMEA system](https://github.com/CESNET/Nemea) components for exporting flow data.
 
 ![Infrastructure with NEMEA and OpenWRT router](doc/openwrt-scheme.png)
 
