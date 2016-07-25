@@ -26,4 +26,4 @@ To install package definitions, run:
 ./scripts/feeds install -a -p nemea
 ```
 
-The nemea packages should now appear in menuconfig.
+The NEMEA packages should now appear in `make menuconfig`.
