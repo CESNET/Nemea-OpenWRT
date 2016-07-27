@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 
 PKG_NAME:=nemea-framework
-PKG_REV:=89515d51ad25237a9945c6a2171b5f2bc03471f1
+PKG_REV:=a3d885604971a2014ba4b8bebf9a401614e1d89d
 PKG_VERSION:=$(PKG_REV)
 PKG_RELEASE:=1
 
@@ -67,7 +67,8 @@ CONFIGURE_ARGS += \
 	--enable-shared \
 	--enable-static \
 	--disable-python --disable-pycommon --disable-silent-rules --disable-tests LIBS=-lm --bindir=\$$(bindir)/nemea \
-	--with-build-cc="$(HOSTCC)"
+	--with-build-cc="$(HOSTCC)" \
+	--with-ifcbuffersize=$(CONFIG_LIBTRAP_BUFFER_SIZE)
 
 MAKE_FLAGS += \
 	CCOPT="$(TARGET_CFLAGS) -I$(BUILD_DIR)/linux/include"
