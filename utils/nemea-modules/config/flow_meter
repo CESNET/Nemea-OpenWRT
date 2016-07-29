@@ -1,0 +1,4 @@
+config params
+	option plugins basic,sip,http
+	option ifcspec f:/data/base.trapcap:w:time=5,f:/data/sip:w:time=5,f:/data/http:w:time=5
+	option network br-lan

@@ -1,0 +1,28 @@
+#!/bin/sh /etc/rc.common
+# NEMEA flow_meter
+# Copyright (C) 2016 CESNET
+
+START=50
+STOP=50
+
+. /lib/functions.sh
+
+option_cb()
+{
+	case "$1" in
+	"plugins") plugins="$2";;
+	"ifcspec") ifcspec="$2";;
+	"network") network="$2";;
+	esac
+}
+
+config_load flow_meter
+
+start() {
+	start-stop-daemon -n flow_meter -b -m -p /var/run/flow_meter.pid -x /usr/bin/nemea/flow_meter -S /usr/bin/nemea/flow_meter -- -p "$plugins" -i "$ifcspec" -I "$network"
+}
+
+stop() {
+	start-stop-daemon -n flow_meter -q -p /var/run/flow_meter.pid -s INT -K
+}
+
