@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 
 PKG_NAME:=nemea-modules
-PKG_REV:=84e515019ee7faeb70ba5198c7f984d71e233c2c
+PKG_REV:=7f2d14dc9946c4f01b4187761b0b97e8a594b8f5
 PKG_VERSION:=$(PKG_REV)
 PKG_RELEASE:=1
 
@@ -65,7 +65,8 @@ CONFIGURE_ARGS += \
 	--enable-shared \
 	--enable-static \
 	LIBS=-lm --bindir=/usr/bin/nemea --disable-silent-rules \
-	--with-build-cc="$(HOSTCC)"
+	--with-build-cc="$(HOSTCC)" \
+	--with-flowcachesize=$(CONFIG_FLOW_CACHE_SIZE)
 
 MAKE_FLAGS += \
 	CCOPT="$(TARGET_CFLAGS) -I$(BUILD_DIR)/linux/include"
