@@ -78,6 +78,12 @@ endef
 define Package/nemea-modules/install
 	$(INSTALL_DIR) $(1)/usr/bin/nemea
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/* $(1)/usr/bin/nemea/
+
+	$(INSTALL_DIR) $(1)/etc/init.d
+	$(INSTALL_BIN) ./init.d/flow_meter $(1)/etc/init.d/
+
+	$(INSTALL_DIR) $(1)/etc/config
+	$(INSTALL_DATA) ./config/flow_meter $(1)/etc/config/
 endef
 
 $(eval $(call BuildPackage,nemea-modules))
