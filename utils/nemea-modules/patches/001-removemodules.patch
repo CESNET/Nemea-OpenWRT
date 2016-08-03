@@ -1,28 +1,28 @@
 diff --git a/Makefile.am b/Makefile.am
-index 885f1ec..c8d2e13 100644
+index 885f1ec..964657a 100644
 --- a/Makefile.am
 +++ b/Makefile.am
-@@ -1,37 +1,11 @@
+@@ -1,36 +1,10 @@
  ACLOCAL_AMFLAGS = -I m4
  
 -SUBDIRS=anonymizer \
 -debug_sender \
 -device_classifier \
 -email_reporter \
--flowcounter \
++SUBDIRS=flow_meter \
+ flowcounter \
 -json_dump \
 -json_replay \
 -logger \
-+SUBDIRS=flowcounter \
- logreplay \
+-logreplay \
 -merger \
 -report2idea \
 -traffic_repeater \
 -endiverter
-+flow_meter
++logreplay
  
- EXTRA_DIST = AUTHORS COPYING ChangeLog INSTALL NEWS README.md nfreader
- 
+-EXTRA_DIST = AUTHORS COPYING ChangeLog INSTALL NEWS README.md nfreader
+-
 -if HAVE_LIBNF
 -SUBDIRS += nfreader
 -else
@@ -38,28 +38,29 @@ index 885f1ec..c8d2e13 100644
 -if HAVE_LIBPCAP
 -SUBDIRS += flow_meter
 -endif
--
++EXTRA_DIST = AUTHORS COPYING ChangeLog INSTALL NEWS README.md
+ 
  RPMDIR = RPMBUILD
  
- if MAKE_RPMS
 diff --git a/configure.ac b/configure.ac
-index 8cd621d..3d9cf8c 100644
+index 4491a37..e569622 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -35,10 +35,6 @@ AC_SUBST(PKGDATADIR)
- AC_SUBST(pkgdatadir)
- AC_DEFINE_DIR(PKGDATADIR, [pkgdatadir], [Path to configuration files])
- AC_DEFINE_DIR(SYSCONFDIR, [sysconfdir], [Path to configuration files])
+@@ -38,11 +38,6 @@ AC_DEFINE_DIR(SYSCONFDIR, [sysconfdir], [Path to configuration files])
+ AC_DEFINE_DIR(BINDIR, [bindir], [Path to executable files])
+ AC_SUBST(BINDIR)
+ 
 -deviceclassifierdatadir=${pkgdatadir}/device_classifier
 -AC_DEFINE_DIR(DEVICECLASSIFIERDATADIR, [deviceclassifierdatadir], [Path to SVM data files])
 -AC_SUBST(DEVICECLASSIFIERDATADIR)
 -AC_SUBST(deviceclassifierdatadir)
- 
+-
  RPM_REQUIRES=
  RPM_BUILDREQ=
-@@ -70,22 +66,10 @@ AC_ARG_ENABLE(repobuild, AS_HELP_STRING([--disable-repobuild],
- 	*)   AC_MSG_ERROR([bad value ${enableval} for --enable-repobuild]) ;;
- esac], [repobuild=true])
+ 
+@@ -75,22 +70,10 @@ esac], [repobuild=true])
+ 
+ AX_C_BIGENDIAN_CROSS
  
 -AX_OPENMP([], [AC_MSG_ERROR([OpenMP was not found. Some modules need it (e.g. logger and merger)])])
 -AC_SUBST(OPENMP_CFLAGS)
@@ -80,7 +81,7 @@ index 8cd621d..3d9cf8c 100644
  AC_ARG_WITH([flowcachesize],
  	AC_HELP_STRING([--with-flowcachesize=NUMBER],[Set size of flow cache for flow_meter module in number of flow records. Size must be divisible by 32. Default is 65536.]),
  	[
-@@ -93,44 +77,6 @@ AC_ARG_WITH([flowcachesize],
+@@ -98,44 +81,6 @@ AC_ARG_WITH([flowcachesize],
  	]
  )
  
@@ -125,7 +126,7 @@ index 8cd621d..3d9cf8c 100644
  AC_CHECK_HEADER(pcap.h,
          AC_CHECK_LIB(pcap, pcap_open_live, [libpcap=yes], AC_MSG_WARN([libpcap not found. The flow_meter module will not be compiled.])), AC_MSG_WARN([pcap.h not found. The flow_meter module will not be compiled.]))
  
-@@ -141,7 +87,7 @@ RPM_BUILDREQ+=" libpcap-devel"
+@@ -146,7 +91,7 @@ RPM_BUILDREQ+=" libpcap-devel"
  fi
  
  # Checks for header files.
@@ -134,25 +135,16 @@ index 8cd621d..3d9cf8c 100644
  
  # Checks for typedefs, structures, and compiler characteristics.
  AC_HEADER_STDBOOL
-@@ -163,10 +109,7 @@ AC_FUNC_FORK
- AC_FUNC_MALLOC
- AC_FUNC_REALLOC
- AC_FUNC_STRTOD
--AC_CHECK_FUNCS([alarm clock_gettime floor gettimeofday localeconv memset mkdir pow setlocale sqrt strchr strdup strerror strstr strtol strtoul])
--
--# Check for sigaction
--AC_CHECK_FUNC(sigaction, AC_DEFINE(HAVE_SIGACTION, 1, [Define if you have the 'sigaction' function]))
-+AC_CHECK_FUNCS([alarm clock_gettime floor gettimeofday localeconv memset mkdir pow sqrt strchr strdup strerror strstr strtol strtoul])
- 
- #RPM & Doxygen
- AC_SUBST(RPMBUILD)
-@@ -182,26 +125,9 @@ AM_CONDITIONAL(MAKE_RPMS, test x$RPMBUILD != x)
+@@ -187,29 +132,9 @@ AM_CONDITIONAL(MAKE_RPMS, test x$RPMBUILD != x)
  
  # list of all *.in (and Makefile.am) files to process by configure script
  AC_CONFIG_FILES([Makefile
 -                 anonymizer/Makefile
 -                 debug_sender/Makefile
 -                 device_classifier/Makefile
+-                 device_classifier/libsvm/tools/train.sh
+-                 device_classifier/libsvm/tools/binary.py
+-                 device_classifier/libsvm/tools/grid.py
 -                 device_classifier/libsvm/Makefile
 -                 device_classifier/libsvm/data/Makefile
 -                 device_classifier/libsvm/tools/Makefile
