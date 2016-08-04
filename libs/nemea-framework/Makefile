@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 
 PKG_NAME:=nemea-framework
-PKG_REV:=a3d885604971a2014ba4b8bebf9a401614e1d89d
+PKG_REV:=89e806ade22c002fdc838360058aeb20e9efee11
 PKG_VERSION:=$(PKG_REV)
 PKG_RELEASE:=1
 
@@ -38,7 +38,7 @@ include $(INCLUDE_DIR)/package.mk
 define Package/nemea-framework
   SECTION:=nemea
   CATEGORY:=NEMEA
-  DEPENDS:=+libpthread +librt
+  DEPENDS:=+libpthread +librt +libstdcpp
   TITLE:=NEMEA system libraries
   URL:=https://github.com/CESNET/nemea-framework
   MENU:=1
@@ -68,7 +68,8 @@ CONFIGURE_ARGS += \
 	--enable-static \
 	--disable-python --disable-pycommon --disable-silent-rules --disable-tests LIBS=-lm --bindir=\$$(bindir)/nemea \
 	--with-build-cc="$(HOSTCC)" \
-	--with-ifcbuffersize=$(CONFIG_LIBTRAP_BUFFER_SIZE)
+	--with-ifcbuffersize=$(CONFIG_LIBTRAP_BUFFER_SIZE) \
+	--without-libxml2
 
 MAKE_FLAGS += \
 	CCOPT="$(TARGET_CFLAGS) -I$(BUILD_DIR)/linux/include"
