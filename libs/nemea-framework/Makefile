@@ -24,7 +24,6 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 
 PKG_FIXUP:=autoreconf
 
-
 PKG_LICENSE:=GPLv2
 PKG_LICENSE_FILES:=COPYING
 
@@ -99,6 +98,9 @@ endef
 define Package/nemea-framework/install
 	$(INSTALL_DIR) $(1)/usr/lib
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/lib* $(1)/usr/lib/
+
+	$(INSTALL_DIR) $(1)/usr/bin/nemea
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/nemea/trap_stats $(1)/usr/bin/nemea/
 endef
 
 $(eval $(call BuildPackage,nemea-framework,+libpthread,+librt))
