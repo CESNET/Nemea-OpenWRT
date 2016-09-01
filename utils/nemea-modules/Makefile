@@ -80,10 +80,10 @@ define Package/nemea-modules/install
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/* $(1)/usr/bin/nemea/
 
 	$(INSTALL_DIR) $(1)/etc/init.d
-	$(INSTALL_BIN) ./init.d/flow_meter $(1)/etc/init.d/
+	$(INSTALL_BIN) ./files/init.d/flow_meter $(1)/etc/init.d/
 
 	$(INSTALL_DIR) $(1)/etc/config
-	$(INSTALL_DATA) ./config/flow_meter $(1)/etc/config/
+	$(INSTALL_DATA) ./files/config/flow_meter $(1)/etc/config/
 endef
 
 $(eval $(call BuildPackage,nemea-modules))

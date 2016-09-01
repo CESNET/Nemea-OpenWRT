@@ -1,0 +1,35 @@
+# NEMEA flow_meter
+# Copyright (C) 2016 CESNET
+
+#
+# Available options for profiles:
+#     plugins           - active plugins, argument for parameter -p
+#     ifcspec           - libtrap interface specifier, argument for parameter -i
+#     interface         - network interface for capturing, argument for parameter -I
+#     respawn           - enable respawn of crashed process
+#     respawn_threshold - timeout in seconds for restarting a service after it closes
+#     respawn_timeout   - maximum time in seconds to wait for a process respawn to complete
+#     respawn_retry     - maximum number of times to attempt respawning before giving up, 0 means newer stop trying to respawn
+#     enabled           - enable start daemon instance for that profile, NOTE: if profile is directly specified for start script
+#                         (example: '/etc/init.d/flow_meter start wan profileX profileY lan'), this option is ignored
+#
+
+config profile lan
+	option interface br-lan
+	option plugins basic,dns,http
+	option ifcspec f:/data/lan/basic:w:time=5,f:/data/lan/dns:w:time=5,f:/data/lan/http:w:time=5
+	option respawn 0
+	option respawn_threshold 3600
+	option respawn_timeout 5
+	option respawn_retry 5
+	option enabled 0
+config profile wan
+	option interface eth0
+	option plugins basic,dns,http
+	option ifcspec f:/data/wan/basic:w:time=5,f:/data/wan/dns:w:time=5,f:/data/wan/http:w:time=5
+	option respawn 0
+	option respawn_threshold 3600
+	option respawn_timeout 5
+	option respawn_retry 5
+	option enabled 0
+
