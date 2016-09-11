@@ -6,6 +6,8 @@
 #     plugins           - active plugins, argument for parameter -p
 #     ifcspec           - libtrap interface specifier, argument for parameter -i
 #     interface         - network interface for capturing, argument for parameter -I
+#     cache_size        - size of flow cache in number of flow records, 0 - default size, argument for parameter -s
+#     timeouts          - active and inactive timeout, argument for parameter -t 
 #     respawn           - enable respawn of crashed process
 #     respawn_threshold - timeout in seconds for restarting a service after it closes
 #     respawn_timeout   - maximum time in seconds to wait for a process respawn to complete
@@ -19,6 +21,8 @@ config profile lan
 	option interface br-lan
 	option plugins basic,dns,http
 	option ifcspec f:/data/lan/basic:w:time=5,f:/data/lan/dns:w:time=5,f:/data/lan/http:w:time=5
+	option cache_size 0
+	option timeouts default
 	option respawn 0
 	option respawn_threshold 3600
 	option respawn_timeout 5
@@ -29,6 +33,8 @@ config profile wan
 	option interface eth0
 	option plugins basic,dns,http
 	option ifcspec f:/data/wan/basic:w:time=5,f:/data/wan/dns:w:time=5,f:/data/wan/http:w:time=5
+	option cache_size 0
+	option timeouts default
 	option respawn 0
 	option respawn_threshold 3600
 	option respawn_timeout 5
