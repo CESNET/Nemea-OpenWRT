@@ -10,6 +10,7 @@
 #     respawn_threshold - timeout in seconds for restarting a service after it closes
 #     respawn_timeout   - maximum time in seconds to wait for a process respawn to complete
 #     respawn_retry     - maximum number of times to attempt respawning before giving up, 0 means newer stop trying to respawn
+#     core              - size of generated core file, "0" - don't generate file, "unlimited" - unlimited file size
 #     enabled           - enable start daemon instance for that profile, NOTE: if profile is directly specified for start script
 #                         (example: '/etc/init.d/flow_meter start wan profileX profileY lan'), this option is ignored
 #
@@ -22,6 +23,7 @@ config profile lan
 	option respawn_threshold 3600
 	option respawn_timeout 5
 	option respawn_retry 5
+	option core 0
 	option enabled 0
 config profile wan
 	option interface eth0
@@ -31,5 +33,6 @@ config profile wan
 	option respawn_threshold 3600
 	option respawn_timeout 5
 	option respawn_retry 5
+	option core 0
 	option enabled 0
 
