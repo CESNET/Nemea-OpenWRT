@@ -1,8 +1,8 @@
 diff --git a/Makefile.am b/Makefile.am
-index 885f1ec..964657a 100644
+index 885f1ec..06d7412 100644
 --- a/Makefile.am
 +++ b/Makefile.am
-@@ -1,36 +1,10 @@
+@@ -1,36 +1,11 @@
  ACLOCAL_AMFLAGS = -I m4
  
 -SUBDIRS=anonymizer \
@@ -14,12 +14,12 @@ index 885f1ec..964657a 100644
 -json_dump \
 -json_replay \
 -logger \
--logreplay \
+ logreplay \
 -merger \
 -report2idea \
 -traffic_repeater \
 -endiverter
-+logreplay
++traffic_repeater
  
 -EXTRA_DIST = AUTHORS COPYING ChangeLog INSTALL NEWS README.md nfreader
 -
@@ -43,7 +43,7 @@ index 885f1ec..964657a 100644
  RPMDIR = RPMBUILD
  
 diff --git a/configure.ac b/configure.ac
-index 4491a37..e569622 100644
+index 69e5b34..ac3e009 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -38,11 +38,6 @@ AC_DEFINE_DIR(SYSCONFDIR, [sysconfdir], [Path to configuration files])
@@ -81,7 +81,7 @@ index 4491a37..e569622 100644
  AC_ARG_WITH([flowcachesize],
  	AC_HELP_STRING([--with-flowcachesize=NUMBER],[Set size of flow cache for flow_meter module in number of flow records. Size must be divisible by 32. Default is 65536.]),
  	[
-@@ -98,44 +81,6 @@ AC_ARG_WITH([flowcachesize],
+@@ -104,44 +87,6 @@ AC_ARG_WITH([flowcachestats],
  	]
  )
  
@@ -126,7 +126,7 @@ index 4491a37..e569622 100644
  AC_CHECK_HEADER(pcap.h,
          AC_CHECK_LIB(pcap, pcap_open_live, [libpcap=yes], AC_MSG_WARN([libpcap not found. The flow_meter module will not be compiled.])), AC_MSG_WARN([pcap.h not found. The flow_meter module will not be compiled.]))
  
-@@ -146,7 +91,7 @@ RPM_BUILDREQ+=" libpcap-devel"
+@@ -152,7 +97,7 @@ RPM_BUILDREQ+=" libpcap-devel"
  fi
  
  # Checks for header files.
@@ -135,7 +135,7 @@ index 4491a37..e569622 100644
  
  # Checks for typedefs, structures, and compiler characteristics.
  AC_HEADER_STDBOOL
-@@ -187,30 +132,10 @@ AM_CONDITIONAL(MAKE_RPMS, test x$RPMBUILD != x)
+@@ -193,30 +138,11 @@ AM_CONDITIONAL(MAKE_RPMS, test x$RPMBUILD != x)
  
  # list of all *.in (and Makefile.am) files to process by configure script
  AC_CONFIG_FILES([Makefile
@@ -160,7 +160,7 @@ index 4491a37..e569622 100644
 -                 nemea-modules.spec
 -                 nfreader/Makefile
 -                 report2idea/Makefile
--                 traffic_repeater/Makefile
+                  traffic_repeater/Makefile
 -                 unirecfilter/Makefile
 -                 endiverter/Makefile
                 ])
