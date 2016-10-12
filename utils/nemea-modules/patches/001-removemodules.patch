@@ -1,8 +1,8 @@
 diff --git a/Makefile.am b/Makefile.am
-index 885f1ec..06d7412 100644
+index 0651d67..06d7412 100644
 --- a/Makefile.am
 +++ b/Makefile.am
-@@ -1,36 +1,11 @@
+@@ -1,37 +1,11 @@
  ACLOCAL_AMFLAGS = -I m4
  
 -SUBDIRS=anonymizer \
@@ -25,6 +25,7 @@ index 885f1ec..06d7412 100644
 -
 -if HAVE_LIBNF
 -SUBDIRS += nfreader
+-SUBDIRS += nfwriter
 -else
 -if HAVE_LIBNFDUMP
 -SUBDIRS += nfreader
@@ -43,7 +44,7 @@ index 885f1ec..06d7412 100644
  RPMDIR = RPMBUILD
  
 diff --git a/configure.ac b/configure.ac
-index 69e5b34..ac3e009 100644
+index b2f685b..98da18f 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -38,11 +38,6 @@ AC_DEFINE_DIR(SYSCONFDIR, [sysconfdir], [Path to configuration files])
@@ -135,7 +136,7 @@ index 69e5b34..ac3e009 100644
  
  # Checks for typedefs, structures, and compiler characteristics.
  AC_HEADER_STDBOOL
-@@ -193,30 +138,11 @@ AM_CONDITIONAL(MAKE_RPMS, test x$RPMBUILD != x)
+@@ -193,31 +138,11 @@ AM_CONDITIONAL(MAKE_RPMS, test x$RPMBUILD != x)
  
  # list of all *.in (and Makefile.am) files to process by configure script
  AC_CONFIG_FILES([Makefile
@@ -163,6 +164,7 @@ index 69e5b34..ac3e009 100644
                   traffic_repeater/Makefile
 -                 unirecfilter/Makefile
 -                 endiverter/Makefile
+-                 nfwriter/Makefile
                 ])
  
  AC_SUBST(RPM_REQUIRES)
