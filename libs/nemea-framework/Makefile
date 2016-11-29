@@ -65,7 +65,7 @@ CONFIGURE_VARS += \
 CONFIGURE_ARGS += \
 	--enable-shared \
 	--enable-static \
-	--disable-python --disable-pycommon --disable-silent-rules --disable-tests LIBS=-lm --bindir=\$$(bindir)/nemea \
+	--disable-python --disable-pycommon --disable-silent-rules --disable-example --disable-tests LIBS=-lm --bindir=\$$(bindir)/nemea \
 	--with-build-cc="$(HOSTCC)" \
 	--with-ifcbuffersize=$(CONFIG_LIBTRAP_BUFFER_SIZE) \
 	--without-libxml2
