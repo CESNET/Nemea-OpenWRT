@@ -1,8 +1,8 @@
 diff --git a/Makefile.am b/Makefile.am
-index ba62954..06d7412 100644
+index 5bb37bf..8c0850c 100644
 --- a/Makefile.am
 +++ b/Makefile.am
-@@ -1,33 +1,11 @@
+@@ -1,36 +1,11 @@
  ACLOCAL_AMFLAGS = -I m4
  
 -SUBDIRS=anonymizer \
@@ -13,11 +13,14 @@ index ba62954..06d7412 100644
  flowcounter \
 -json_dump \
 -json_replay \
+-link_traffic \
 -logger \
  logreplay \
 -merger \
+-proto_traffic \
 -report2idea \
 -traffic_repeater \
+-unirec2json \
 -endiverter
 +traffic_repeater
  
@@ -40,7 +43,7 @@ index ba62954..06d7412 100644
  RPMDIR = RPMBUILD
  
 diff --git a/configure.ac b/configure.ac
-index 610809f..b460171 100644
+index bff943d..83047bb 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -38,11 +38,6 @@ AC_DEFINE_DIR(SYSCONFDIR, [sysconfdir], [Path to configuration files])
@@ -125,7 +128,7 @@ index 610809f..b460171 100644
  
  # Checks for typedefs, structures, and compiler characteristics.
  AC_HEADER_STDBOOL
-@@ -186,31 +138,11 @@ AM_CONDITIONAL(MAKE_RPMS, test x$RPMBUILD != x)
+@@ -186,36 +138,11 @@ AM_CONDITIONAL(MAKE_RPMS, test x$RPMBUILD != x)
  
  # list of all *.in (and Makefile.am) files to process by configure script
  AC_CONFIG_FILES([Makefile
@@ -144,13 +147,18 @@ index 610809f..b460171 100644
                   flow_meter/tests/Makefile
 -                 json_dump/Makefile
 -                 json_replay/Makefile
+-                 link_traffic/Makefile
+-                 link_traffic/munin/Makefile
 -                 logger/Makefile
                   logreplay/Makefile
 -                 merger/Makefile
 -                 nemea-modules.spec
 -                 nfreader/Makefile
+-                 proto_traffic/Makefile
+-                 proto_traffic/munin/Makefile
 -                 report2idea/Makefile
                   traffic_repeater/Makefile
+-                 unirec2json/Makefile
 -                 unirecfilter/Makefile
 -                 endiverter/Makefile
 -                 nfwriter/Makefile
