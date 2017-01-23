@@ -8,6 +8,8 @@
 #     interface         - network interface for capturing, argument for parameter -I
 #     cache_size        - size of flow cache in number of flow records, default means size 65536, argument for parameter -s
 #     timeouts          - active and inactive timeout, argument for parameter -t 
+#     link              - link bit field, argument for -L parameter
+#     dir               - dir bit field, argument for -D parameter
 #     respawn           - enable respawn of crashed process
 #     respawn_threshold - timeout in seconds for restarting a service after it closes
 #     respawn_timeout   - maximum time in seconds to wait for a process respawn to complete
@@ -23,6 +25,8 @@ config profile lan
 	option ifcspec f:/data/lan/basic:w:time=5,f:/data/lan/dns:w:time=5,f:/data/lan/http:w:time=5
 	option cache_size default
 	option timeouts default
+	option link 0x1
+	option dir 0
 	option respawn 0
 	option respawn_threshold 3600
 	option respawn_timeout 5
@@ -35,6 +39,8 @@ config profile wan
 	option ifcspec f:/data/wan/basic:w:time=5,f:/data/wan/dns:w:time=5,f:/data/wan/http:w:time=5
 	option cache_size default
 	option timeouts default
+	option link 0x1
+	option dir 0
 	option respawn 0
 	option respawn_threshold 3600
 	option respawn_timeout 5
