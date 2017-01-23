@@ -27,7 +27,7 @@ config profile lan
 	option timeouts default
 	option link 0x1
 	option dir 0
-	option respawn 0
+	option respawn 1
 	option respawn_threshold 3600
 	option respawn_timeout 5
 	option respawn_retry 5
@@ -41,7 +41,7 @@ config profile wan
 	option timeouts default
 	option link 0x1
 	option dir 0
-	option respawn 0
+	option respawn 1
 	option respawn_threshold 3600
 	option respawn_timeout 5
 	option respawn_retry 5
