@@ -35,8 +35,9 @@ PKG_BUILD_PARALLEL:=1
 include $(INCLUDE_DIR)/package.mk
 
 define Package/nemea-framework
-  SECTION:=nemea
-  CATEGORY:=NEMEA
+  SECTION:=net
+  CATEGORY:=Network
+  SUBMENU:=NEMEA
   DEPENDS:=+libpthread +librt +libstdcpp
   TITLE:=NEMEA system libraries
   URL:=https://github.com/CESNET/nemea-framework
