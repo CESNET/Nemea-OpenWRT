@@ -1,7 +1,7 @@
 menu "Configuration"
 	depends on PACKAGE_nemea-framework
 
-config LIBTRAP_BUFFER_SIZE
+config NEMEA_LIBTRAP_BUFFER_SIZE
    int "Message buffer size"
    help
       Set size (in bytes) of libtrap buffer for messages, default is 5000.

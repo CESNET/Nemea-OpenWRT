@@ -68,7 +68,7 @@ CONFIGURE_ARGS += \
 	--enable-static \
 	--disable-python --disable-pycommon --disable-silent-rules --disable-example --disable-tests LIBS=-lm --bindir=\$$(bindir)/nemea \
 	--with-build-cc="$(HOSTCC)" \
-	--with-ifcbuffersize=$(CONFIG_LIBTRAP_BUFFER_SIZE) \
+	--with-ifcbuffersize=$(CONFIG_NEMEA_LIBTRAP_BUFFER_SIZE) \
 	--without-libxml2
 
 MAKE_FLAGS += \

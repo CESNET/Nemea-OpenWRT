@@ -2,7 +2,7 @@ menu "Configuration"
 	depends on PACKAGE_nemea-modules
 
    menu "flow_meter module"
-      config FLOW_CACHE_SIZE
+      config NEMEA_FLOW_CACHE_SIZE
          int "Flow cache size"
          help
             Set size of flow cache in number of flow records. Default is 8192.
