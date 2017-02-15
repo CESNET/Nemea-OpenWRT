@@ -35,21 +35,36 @@ PKG_BUILD_PARALLEL:=1
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/nemea-modules
+define Package/nemea-modules/Default
   SECTION:=net
   CATEGORY:=Network
   SUBMENU:=NEMEA
-  DEPENDS:=+nemea-framework +libpcap +libpthread +librt +libstdcpp
-  TITLE:=NEMEA system modules
+  DEPENDS:=+nemea-framework +libpthread +librt
+  TITLE:=NEMEA module
   URL:=https://github.com/CESNET/nemea-modules
   MENU:=1
 endef
 
-define Package/nemea-modules/description
-This package contains base modules of the NEMEA system.
+define Package/nemea-flow_meter
+	$(call Package/nemea-modules/Default)
+	TITLE+=flow_meter
+	DEPENDS+= +libpcap +libstdcpp
+endef
+define Package/nemea-logreplay
+	$(call Package/nemea-modules/Default)
+	TITLE+=logreplay
+	DEPENDS+= +libstdcpp
+endef
+define Package/nemea-flowcounter
+	$(call Package/nemea-modules/Default)
+	TITLE+=flowcounter
+endef
+define Package/nemea-traffic_repeater
+	$(call Package/nemea-modules/Default)
+	TITLE+=traffic_repeater
 endef
 
-define Package/nemea-modules/config
+define Package/nemea-flow_meter/config
 	source "$(SOURCE)/Config.in"
 endef
 
@@ -76,9 +91,9 @@ define Build/Configure
 	$(call Build/Configure/Default)
 endef
 
-define Package/nemea-modules/install
+define Package/nemea-flow_meter/install
 	$(INSTALL_DIR) $(1)/usr/bin/nemea
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/* $(1)/usr/bin/nemea/
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/flow_meter $(1)/usr/bin/nemea/
 
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) ./files/init.d/flow_meter $(1)/etc/init.d/
@@ -87,4 +102,21 @@ define Package/nemea-modules/install
 	$(INSTALL_DATA) ./files/config/flow_meter $(1)/etc/config/
 endef
 
-$(eval $(call BuildPackage,nemea-modules))
+define Package/nemea-flowcounter/install
+	$(INSTALL_DIR) $(1)/usr/bin/nemea
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/flowcounter $(1)/usr/bin/nemea/
+endef
+define Package/nemea-logreplay/install
+	$(INSTALL_DIR) $(1)/usr/bin/nemea
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/logreplay $(1)/usr/bin/nemea/
+endef
+define Package/nemea-traffic_repeater/install
+	$(INSTALL_DIR) $(1)/usr/bin/nemea
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/traffic_repeater $(1)/usr/bin/nemea/
+endef
+
+$(eval $(call BuildPackage,nemea-flow_meter))
+$(eval $(call BuildPackage,nemea-flowcounter))
+$(eval $(call BuildPackage,nemea-logreplay))
+$(eval $(call BuildPackage,nemea-traffic_repeater))
+
