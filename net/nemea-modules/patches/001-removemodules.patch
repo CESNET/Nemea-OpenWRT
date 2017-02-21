@@ -1,8 +1,8 @@
 diff --git a/Makefile.am b/Makefile.am
-index 5bb37bf..8c0850c 100644
+index 30d0058..1012595 100644
 --- a/Makefile.am
 +++ b/Makefile.am
-@@ -1,36 +1,11 @@
+@@ -1,37 +1,13 @@
  ACLOCAL_AMFLAGS = -I m4
  
 -SUBDIRS=anonymizer \
@@ -14,11 +14,12 @@ index 5bb37bf..8c0850c 100644
 -json_dump \
 -json_replay \
 -link_traffic \
--logger \
+ logger \
  logreplay \
 -merger \
 -proto_traffic \
 -report2idea \
+ topn \
 -traffic_repeater \
 -unirec2json \
 -endiverter
@@ -32,7 +33,7 @@ index 5bb37bf..8c0850c 100644
 -endif
 -
 -if HAVE_BISON
--SUBDIRS += unirecfilter
+-SUBDIRS += unirecfilter aggregator
 -endif
 -
 -if HAVE_LIBPCAP
@@ -43,12 +44,12 @@ index 5bb37bf..8c0850c 100644
  RPMDIR = RPMBUILD
  
 diff --git a/configure.ac b/configure.ac
-index bff943d..83047bb 100644
+index 2738713..4a97ad0 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -38,11 +38,6 @@ AC_DEFINE_DIR(SYSCONFDIR, [sysconfdir], [Path to configuration files])
- AC_DEFINE_DIR(BINDIR, [bindir], [Path to executable files])
- AC_SUBST(BINDIR)
+@@ -43,11 +43,6 @@ AC_SUBST(BINDIR)
+ bashcompldir=${sysconfdir}/bash_completion.d
+ AC_SUBST(bashcompldir)
  
 -deviceclassifierdatadir=${pkgdatadir}/device_classifier
 -AC_DEFINE_DIR(DEVICECLASSIFIERDATADIR, [deviceclassifierdatadir], [Path to SVM data files])
@@ -58,7 +59,7 @@ index bff943d..83047bb 100644
  RPM_REQUIRES=
  RPM_BUILDREQ=
  
-@@ -75,22 +70,10 @@ esac], [repobuild=true])
+@@ -80,21 +75,10 @@ esac], [repobuild=true])
  
  AX_C_BIGENDIAN_CROSS
  
@@ -77,11 +78,10 @@ index bff943d..83047bb 100644
 -RPM_REQUIRES+=" libidn"
 -RPM_BUILDREQ+=" libidn-devel"
 -fi
--
+ 
  AC_ARG_WITH([flowcachesize],
  	AC_HELP_STRING([--with-flowcachesize=NUMBER],[Set default size of flow cache for flow_meter module in number of flow records.]),
- 	[
-@@ -104,37 +87,6 @@ AC_ARG_WITH([flowcachestats],
+@@ -109,36 +93,6 @@ AC_ARG_WITH([flowcachestats],
  	]
  )
  
@@ -95,10 +95,9 @@ index bff943d..83047bb 100644
 -
 -if test x${withnfreader} = xyes; then
 -	# Checks for libraries.
--	AC_CHECK_LIB(nf, lnf_open, [libnf=yes],
+-	AC_CHECK_HEADER(libnf.h, AC_CHECK_LIB(nf, lnf_open, [libnf=yes],
 -	  [AC_MSG_WARN([libnf not found. The nfreader module will not be compiled.])]
--	)
--
+-	), AC_MSG_WARN([libnf.h not found. The nfreader module will not be compiled.]))
 -fi
 -
 -AM_CONDITIONAL(HAVE_LIBNF, test x${libnf} = xyes && test x${withnfreader} = xyes)
@@ -119,7 +118,7 @@ index bff943d..83047bb 100644
  AC_CHECK_HEADER(pcap.h,
          AC_CHECK_LIB(pcap, pcap_open_live, [libpcap=yes], AC_MSG_WARN([libpcap not found. The flow_meter module will not be compiled.])), AC_MSG_WARN([pcap.h not found. The flow_meter module will not be compiled.]))
  
-@@ -145,7 +97,7 @@ RPM_BUILDREQ+=" libpcap-devel"
+@@ -149,7 +103,7 @@ RPM_BUILDREQ+=" libpcap-devel"
  fi
  
  # Checks for header files.
@@ -128,10 +127,11 @@ index bff943d..83047bb 100644
  
  # Checks for typedefs, structures, and compiler characteristics.
  AC_HEADER_STDBOOL
-@@ -186,36 +138,11 @@ AM_CONDITIONAL(MAKE_RPMS, test x$RPMBUILD != x)
+@@ -190,52 +144,14 @@ AM_CONDITIONAL(MAKE_RPMS, test x$RPMBUILD != x)
  
  # list of all *.in (and Makefile.am) files to process by configure script
  AC_CONFIG_FILES([Makefile
+-                 aggregator/Makefile
 -                 anonymizer/Makefile
 -                 debug_sender/Makefile
 -                 device_classifier/Makefile
@@ -144,12 +144,13 @@ index bff943d..83047bb 100644
 -                 email_reporter/Makefile
                   flowcounter/Makefile
                   flow_meter/Makefile
+                  flow_meter/flow_meter.bash
                   flow_meter/tests/Makefile
 -                 json_dump/Makefile
 -                 json_replay/Makefile
 -                 link_traffic/Makefile
 -                 link_traffic/munin/Makefile
--                 logger/Makefile
+                  logger/Makefile
                   logreplay/Makefile
 -                 merger/Makefile
 -                 nemea-modules.spec
@@ -157,8 +158,22 @@ index bff943d..83047bb 100644
 -                 proto_traffic/Makefile
 -                 proto_traffic/munin/Makefile
 -                 report2idea/Makefile
+-                 report2idea/amplificationdetector/Makefile
+-                 report2idea/bruteforce/Makefile
+-                 report2idea/dnstunnel/Makefile
+-                 report2idea/haddrscan/Makefile
+-                 report2idea/hoststats/Makefile
+-                 report2idea/ipblacklist/Makefile
+-                 report2idea/minerdetector/Makefile
+-                 report2idea/sipbruteforce/Makefile
+-                 report2idea/venom/Makefile
+-                 report2idea/voipfraud/Makefile
+-                 report2idea/vportscan/Makefile
+                  topn/Makefile
                   traffic_repeater/Makefile
 -                 unirec2json/Makefile
+-                 unirecfilter/lib/Makefile
+-                 unirecfilter/lib/liburfilter.pc
 -                 unirecfilter/Makefile
 -                 endiverter/Makefile
 -                 nfwriter/Makefile

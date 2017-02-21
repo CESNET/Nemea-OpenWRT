@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 
 PKG_NAME:=nemea-modules
-PKG_REV:=318ea8225e71931ae4dc4c1b6ce237fef177fd4f
+PKG_REV:=fcc356aa76033c501ae191bda2ba07917792d85b
 PKG_VERSION:=$(PKG_REV)
 PKG_RELEASE:=1
 
@@ -63,6 +63,14 @@ define Package/nemea-traffic_repeater
 	$(call Package/nemea-modules/Default)
 	TITLE+=traffic_repeater
 endef
+define Package/nemea-topn
+	$(call Package/nemea-modules/Default)
+	TITLE+=topn
+endef
+define Package/nemea-logger
+	$(call Package/nemea-modules/Default)
+	TITLE+=logger
+endef
 
 define Package/nemea-flow_meter/config
 	source "$(SOURCE)/Config.in"
@@ -114,9 +122,19 @@ define Package/nemea-traffic_repeater/install
 	$(INSTALL_DIR) $(1)/usr/bin/nemea
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/traffic_repeater $(1)/usr/bin/nemea/
 endef
+define Package/nemea-topn/install
+	$(INSTALL_DIR) $(1)/usr/bin/nemea
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/topn $(1)/usr/bin/nemea/
+endef
+define Package/nemea-logger/install
+	$(INSTALL_DIR) $(1)/usr/bin/nemea
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/logger $(1)/usr/bin/nemea/
+endef
 
 $(eval $(call BuildPackage,nemea-flow_meter))
 $(eval $(call BuildPackage,nemea-flowcounter))
 $(eval $(call BuildPackage,nemea-logreplay))
 $(eval $(call BuildPackage,nemea-traffic_repeater))
+$(eval $(call BuildPackage,nemea-topn))
+$(eval $(call BuildPackage,nemea-logger))
 
