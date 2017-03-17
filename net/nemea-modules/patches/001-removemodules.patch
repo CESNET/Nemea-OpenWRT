@@ -1,8 +1,8 @@
 diff --git a/Makefile.am b/Makefile.am
-index 30d0058..1012595 100644
+index 945c2c2..1012595 100644
 --- a/Makefile.am
 +++ b/Makefile.am
-@@ -1,37 +1,13 @@
+@@ -1,41 +1,13 @@
  ACLOCAL_AMFLAGS = -I m4
  
 -SUBDIRS=anonymizer \
@@ -23,8 +23,7 @@ index 30d0058..1012595 100644
 -traffic_repeater \
 -unirec2json \
 -endiverter
-+traffic_repeater
- 
+-
 -EXTRA_DIST = AUTHORS COPYING ChangeLog INSTALL NEWS README.md nfreader
 -
 -if HAVE_LIBNF
@@ -33,18 +32,23 @@ index 30d0058..1012595 100644
 -endif
 -
 -if HAVE_BISON
--SUBDIRS += unirecfilter aggregator
+-SUBDIRS += unirecfilter
+-if HAVE_OPENSSL
+-SUBDIRS += aggregator
+-endif
 -endif
 -
 -if HAVE_LIBPCAP
 -SUBDIRS += flow_meter
 -endif
++traffic_repeater
+ 
 +EXTRA_DIST = AUTHORS COPYING ChangeLog INSTALL NEWS README.md
  
  RPMDIR = RPMBUILD
  
 diff --git a/configure.ac b/configure.ac
-index 2738713..4a97ad0 100644
+index 76fe6ff..9d44634 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -43,11 +43,6 @@ AC_SUBST(BINDIR)
@@ -59,7 +63,7 @@ index 2738713..4a97ad0 100644
  RPM_REQUIRES=
  RPM_BUILDREQ=
  
-@@ -80,21 +75,10 @@ esac], [repobuild=true])
+@@ -80,9 +75,6 @@ esac], [repobuild=true])
  
  AX_C_BIGENDIAN_CROSS
  
@@ -69,19 +73,7 @@ index 2738713..4a97ad0 100644
  AX_LIBTRAP_CHECK
  AX_UNIREC_CHECK
  AX_NEMEACOMMON_CHECK
- 
--AC_CHECK_HEADER(idna.h,
--         AC_CHECK_LIB(idn, stringprep_check_version, [libidn=yes], AC_MSG_WARN([libidn not found. The ipdetect module from blacklistfilter will not be compiled.])), AC_MSG_WARN([libidn.h not found. Blacklistfilter modules will not be compiled.]))
--
--AM_CONDITIONAL(HAVE_LIBIDN, test x${libidn} = xyes)
--if [[ -z "$HAVE_LIBIDN_TRUE" ]]; then
--RPM_REQUIRES+=" libidn"
--RPM_BUILDREQ+=" libidn-devel"
--fi
- 
- AC_ARG_WITH([flowcachesize],
- 	AC_HELP_STRING([--with-flowcachesize=NUMBER],[Set default size of flow cache for flow_meter module in number of flow records.]),
-@@ -109,36 +93,6 @@ AC_ARG_WITH([flowcachestats],
+@@ -117,36 +109,6 @@ AC_ARG_WITH([flowcachestats],
  	]
  )
  
@@ -118,7 +110,7 @@ index 2738713..4a97ad0 100644
  AC_CHECK_HEADER(pcap.h,
          AC_CHECK_LIB(pcap, pcap_open_live, [libpcap=yes], AC_MSG_WARN([libpcap not found. The flow_meter module will not be compiled.])), AC_MSG_WARN([pcap.h not found. The flow_meter module will not be compiled.]))
  
-@@ -149,7 +103,7 @@ RPM_BUILDREQ+=" libpcap-devel"
+@@ -157,7 +119,7 @@ RPM_BUILDREQ+=" libpcap-devel"
  fi
  
  # Checks for header files.
@@ -127,7 +119,7 @@ index 2738713..4a97ad0 100644
  
  # Checks for typedefs, structures, and compiler characteristics.
  AC_HEADER_STDBOOL
-@@ -190,52 +144,14 @@ AM_CONDITIONAL(MAKE_RPMS, test x$RPMBUILD != x)
+@@ -198,52 +160,14 @@ AM_CONDITIONAL(MAKE_RPMS, test x$RPMBUILD != x)
  
  # list of all *.in (and Makefile.am) files to process by configure script
  AC_CONFIG_FILES([Makefile
