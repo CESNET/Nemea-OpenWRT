@@ -4,7 +4,10 @@
 #
 # Available options for profiles:
 #     plugins           - active plugins, argument for parameter -p
-#     ifcspec           - libtrap interface specifier, argument for parameter -i
+#     trap_ifc_spec     - libtrap interface specifier, argument for parameter -i
+#     ipfix_collector   - ipfix collector address, argument for parameter -x
+#     ipfix_enable      - 1 export to ipfix, 0 export to unirec
+#     ipfix_udp         - use UDP when exporting to ipfix collector, -u parameter
 #     interface         - network interface for capturing, argument for parameter -I
 #     cache_size        - size of flow cache in number of flow records, default means size 65536, argument for parameter -s
 #     timeouts          - active and inactive timeout, argument for parameter -t 
@@ -22,7 +25,10 @@
 config profile lan
 	option interface br-lan
 	option plugins basic,dns,http
-	option ifcspec f:/data/lan/basic:w:time=5,f:/data/lan/dns:w:time=5,f:/data/lan/http:w:time=5
+	option trap_ifc_spec f:/data/lan/basic:w:time=5,f:/data/lan/dns:w:time=5,f:/data/lan/http:w:time=5
+	option ipfix_collector 192.168.0.2:4739
+	option ipfix_enable 0
+	option ipfix_udp 0
 	option cache_size default
 	option timeouts default
 	option link 0x1
@@ -36,7 +42,10 @@ config profile lan
 config profile wan
 	option interface eth0
 	option plugins basic,dns,http
-	option ifcspec f:/data/wan/basic:w:time=5,f:/data/wan/dns:w:time=5,f:/data/wan/http:w:time=5
+	option trap_ifc_spec f:/data/wan/basic:w:time=5,f:/data/wan/dns:w:time=5,f:/data/wan/http:w:time=5
+	option ipfix_collector 192.168.0.2:4739
+	option ipfix_enable 0
+	option ipfix_udp 0
 	option cache_size default
 	option timeouts default
 	option link 0x1
