@@ -6,4 +6,10 @@ config NEMEA_LIBTRAP_BUFFER_SIZE
    help
       Set size (in bytes) of libtrap buffer for messages, default is 5000.
    default 5000
+
+config NEMEA_LIBTRAP_IFC_MAX_CLIENTS
+   int "Output interface max clients"
+   help
+      Set number of clients that can connect to output interface, default is 8.
+   default 8
 endmenu

@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 
 PKG_NAME:=nemea-framework
-PKG_REV:=d6a550e168078351c669f044fd7675e55e45e763
+PKG_REV:=d528288dadcde357eb47a9c2839dbc00a528feeb
 PKG_VERSION:=$(PKG_REV)
 PKG_RELEASE:=1
 
@@ -69,6 +69,7 @@ CONFIGURE_ARGS += \
 	--disable-python --disable-pycommon --disable-silent-rules --disable-example --disable-tests LIBS=-lm --bindir=\$$(bindir)/nemea \
 	--with-build-cc="$(HOSTCC)" \
 	--with-ifcbuffersize=$(CONFIG_NEMEA_LIBTRAP_BUFFER_SIZE) \
+	--with-ifcmaxclients=$(CONFIG_NEMEA_LIBTRAP_IFC_MAX_CLIENTS) \
 	--without-libxml2
 
 MAKE_FLAGS += \
