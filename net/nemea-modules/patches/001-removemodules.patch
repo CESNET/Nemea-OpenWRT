@@ -48,7 +48,7 @@ index 945c2c2..1012595 100644
  RPMDIR = RPMBUILD
  
 diff --git a/configure.ac b/configure.ac
-index 76fe6ff..9d44634 100644
+index b9c0d3a..eb2a82c 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -43,11 +43,6 @@ AC_SUBST(BINDIR)
@@ -119,7 +119,7 @@ index 76fe6ff..9d44634 100644
  
  # Checks for typedefs, structures, and compiler characteristics.
  AC_HEADER_STDBOOL
-@@ -198,52 +160,14 @@ AM_CONDITIONAL(MAKE_RPMS, test x$RPMBUILD != x)
+@@ -198,53 +160,14 @@ AM_CONDITIONAL(MAKE_RPMS, test x$RPMBUILD != x)
  
  # list of all *.in (and Makefile.am) files to process by configure script
  AC_CONFIG_FILES([Makefile
@@ -152,6 +152,7 @@ index 76fe6ff..9d44634 100644
 -                 report2idea/Makefile
 -                 report2idea/amplificationdetector/Makefile
 -                 report2idea/bruteforce/Makefile
+-                 report2idea/ddos/Makefile
 -                 report2idea/dnstunnel/Makefile
 -                 report2idea/haddrscan/Makefile
 -                 report2idea/hoststats/Makefile
