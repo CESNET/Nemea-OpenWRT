@@ -1,8 +1,8 @@
 diff --git a/Makefile.am b/Makefile.am
-index 945c2c2..1012595 100644
+index f019dcd..2ac92df 100644
 --- a/Makefile.am
 +++ b/Makefile.am
-@@ -1,41 +1,13 @@
+@@ -1,44 +1,13 @@
  ACLOCAL_AMFLAGS = -I m4
  
 -SUBDIRS=anonymizer \
@@ -10,16 +10,20 @@ index 945c2c2..1012595 100644
 -device_classifier \
 -email_reporter \
 +SUBDIRS=flow_meter \
++traffic_repeater \
  flowcounter \
+-ipv6stats \
 -json_dump \
 -json_replay \
 -link_traffic \
  logger \
  logreplay \
 -merger \
+-mux \
+-demux \
 -proto_traffic \
 -report2idea \
- topn \
+-topn \
 -traffic_repeater \
 -unirec2json \
 -endiverter
@@ -41,14 +45,14 @@ index 945c2c2..1012595 100644
 -if HAVE_LIBPCAP
 -SUBDIRS += flow_meter
 -endif
-+traffic_repeater
++topn
  
 +EXTRA_DIST = AUTHORS COPYING ChangeLog INSTALL NEWS README.md
  
  RPMDIR = RPMBUILD
  
 diff --git a/configure.ac b/configure.ac
-index b9c0d3a..eb2a82c 100644
+index 2f09ac2..08b4016 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -43,11 +43,6 @@ AC_SUBST(BINDIR)
@@ -63,7 +67,7 @@ index b9c0d3a..eb2a82c 100644
  RPM_REQUIRES=
  RPM_BUILDREQ=
  
-@@ -80,9 +75,6 @@ esac], [repobuild=true])
+@@ -80,9 +75,6 @@ esac], [repobuild=false])
  
  AX_C_BIGENDIAN_CROSS
  
@@ -119,7 +123,7 @@ index b9c0d3a..eb2a82c 100644
  
  # Checks for typedefs, structures, and compiler characteristics.
  AC_HEADER_STDBOOL
-@@ -198,53 +160,14 @@ AM_CONDITIONAL(MAKE_RPMS, test x$RPMBUILD != x)
+@@ -198,57 +160,13 @@ AM_CONDITIONAL(MAKE_RPMS, test x$RPMBUILD != x)
  
  # list of all *.in (and Makefile.am) files to process by configure script
  AC_CONFIG_FILES([Makefile
@@ -137,14 +141,18 @@ index b9c0d3a..eb2a82c 100644
                   flowcounter/Makefile
                   flow_meter/Makefile
                   flow_meter/flow_meter.bash
-                  flow_meter/tests/Makefile
+-                 flow_meter/tests/Makefile
+-                 ipv6stats/Makefile
 -                 json_dump/Makefile
 -                 json_replay/Makefile
 -                 link_traffic/Makefile
 -                 link_traffic/munin/Makefile
+-                 link_traffic/link_traff2json.py
                   logger/Makefile
                   logreplay/Makefile
 -                 merger/Makefile
+-                 mux/Makefile
+-                 demux/Makefile
 -                 nemea-modules.spec
 -                 nfreader/Makefile
 -                 proto_traffic/Makefile
