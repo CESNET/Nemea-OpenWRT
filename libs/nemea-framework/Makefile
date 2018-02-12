@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 
 PKG_NAME:=nemea-framework
-PKG_REV:=d528288dadcde357eb47a9c2839dbc00a528feeb
+PKG_REV:=ee8fdfed5a3120e41d507145ac79c56f259ae203
 PKG_VERSION:=$(PKG_REV)
 PKG_RELEASE:=1
 
