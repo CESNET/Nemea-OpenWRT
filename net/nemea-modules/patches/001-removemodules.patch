@@ -52,7 +52,7 @@ index f019dcd..2ac92df 100644
  RPMDIR = RPMBUILD
  
 diff --git a/configure.ac b/configure.ac
-index 2f09ac2..08b4016 100644
+index 2f09ac2..e9f2415 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -43,11 +43,6 @@ AC_SUBST(BINDIR)
@@ -123,7 +123,7 @@ index 2f09ac2..08b4016 100644
  
  # Checks for typedefs, structures, and compiler characteristics.
  AC_HEADER_STDBOOL
-@@ -198,57 +160,13 @@ AM_CONDITIONAL(MAKE_RPMS, test x$RPMBUILD != x)
+@@ -198,57 +160,14 @@ AM_CONDITIONAL(MAKE_RPMS, test x$RPMBUILD != x)
  
  # list of all *.in (and Makefile.am) files to process by configure script
  AC_CONFIG_FILES([Makefile
@@ -140,14 +140,15 @@ index 2f09ac2..08b4016 100644
 -                 email_reporter/Makefile
                   flowcounter/Makefile
                   flow_meter/Makefile
-                  flow_meter/flow_meter.bash
--                 flow_meter/tests/Makefile
+-                 flow_meter/flow_meter.bash
+                  flow_meter/tests/Makefile
 -                 ipv6stats/Makefile
 -                 json_dump/Makefile
 -                 json_replay/Makefile
 -                 link_traffic/Makefile
 -                 link_traffic/munin/Makefile
 -                 link_traffic/link_traff2json.py
++                 flow_meter/flow_meter.bash
                   logger/Makefile
                   logreplay/Makefile
 -                 merger/Makefile
