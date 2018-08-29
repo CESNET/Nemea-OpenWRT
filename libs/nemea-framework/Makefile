@@ -38,7 +38,7 @@ define Package/nemea-framework
   SECTION:=net
   CATEGORY:=Network
   SUBMENU:=NEMEA
-  DEPENDS:=+libpthread +librt +libstdcpp
+  DEPENDS:=+libpthread +librt +libstdcpp +libopenssl
   TITLE:=NEMEA system libraries
   URL:=https://github.com/CESNET/nemea-framework
   MENU:=1
