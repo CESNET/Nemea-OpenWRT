@@ -67,6 +67,10 @@ define Package/nemea-lora-replay-abp
 	$(call Package/nemea-siot/Default)
 	TITLE+=LoRaWAN Replay attack ABP detection
 endef
+define Package/nemea-wsn-detector
+	$(call Package/nemea-siot/Default)
+	TITLE+=Wireless Sensor Network Detector (based on time series)
+endef
 
 TARGET_CFLAGS += \
 	-ffunction-sections \
@@ -110,10 +114,15 @@ define Package/nemea-lora-replay-abp/install
 	$(INSTALL_DIR) $(1)/usr/bin/nemea
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/lora_replay_abp $(1)/usr/bin/nemea/
 endef
+define Package/nemea-wsn-detector/install
+	$(INSTALL_DIR) $(1)/usr/bin/nemea
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/wsn_anomaly $(1)/usr/bin/nemea/
+endef
 
 $(eval $(call BuildPackage,nemea-ble_pairing))
 $(eval $(call BuildPackage,nemea-ble_hci_collector))
 $(eval $(call BuildPackage,nemea-lora-airtime))
 $(eval $(call BuildPackage,nemea-lora-distance))
 $(eval $(call BuildPackage,nemea-lora-replay-abp))
+$(eval $(call BuildPackage,nemea-wsn-detector))
 
