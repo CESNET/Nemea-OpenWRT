@@ -27,3 +27,7 @@ To install package definitions, run:
 ```
 
 The NEMEA packages should now appear in `make menuconfig`.
+
+## Munin
+
+NEMEA module flow_meter can report statistics using munin client. See [this guide](https://github.com/CESNET/Nemea-OpenWRT/tree/master/net/nemea-modules/munin/README.md).
