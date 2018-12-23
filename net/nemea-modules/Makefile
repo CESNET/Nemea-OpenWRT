@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 
 PKG_NAME:=nemea-modules
-PKG_REV:=de3c61adbbbc2492cd1759956bc945d9f728a5ac
+PKG_REV:=eb7d0bd
 PKG_VERSION:=$(PKG_REV)
 PKG_RELEASE:=1
 
@@ -49,6 +49,11 @@ define Package/nemea-flow_meter
 	$(call Package/nemea-modules/Default)
 	TITLE+=flow_meter
 	DEPENDS+= +libpcap +libstdcpp
+endef
+define Package/nemea-ipfixprobe
+	$(call Package/nemea-modules/Default)
+	TITLE+=ipfixprobe
+	DEPENDS= +libpcap +libstdcpp
 endef
 define Package/nemea-logreplay
 	$(call Package/nemea-modules/Default)
@@ -110,6 +115,19 @@ define Package/nemea-flow_meter/install
 	$(INSTALL_DATA) ./files/config/flow_meter $(1)/etc/config/
 endef
 
+define Package/nemea-ipfixprobe/install
+	$(INSTALL_DIR) $(1)/usr/bin/nemea
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/ipfixprobe $(1)/usr/bin/nemea/
+
+	$(INSTALL_DIR) $(1)/etc/init.d
+	$(INSTALL_BIN) ./files/init.d/flow_meter $(1)/etc/init.d/ipfixprobe
+
+	$(INSTALL_DIR) $(1)/etc/config
+	$(INSTALL_DATA) ./files/config/flow_meter $(1)/etc/config/ipfixprobe
+	$(SED) "s,flow_meter,ipfixprobe,g" $(1)/etc/init.d/ipfixprobe $(1)/etc/config/ipfixprobe
+	$(SED) "s,option ipfix_enable 0,option ipfix_enable 1,;s,option ipfix_udp 0,option ipfix_udp 1," $(1)/etc/config/ipfixprobe
+endef
+
 define Package/nemea-flowcounter/install
 	$(INSTALL_DIR) $(1)/usr/bin/nemea
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/flowcounter $(1)/usr/bin/nemea/
@@ -132,6 +150,7 @@ define Package/nemea-logger/install
 endef
 
 $(eval $(call BuildPackage,nemea-flow_meter))
+$(eval $(call BuildPackage,nemea-ipfixprobe))
 $(eval $(call BuildPackage,nemea-flowcounter))
 $(eval $(call BuildPackage,nemea-logreplay))
 $(eval $(call BuildPackage,nemea-traffic_repeater))
