@@ -50,11 +50,21 @@ define Package/nemea-flow_meter
 	TITLE+=flow_meter
 	DEPENDS+= +libpcap +libstdcpp
 endef
+
+define Package/conffiles/nemea-flow_meter
+/etc/config/flow_meter
+endef
+
 define Package/nemea-ipfixprobe
 	$(call Package/nemea-modules/Default)
 	TITLE+=ipfixprobe
 	DEPENDS= +libpcap +libstdcpp
 endef
+
+define Package/conffiles/nemea-ipfixprobe
+/etc/config/ipfixprobe
+endef
+
 define Package/nemea-logreplay
 	$(call Package/nemea-modules/Default)
 	TITLE+=logreplay
