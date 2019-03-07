@@ -91,6 +91,11 @@ define Package/nemea-flow_meter/config
 	source "$(SOURCE)/Config.in"
 endef
 
+define Package/nemea-ipfixprobe/config
+	source "$(SOURCE)/Config.in"
+	source "$(SOURCE)/../../libs/nemea-framework/Config.in"
+endef
+
 TARGET_CFLAGS += \
 	-ffunction-sections \
 	-fdata-sections
