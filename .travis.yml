@@ -25,6 +25,6 @@ script:
   - cd openwrt-sdk
   - echo "src-git nemea https://github.com/CESNET/nemea-openwrt" > feeds.conf
   - ./scripts/feeds update
-  - ./scripts/feeds install -y
+  - ./scripts/feeds install -a
   - make -j8
 
