@@ -61,6 +61,10 @@ define Package/nemea-ipfixprobe
 	DEPENDS= +libpcap +libstdcpp
 endef
 
+define Package/nemea-ipfixprobe/config
+	select PACKAGE_nemea-flow_meter
+endef
+
 define Package/conffiles/nemea-ipfixprobe
 /etc/config/ipfixprobe
 endef
@@ -89,11 +93,6 @@ endef
 
 define Package/nemea-flow_meter/config
 	source "$(SOURCE)/Config.in"
-endef
-
-define Package/nemea-ipfixprobe/config
-	source "$(SOURCE)/Config.in"
-	source "$(SOURCE)/../../libs/nemea-framework/Config.in"
 endef
 
 TARGET_CFLAGS += \

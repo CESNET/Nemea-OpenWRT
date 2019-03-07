@@ -1,6 +1,5 @@
 menu "Configuration"
-	depends on PACKAGE_nemea-flow_meter
-	depends on PACKAGE_nemea-ipfixprobe
+	depends on PACKAGE_nemea-flow_meter || PACKAGE_nemea-ipfixprobe
 
    config NEMEA_FLOW_CACHE_SIZE
       int "Flow cache size"
