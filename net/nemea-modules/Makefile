@@ -9,8 +9,8 @@ include $(TOPDIR)/rules.mk
 
 
 PKG_NAME:=nemea-modules
-PKG_REV:=eb7d0bd
-PKG_VERSION:=$(PKG_REV)
+PKG_REV:=03ea807
+PKG_VERSION:=2.10.1
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
