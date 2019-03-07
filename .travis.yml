@@ -1,0 +1,30 @@
+os: linux
+dist: trusty
+language: c
+compiler:
+  - gcc
+
+addons:
+  apt:
+    packages:
+      - gcc-multilib
+      - gcc
+      - g++
+      - autoconf
+      - pkg-config
+      - make
+      - automake
+      - bzip2
+      - git
+
+before_install:
+   - wget -O - https://repo.turris.cz/omnia/OpenWrt-SDK-mvebu_gcc-4.8-linaro_musl-1.1.15_eabi.Linux-x86_64.tar.bz2 | bzip2 -d | tar -xf -
+   - mv OpenWrt-SDK-mvebu* openwrt-sdk
+
+script:
+  - cd openwrt-sdk
+  - echo "src-git nemea https://github.com/CESNET/nemea-openwrt" > feeds.conf
+  - ./scripts/feeds update
+  - ./scripts/feeds install -y
+  - make -j8
+
