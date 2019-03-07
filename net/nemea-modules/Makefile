@@ -58,7 +58,7 @@ endef
 define Package/nemea-ipfixprobe
 	$(call Package/nemea-modules/Default)
 	TITLE+=ipfixprobe
-	DEPENDS= +libpcap +libstdcpp
+	DEPENDS= +libpcap +libpthread +libstdcpp
 endef
 
 define Package/nemea-ipfixprobe/config
