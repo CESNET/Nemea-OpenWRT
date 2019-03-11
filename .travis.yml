@@ -28,10 +28,10 @@ script:
   - echo "src-cpy nemea $SRC_PATH" > feeds.conf
   - ./scripts/feeds update
   - ./scripts/feeds install -a
-  - make -j8
+  - make -j8 || make -j1 V=s
   - cd "$HOME/openwrt-sdk-turris"
   - echo "src-cpy nemea $SRC_PATH" > feeds.conf
   - ./scripts/feeds update
-  - ./scripts/feeds install -p nemea nemea-ipfixprobe
-  - make -j8
+  - ./scripts/feeds install -a
+  - make -j8 || make -j1 V=s
 
