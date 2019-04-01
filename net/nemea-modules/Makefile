@@ -93,6 +93,7 @@ endef
 define Package/nemea-supervisorl
 	$(call Package/nemea-modules/Default)
 	TITLE+=supervisorl
+	DEPENDS=
 endef
 
 define Package/nemea-flow_meter/config
