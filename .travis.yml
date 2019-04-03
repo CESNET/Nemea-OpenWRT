@@ -28,10 +28,19 @@ script:
   - echo "src-cpy nemea $SRC_PATH" > feeds.conf
   - ./scripts/feeds update
   - ./scripts/feeds install -a
-  - make -j8 || make -j1 V=s
+  - make -j8 && { mkdir -p $HOME/dist-pkgs/turris-omnia; cp -r bin/*/packages $HOME/dist-pkgs/turris-omnia; true;} || make -j1 V=s
   - cd "$HOME/openwrt-sdk-turris"
   - echo "src-cpy nemea $SRC_PATH" > feeds.conf
   - ./scripts/feeds update
-  - ./scripts/feeds install -a
-  - make -j8 || make -j1 V=s
+  - ./scripts/feeds install -p nemea nemea-ipfixprobe
+  - make -j8 && { mkdir -p $HOME/dist-pkgs/turris; cp -r bin/*/packages $HOME/dist-pkgs/turris; true; } || make -j1 V=s
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  local_dir: $HOME/dist-pkgs
+  github_token: $GITHUB_TOKEN
+  target_branch: turris-packages
+  on:
+    branch: master
 
