@@ -19,7 +19,7 @@ addons:
 
 before_install:
    - echo "$PWD"
-   - ( cd "$HOME"; wget -O - https://repo.turris.cz/omnia/OpenWrt-SDK-mvebu_gcc-4.8-linaro_musl-1.1.15_eabi.Linux-x86_64.tar.bz2 | bzip2 -d | tar -xf -; mv OpenWrt-SDK-mvebu* openwrt-sdk-omnia; wget -O - https://repo.turris.cz/turris/OpenWrt-SDK-mpc85xx-p2020-nand_gcc-4.8-linaro_uClibc-0.9.33.2.Linux-x86_64.tar.bz2 | bzip2 -d | tar -xf -; mv OpenWrt-SDK-mpc85xx* openwrt-sdk-turris;)
+   - ( cd "$HOME"; wget -q -O - https://repo.turris.cz/omnia/OpenWrt-SDK-mvebu_gcc-4.8-linaro_musl-1.1.15_eabi.Linux-x86_64.tar.bz2 | bzip2 -d | tar -xf -; mv OpenWrt-SDK-mvebu* openwrt-sdk-omnia; wget -q -O - https://repo.turris.cz/turris/OpenWrt-SDK-mpc85xx-p2020-nand_gcc-4.8-linaro_uClibc-0.9.33.2.Linux-x86_64.tar.bz2 | bzip2 -d | tar -xf -; mv OpenWrt-SDK-mpc85xx* openwrt-sdk-turris;)
 
 script:
   - echo "$PWD"
