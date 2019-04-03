@@ -90,6 +90,11 @@ define Package/nemea-logger
 	$(call Package/nemea-modules/Default)
 	TITLE+=logger
 endef
+define Package/nemea-supervisorl
+	$(call Package/nemea-modules/Default)
+	TITLE+=supervisorl
+	DEPENDS=
+endef
 
 define Package/nemea-flow_meter/config
 	source "$(SOURCE)/Config.in"
@@ -162,6 +167,16 @@ define Package/nemea-logger/install
 	$(INSTALL_DIR) $(1)/usr/bin/nemea
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/logger $(1)/usr/bin/nemea/
 endef
+define Package/nemea-supervisorl/install
+	$(INSTALL_DIR) $(1)/etc/init.d/
+	$(INSTALL_DIR) $(1)/etc/config/
+	$(INSTALL_BIN) ./files/init.d/nemea-supervisorl $(1)/etc/init.d/
+	$(INSTALL_DATA) ./files/config/nemea-supervisor $(1)/etc/config/nemea-supervisor
+endef
+
+define Package/conffiles/nemea-supervisorl
+/etc/config/nemea-supervisor
+endef
 
 $(eval $(call BuildPackage,nemea-flow_meter))
 $(eval $(call BuildPackage,nemea-ipfixprobe))
@@ -170,4 +185,5 @@ $(eval $(call BuildPackage,nemea-logreplay))
 $(eval $(call BuildPackage,nemea-traffic_repeater))
 $(eval $(call BuildPackage,nemea-topn))
 $(eval $(call BuildPackage,nemea-logger))
+$(eval $(call BuildPackage,nemea-supervisorl))
 
