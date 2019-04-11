@@ -9,8 +9,8 @@ include $(TOPDIR)/rules.mk
 
 
 PKG_NAME:=nemea-modules
-PKG_REV:=bcaa607
-PKG_VERSION:=2.10.1
+PKG_REV:=03725cb
+PKG_VERSION:=2.11.0
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
@@ -90,6 +90,10 @@ define Package/nemea-logger
 	$(call Package/nemea-modules/Default)
 	TITLE+=logger
 endef
+define Package/nemea-merger
+	$(call Package/nemea-modules/Default)
+	TITLE+=merger
+endef
 define Package/nemea-supervisorl
 	$(call Package/nemea-modules/Default)
 	TITLE+=supervisorl
@@ -167,6 +171,10 @@ define Package/nemea-logger/install
 	$(INSTALL_DIR) $(1)/usr/bin/nemea
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/logger $(1)/usr/bin/nemea/
 endef
+define Package/nemea-merger/install
+	$(INSTALL_DIR) $(1)/usr/bin/nemea
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/merger $(1)/usr/bin/nemea/
+endef
 define Package/nemea-supervisorl/install
 	$(INSTALL_DIR) $(1)/etc/init.d/
 	$(INSTALL_DIR) $(1)/etc/config/
@@ -185,5 +193,6 @@ $(eval $(call BuildPackage,nemea-logreplay))
 $(eval $(call BuildPackage,nemea-traffic_repeater))
 $(eval $(call BuildPackage,nemea-topn))
 $(eval $(call BuildPackage,nemea-logger))
+$(eval $(call BuildPackage,nemea-merger))
 $(eval $(call BuildPackage,nemea-supervisorl))
 
