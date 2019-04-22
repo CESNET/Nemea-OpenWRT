@@ -1,80 +1,7 @@
-diff --git a/Makefile.am b/Makefile.am
-index 0895633..36d5bd6 100644
---- a/Makefile.am
-+++ b/Makefile.am
-@@ -1,63 +1,13 @@
- ACLOCAL_AMFLAGS = -I m4
- 
--SUBDIRS=aggregator \
--anonymizer \
--debug_sender \
--device_classifier \
--email_reporter \
-+SUBDIRS=flow_meter \
-+traffic_repeater \
- flowcounter \
--ipv6stats \
--json_dump \
--json_replay \
--link_traffic \
- logger \
- logreplay \
--merger \
--mux \
--demux \
--natpair \
--prefix_tags \
--proto_traffic \
--pdns_exporter \
--report2idea \
--resolver \
--topn \
--traffic_repeater \
--unirec2json \
--endiverter
--
--EXTRA_DIST = AUTHORS COPYING ChangeLog INSTALL NEWS README.md nfreader \
--	debian/README.Debian \
--	debian/changelog \
--	debian/compat \
--	debian/control \
--	debian/copyright \
--	debian/nemea-modules-dev.install \
--	debian/nemea-modules.install \
--	debian/patches \
--	debian/rules \
--	debian/source \
--	debian/watch
-+topn
- 
--if HAVE_LIBNF
--SUBDIRS += nfreader
--SUBDIRS += nfwriter
--endif
--
--if HAVE_BISON
--SUBDIRS += unirecfilter
--if HAVE_OPENSSL
--SUBDIRS += scalar-aggregator
--endif
--endif
--
--if HAVE_LIBPCAP
--SUBDIRS += flow_meter
--endif
--
--if HAVE_LIBCURL
--SUBDIRS += bloom_history
--endif
-+EXTRA_DIST = AUTHORS COPYING ChangeLog INSTALL NEWS README.md
- 
- RPMDIR = RPMBUILD
- 
-diff --git a/configure.ac b/configure.ac
-index 92df371..652e5db 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -43,11 +43,6 @@ AC_SUBST(BINDIR)
+diff -u a/configure.ac b/configure.ac
+--- a/configure.ac	2019-04-11 14:41:02.189875842 +0200
++++ b/configure.ac	2019-04-11 14:42:22.655565782 +0200
+@@ -43,11 +43,6 @@
  bashcompldir=${sysconfdir}/bash_completion.d
  AC_SUBST(bashcompldir)
  
@@ -86,7 +13,7 @@ index 92df371..652e5db 100644
  RPM_REQUIRES=
  RPM_BUILDREQ=
  
-@@ -81,9 +76,6 @@ esac], [repobuild=false])
+@@ -81,9 +76,6 @@
  
  AX_C_BIGENDIAN_CROSS
  
@@ -94,9 +21,9 @@ index 92df371..652e5db 100644
 -AC_SUBST(OPENMP_CFLAGS)
 -
  backup_libs=${LIBS}
- AX_LIBTRAP_CHECK
- AX_UNIREC_CHECK
-@@ -106,22 +98,6 @@ else
+ NONNEMEA_LIBS=${backup_libs}
+ AC_SUBST(NEMEA_FRAMEWORK_LIBS)
+@@ -112,22 +104,6 @@
    AC_DEFINE([HAVE_OPENSSL], [0], [Define to 1 if the openssl is available])
  fi
  
@@ -119,7 +46,7 @@ index 92df371..652e5db 100644
  AC_ARG_WITH([flowcachesize],
  	AC_HELP_STRING([--with-flowcachesize=NUMBER],[Set default size of flow cache for flow_meter module in number of flow records.]),
  	[
-@@ -135,36 +111,6 @@ AC_ARG_WITH([flowcachestats],
+@@ -141,36 +117,6 @@
  	]
  )
  
@@ -156,7 +83,7 @@ index 92df371..652e5db 100644
  AC_CHECK_HEADER(pcap.h,
          AC_CHECK_LIB(pcap, pcap_open_live, [libpcap=yes], AC_MSG_WARN([libpcap not found. The flow_meter module will not be compiled.])), AC_MSG_WARN([pcap.h not found. The flow_meter module will not be compiled.]))
  
-@@ -175,7 +121,7 @@ RPM_BUILDREQ+=" libpcap-devel"
+@@ -181,7 +127,7 @@
  fi
  
  # Checks for header files.
@@ -165,7 +92,7 @@ index 92df371..652e5db 100644
  
  # Checks for typedefs, structures, and compiler characteristics.
  AC_HEADER_STDBOOL
-@@ -218,63 +164,14 @@ AM_CONDITIONAL(MAKE_DEB, test x$DEBUILD != x)
+@@ -224,65 +170,16 @@
  
  # list of all *.in (and Makefile.am) files to process by configure script
  AC_CONFIG_FILES([Makefile
@@ -193,7 +120,8 @@ index 92df371..652e5db 100644
 -                 link_traffic/link_traff2json.py
                   logger/Makefile
                   logreplay/Makefile
--                 merger/Makefile
+                  merger/Makefile
+                  merger/test/Makefile
 -                 mux/Makefile
 -                 demux/Makefile
 -                 natpair/Makefile
@@ -216,6 +144,7 @@ index 92df371..652e5db 100644
 -                 report2idea/venom/Makefile
 -                 report2idea/voipfraud/Makefile
 -                 report2idea/vportscan/Makefile
+-                 report2idea/warden_filer/Makefile
 -                 resolver/Makefile
 -                 scalar-aggregator/Makefile
                   topn/Makefile
@@ -229,3 +158,74 @@ index 92df371..652e5db 100644
                 ])
  
  AC_SUBST(RPM_REQUIRES)
+diff -u a/Makefile.am b/Makefile.am
+--- a/Makefile.am	2019-04-11 14:08:51.902179504 +0200
++++ b/Makefile.am	2019-04-11 14:13:55.680633072 +0200
+@@ -1,63 +1,14 @@
+ ACLOCAL_AMFLAGS = -I m4
+ 
+-SUBDIRS=aggregator \
+-anonymizer \
+-debug_sender \
+-device_classifier \
+-email_reporter \
++SUBDIRS=flow_meter \
++traffic_repeater \
+ flowcounter \
+-ipv6stats \
+-json_dump \
+-json_replay \
+-link_traffic \
+ logger \
+ logreplay \
+ merger \
+-mux \
+-demux \
+-natpair \
+-prefix_tags \
+-proto_traffic \
+-pdns_exporter \
+-report2idea \
+-resolver \
+-topn \
+-traffic_repeater \
+-unirec2json \
+-endiverter
+-
+-EXTRA_DIST = AUTHORS COPYING ChangeLog INSTALL NEWS README.md nfreader \
+-	debian/README.Debian \
+-	debian/changelog \
+-	debian/compat \
+-	debian/control \
+-	debian/copyright \
+-	debian/nemea-modules-dev.install \
+-	debian/nemea-modules.install \
+-	debian/patches \
+-	debian/rules \
+-	debian/source \
+-	debian/watch
+-
+-if HAVE_LIBNF
+-SUBDIRS += nfreader
+-SUBDIRS += nfwriter
+-endif
+-
+-if HAVE_BISON
+-SUBDIRS += unirecfilter
+-if HAVE_OPENSSL
+-SUBDIRS += scalar-aggregator
+-endif
+-endif
+-
+-if HAVE_LIBPCAP
+-SUBDIRS += flow_meter
+-endif
++topn
+ 
+-if HAVE_LIBCURL
+-SUBDIRS += bloom_history
+-endif
++EXTRA_DIST = AUTHORS COPYING ChangeLog INSTALL NEWS README.md
+ 
+ RPMDIR = RPMBUILD
+ 
