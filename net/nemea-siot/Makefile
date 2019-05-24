@@ -96,27 +96,27 @@ endef
 
 define Package/nemea-ble_pairing/install
 	$(INSTALL_DIR) $(1)/usr/bin/nemea
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/ble_pairing $(1)/usr/bin/nemea/
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/siot-ble-pairing $(1)/usr/bin/nemea/
 endef
 define Package/nemea-ble_hci_collector/install
 	$(INSTALL_DIR) $(1)/usr/bin/nemea
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/ble_hci_collector $(1)/usr/bin/nemea/
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/siot-hci-collector $(1)/usr/bin/nemea/
 endef
 define Package/nemea-lora-airtime/install
 	$(INSTALL_DIR) $(1)/usr/bin/nemea
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/lora_airtime $(1)/usr/bin/nemea/
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/siot-lora-airtime $(1)/usr/bin/nemea/
 endef
 define Package/nemea-lora-distance/install
 	$(INSTALL_DIR) $(1)/usr/bin/nemea
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/lora_change_distance $(1)/usr/bin/nemea/
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/siot-lora-distance $(1)/usr/bin/nemea/
 endef
 define Package/nemea-lora-replay-abp/install
 	$(INSTALL_DIR) $(1)/usr/bin/nemea
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/lora_replay_abp $(1)/usr/bin/nemea/
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/siot-lora-replay $(1)/usr/bin/nemea/
 endef
 define Package/nemea-wsn-detector/install
 	$(INSTALL_DIR) $(1)/usr/bin/nemea
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/wsn_anomaly $(1)/usr/bin/nemea/
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/siot-wsn-anomaly $(1)/usr/bin/nemea/
 endef
 
 $(eval $(call BuildPackage,nemea-ble_pairing))
