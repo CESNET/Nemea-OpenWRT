@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 
 PKG_NAME:=nemea-siot
-PKG_REV:=4f21c5a
+PKG_REV:=50ba1f8
 PKG_VERSION:=$(PKG_REV)
 PKG_RELEASE:=1
 
