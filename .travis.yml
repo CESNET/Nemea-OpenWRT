@@ -42,5 +42,5 @@ deploy:
   github_token: $GITHUB_TOKEN
   target_branch: turris-packages
   on:
-    branch: master
+    branch: devel
 
