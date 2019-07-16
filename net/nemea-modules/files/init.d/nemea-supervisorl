@@ -23,6 +23,9 @@ CONFIG_FILE=nemea-supervisor
 
 . /lib/functions.sh
 
+PIDFILE_PREFIX=/var/run/nemea-
+PIDFILE_SUFFIX=.pid
+
 start_module()
 {
    local MODULE="$1"
@@ -52,6 +55,7 @@ start_module()
    procd_set_param limits core="${CORE:-0}"
    procd_set_param stdout 1
    procd_set_param stderr 1
+   procd_set_param pidfile "${PIDFILE_PREFIX}${MODULE}${PIDFILE_SUFFIX}"
    procd_close_instance
 }
 
