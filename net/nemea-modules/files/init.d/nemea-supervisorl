@@ -24,6 +24,8 @@ CONFIG_FILE=nemea-supervisor
 . /lib/functions.sh
 
 EXTRA_COMMANDS="$EXTRA_COMMANDS status status_json"
+EXTRA_HELP="	status	Print list of modules and their status
+	status_json	Print JSON object with list and status of modules"
 
 PIDFILE_PREFIX=/var/run/nemea-
 PIDFILE_SUFFIX=.pid
