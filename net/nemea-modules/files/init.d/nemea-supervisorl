@@ -23,6 +23,13 @@ CONFIG_FILE=nemea-supervisor
 
 . /lib/functions.sh
 
+EXTRA_COMMANDS="$EXTRA_COMMANDS status status_json"
+EXTRA_HELP="	status	Print list of modules and their status
+	status_json	Print JSON object with list and status of modules"
+
+PIDFILE_PREFIX=/var/run/nemea-
+PIDFILE_SUFFIX=.pid
+
 start_module()
 {
    local MODULE="$1"
@@ -52,6 +59,7 @@ start_module()
    procd_set_param limits core="${CORE:-0}"
    procd_set_param stdout 1
    procd_set_param stderr 1
+   procd_set_param pidfile "${PIDFILE_PREFIX}${MODULE}${PIDFILE_SUFFIX}"
    procd_close_instance
 }
 
@@ -68,5 +76,55 @@ start_service()
          start_module "$i"
       done
    fi
+}
+
+module_status()
+{
+   local config="$1"
+   local custom="$2"
+   config_get ENABLED       "$config"  enabled           ""
+
+   echo -n "$config "
+   [ "$ENABLED" = 1 ] && echo -n enabled || echo -n disabled
+   pid="`cat "${PIDFILE_PREFIX}${config}${PIDFILE_SUFFIX}" 2>/dev/null`"
+   if [ -n "$pid" -a -d /proc/"$pid" ]; then
+      echo " running"
+   else
+      echo " stopped"
+   fi
+}
+
+status()
+{
+   config_load "$CONFIG_FILE"
+
+   config_foreach module_status module
+}
+
+status_json()
+{
+   config_load "$CONFIG_FILE"
+   if /etc/init.d/nemea-supervisorl enabled; then
+      enabled=true
+   else
+      enabled=false
+   fi
+   echo -e "{\n  \"enabled\": $enabled,\n  \"modules\": {"
+
+   first=true
+   config_foreach module_status module | while read line; do
+   if [ "$first" = false ]; then
+      echo ","
+   else
+      first=false
+   fi
+   echo "$line" | sed 's/enabled/"enabled": true,/;
+s/disabled/"enabled": false,/;
+s/running/"running": true/;
+s/stopped/"running": false/;
+s/^\([^ ]*\) \(.*\)/    "\1": {\2}/;' | tr -d '\n'
+   done
+
+   echo -e "\n  }\n}"
 }
 
