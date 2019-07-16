@@ -23,6 +23,8 @@ CONFIG_FILE=nemea-supervisor
 
 . /lib/functions.sh
 
+EXTRA_COMMANDS="$EXTRA_COMMANDS status"
+
 PIDFILE_PREFIX=/var/run/nemea-
 PIDFILE_SUFFIX=.pid
 
@@ -72,5 +74,28 @@ start_service()
          start_module "$i"
       done
    fi
+}
+
+module_status()
+{
+   local config="$1"
+   local custom="$2"
+   config_get ENABLED       "$config"  enabled           ""
+
+   echo -n "$config "
+   [ "$ENABLED" = 1 ] && echo -n enabled || echo -n disabled
+   pid="`cat "${PIDFILE_PREFIX}${config}${PIDFILE_SUFFIX}" 2>/dev/null`"
+   if [ -n "$pid" -a -d /proc/"$pid" ]; then
+      echo " running"
+   else
+      echo " stopped"
+   fi
+}
+
+status()
+{
+   config_load "$CONFIG_FILE"
+
+   config_foreach module_status module
 }
 
