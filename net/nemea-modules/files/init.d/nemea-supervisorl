@@ -12,6 +12,9 @@
 # /etc/init.d/nemea-supervisorl disable       - disable all module on startup
 # /etc/init.d/nemea-supervisorl restart       - stop and start all enabled module
 # /etc/init.d/nemea-supervisorl reload        - stop and start all enabled module
+# /etc/init.d/nemea-supervisorl status        - print status
+# /etc/init.d/nemea-supervisorl status_json   - print status
+# /etc/init.d/nemea-supervisorl status_jsonp  - print status
 #
 
 START=50
@@ -23,9 +26,10 @@ CONFIG_FILE=nemea-supervisor
 
 . /lib/functions.sh
 
-EXTRA_COMMANDS="$EXTRA_COMMANDS status status_json"
+EXTRA_COMMANDS="$EXTRA_COMMANDS status status_json status_jsonp"
 EXTRA_HELP="	status	Print list of modules and their status
-	status_json	Print JSON object with list and status of modules"
+	status_json	Print JSON object with list and status of modules
+	status_jsonp	Print JSONP output, SIoTSupervisorlStatus() with list and status of modules"
 
 PIDFILE_PREFIX=/var/run/nemea-
 PIDFILE_SUFFIX=.pid
@@ -126,5 +130,12 @@ s/^\([^ ]*\) \(.*\)/    "\1": {\2}/;' | tr -d '\n'
    done
 
    echo -e "\n  }\n}"
+}
+
+status_jsonp()
+{
+   echo -n "SIoTSupervisorlStatus("
+   status_json
+   echo ");"
 }
 
