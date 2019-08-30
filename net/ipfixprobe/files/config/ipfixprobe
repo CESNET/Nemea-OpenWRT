@@ -1,0 +1,47 @@
+# ipfixprobe, P4 generated exporter
+# Copyright (C) 2019 CESNET
+
+#
+# Available options for profiles:
+#     plugins           - active plugins, argument for parameter -p
+#     ipfix_collector   - ipfix collector address, argument for parameter -x
+#     ipfix_udp         - use UDP when exporting to ipfix collector, -u parameter
+#     interface         - network interface for capturing, argument for parameter -i
+#     cache_size        - size of flow cache in number of flow records, default means size 2^17, argument for parameter -s
+#     timeouts          - active and inactive timeout, argument for parameter -t 
+#     respawn           - enable respawn of crashed process
+#     respawn_threshold - timeout in seconds for restarting a service after it closes
+#     respawn_timeout   - maximum time in seconds to wait for a process respawn to complete
+#     respawn_retry     - maximum number of times to attempt respawning before giving up, 0 means newer stop trying to respawn
+#     core              - size of generated core file, "0" - don't generate file, "unlimited" - unlimited file size
+#     enabled           - enable start daemon instance for that profile, NOTE: if profile is directly specified for start script
+#                         (example: '/etc/init.d/flow_meter start wan profileX profileY lan'), this option is ignored
+#
+
+config profile lan
+	option interface br-lan
+	option plugins basic,http
+	option ipfix_collector 192.168.0.2:4739
+	option ipfix_udp 0
+	option cache_size default
+	option timeouts default
+	option respawn 1
+	option respawn_threshold 3600
+	option respawn_timeout 5
+	option respawn_retry 5
+	option core 0
+	option enabled 0
+config profile wan
+	option interface eth0
+	option plugins basic,http
+	option ipfix_collector 192.168.0.2:4739
+	option ipfix_udp 0
+	option cache_size default
+	option timeouts default
+	option respawn 1
+	option respawn_threshold 3600
+	option respawn_timeout 5
+	option respawn_retry 5
+	option core 0
+	option enabled 0
+
