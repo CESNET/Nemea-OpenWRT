@@ -87,10 +87,16 @@ module_status()
    local config="$1"
    local custom="$2"
    config_get ENABLED       "$config"  enabled           ""
+   config_get MODULEPATH    "$config"  path              ""
+   config_get MODULEPARAMS  "$config"  params            ""
 
    echo -n "$config "
    [ "$ENABLED" = 1 ] && echo -n enabled || echo -n disabled
    pid="`cat "${PIDFILE_PREFIX}${config}${PIDFILE_SUFFIX}" 2>/dev/null`"
+   if [ -z "$pid" ]; then
+      # if pidfile does not exist, try to find the process with pgrep:
+      pid="`pgrep -f "^${MODULEPATH} ${MODULEPARAMS}$" 2>/dev/null`"
+   fi
    if [ -n "$pid" -a -d /proc/"$pid" ]; then
       echo " running"
    else
