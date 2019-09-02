@@ -120,10 +120,10 @@ define Package/nemea-wsn-detector/install
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/siot-wsn-anomaly $(1)/usr/bin/nemea/
 endef
 
-$(eval $(call BuildPackage,nemea-ble_pairing))
-$(eval $(call BuildPackage,nemea-ble_hci_collector))
-$(eval $(call BuildPackage,nemea-lora-airtime))
-$(eval $(call BuildPackage,nemea-lora-distance))
-$(eval $(call BuildPackage,nemea-lora-replay-abp))
-$(eval $(call BuildPackage,nemea-wsn-detector))
+$(eval $(call BuildPackage,siot-ble-pairing))
+$(eval $(call BuildPackage,siot-hci-collector))
+$(eval $(call BuildPackage,siot-lora-airtime))
+$(eval $(call BuildPackage,siot-lora-distance))
+$(eval $(call BuildPackage,siot-lora-replay))
+$(eval $(call BuildPackage,siot-wsn-anomaly))
 
