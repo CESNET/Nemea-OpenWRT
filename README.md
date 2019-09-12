@@ -2,7 +2,7 @@
 
 ## Description
 
-This is an OpenWrt package feed containing [NEMEA system](https://github.com/CESNET/Nemea) components for exporting flow data.
+This is an OpenWrt package feed containing [NEMEA system](https://github.com/CESNET/Nemea) components and P4 generated [IPFIX exporter](https://github.com/CESNET/NEMEA-Probe) for exporting flow data .
 
 ![Infrastructure with NEMEA and OpenWRT router](doc/openwrt-scheme.png)
 
