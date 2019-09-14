@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 
 PKG_NAME:=ipfixprobe
-PKG_REV:=15e18ceb12837f7eb23e34a4fa48f60eccf5f59e
+PKG_REV:=523d1218ba0fcd331ef00bd5869432cda299d86c
 
 PKG_VERSION:=1.0
 PKG_RELEASE:=1
