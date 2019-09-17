@@ -10,21 +10,17 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=beeeon-gateway
-PKG_REV:=7328b4377efcba98d1fef25372f2d2d6a7e685f0
-
 PKG_VERSION:=v2019.7.1
 PKG_RELEASE:=1
-INIT_SCRIPT_NAME:=$(PKG_NAME)
-
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/BeeeOn/gateway.git
-PKG_SOURCE_VERSION:=$(PKG_REV)
+PKG_SOURCE_VERSION:=7328b4377efcba98d1fef25372f2d2d6a7e685f0
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_SOURCE_VERSION).tar.gz
 
-BUILD_DIR:=$(TOPDIR)/build_dir/turris
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
-PKG_BUILD_DIR:=${BUILD_DIR}/${PKG_SOURCE_SUBDIR}
+PKG_MAINTAINER:=Jan Viktorin <iviktorin@fit.vutbr.cz>
+PKG_LICENSE:=BSD-3-Clause
+PKG_LICENSE_FILES:=LICENSE
 
 PKG_BUILD_PARALLEL:=1
 CMAKE_INSTALL:=1
@@ -71,19 +67,18 @@ PKG_BUILD_DEPENDS += BEEEON_GATEWAY_MQTT_EXPORTER:mosquitto
 PKG_BUILD_DEPENDS += BEEEON_GATEWAY_ZWAVE:openzwave
 
 define Package/beeeon-gateway
-	TITLE:=BeeeOn Gateway
-	SECTION:=cesnet
-	CATEGORY:=CESNET
-	DEPENDS:=+poco-all +libmosquittopp
-	MAINTAINER:=Jan Viktorin <iviktorin@fit.vutbr.cz>
-
-	DEPENDS += +BEEEON_GATEWAY_ZWAVE:libopenzwave
-	DEPENDS += +BEEEON_GATEWAY_ZWAVE:openzwave-config
-	DEPENDS += +bluez-daemon +bluez-libs +glib2 +libmosquittopp +nemea-framework +libpcap
+  SECTION:=utils
+  CATEGORY:=Utilities
+  TITLE:=BeeeOn Gateway
+  URL:=https://beeeon.github.io/gateway/
+  DEPENDS:=+poco-all +libmosquittopp
+  DEPENDS += +BEEEON_GATEWAY_ZWAVE:libopenzwave
+  DEPENDS += +BEEEON_GATEWAY_ZWAVE:openzwave-config
+  DEPENDS += +bluez-daemon +bluez-libs +glib2 +libmosquittopp +nemea-framework +libpcap
 endef
 
 define Package/beeeon-gateway/description
- Main application for BeeeOn Gateway.
+  Main application for BeeeOn Gateway.
 endef
 
 BEEEON_GATEWAY_MODULE_ENABLE += belkinwemo \
