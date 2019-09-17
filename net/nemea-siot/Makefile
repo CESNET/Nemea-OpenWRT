@@ -1,36 +1,19 @@
-#
-# Copyright (C) 2006-2013 OpenWrt.org
-#
-# This is free software, licensed under the GNU General Public License v2.
-# See /LICENSE for more information.
-#
-
 include $(TOPDIR)/rules.mk
 
-
 PKG_NAME:=nemea-siot
-PKG_REV:=dd3b9a73af68aa54857b38ed18320c5078f08523
-
 PKG_VERSION:=19-08.1
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_VERSION:=$(PKG_REV)
-PKG_SOURCE_SUBDIR:=nemea-siot-$(PKG_VERSION)
-PKG_SOURCE_URL:=https://github.com/CESNET/nemea-siot
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_REV).tar.gz
-PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
-
-PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
-
-PKG_FIXUP:=autoreconf
-
-
-PKG_LICENSE:=GPLv2
-PKG_LICENSE_FILES:=COPYING
+PKG_SOURCE_URL:=https://github.com/CESNET/nemea-siot.git
+PKG_SOURCE_VERSION:=dd3b9a73af68aa54857b38ed18320c5078f08523
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_SOURCE_VERSION).tar.gz
 
 PKG_MAINTAINER:=Tomas Cejka <cejkat@cesnet.cz>
+PKG_LICENSE:=BSD-3-Clause
+PKG_LICENSE_FILES:=LICENSE
 
+PKG_FIXUP:=autoreconf
 PKG_INSTALL:=1
 PKG_BUILD_PARALLEL:=1
 
@@ -39,38 +22,42 @@ include $(INCLUDE_DIR)/package.mk
 define Package/nemea-siot/Default
   SECTION:=net
   CATEGORY:=Network
-  SUBMENU:=NEMEA-SIoT
-  DEPENDS:=+nemea-framework +libpthread +librt
+  SUBMENU:=NEMEA
   TITLE:=NEMEA SIoT modules
   URL:=https://github.com/CESNET/nemea-siot
-  MENU:=1
+  DEPENDS:=+nemea-framework +libpthread +librt
 endef
 
-define Package/nemea-ble_pairing
-	$(call Package/nemea-siot/Default)
-	TITLE+=BLE pairing detector
-	DEPENDS+= +libstdcpp +bluez-libs
+define Package/siot-ble-pairing
+  $(call Package/nemea-siot/Default)
+  TITLE:=BLE pairing detector
+  DEPENDS+= +libstdcpp +bluez-libs
 endef
-define Package/nemea-ble_hci_collector
-	$(call Package/nemea-siot/Default)
-	TITLE+=BLE HCI collector
-	DEPENDS+= +libstdcpp +bluez-libs
+
+define Package/siot-hci-collector
+  $(call Package/nemea-siot/Default)
+  TITLE:=BLE HCI collector
+  DEPENDS+= +libstdcpp +bluez-libs
 endef
-define Package/nemea-lora-airtime
-	$(call Package/nemea-siot/Default)
-	TITLE+=LoRaWAN Airtime regulations
+
+define Package/siot-lora-airtime
+  $(call Package/nemea-siot/Default)
+  TITLE:=LoRaWAN Airtime regulations
 endef
-define Package/nemea-lora-distance
-	$(call Package/nemea-siot/Default)
-	TITLE+=LoRaWAN detection of distance change
+
+define Package/siot-lora-distance
+  $(call Package/nemea-siot/Default)
+  TITLE:=LoRaWAN detection of distance change
 endef
-define Package/nemea-lora-replay-abp
-	$(call Package/nemea-siot/Default)
-	TITLE+=LoRaWAN Replay attack ABP detection
+
+define Package/siot-lora-replay
+  $(call Package/nemea-siot/Default)
+  TITLE:=LoRaWAN Replay attack ABP detection
 endef
-define Package/nemea-wsn-detector
-	$(call Package/nemea-siot/Default)
-	TITLE+=Wireless Sensor Network Detector (based on time series)
+
+define Package/siot-wsn-anomaly
+  $(call Package/nemea-siot/Default)
+  TITLE:=Wireless Sensor Network Detector (based on time series)
 endef
 
 TARGET_CFLAGS += \
@@ -95,27 +82,32 @@ define Build/Configure
 	$(call Build/Configure/Default)
 endef
 
-define Package/nemea-ble_pairing/install
+define Package/siot-ble-pairing/install
 	$(INSTALL_DIR) $(1)/usr/bin/nemea
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/siot-ble-pairing $(1)/usr/bin/nemea/
 endef
-define Package/nemea-ble_hci_collector/install
+
+define Package/siot-hci-collector/install
 	$(INSTALL_DIR) $(1)/usr/bin/nemea
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/siot-hci-collector $(1)/usr/bin/nemea/
 endef
-define Package/nemea-lora-airtime/install
+
+define Package/siot-lora-airtime/install
 	$(INSTALL_DIR) $(1)/usr/bin/nemea
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/siot-lora-airtime $(1)/usr/bin/nemea/
 endef
-define Package/nemea-lora-distance/install
+
+define Package/siot-lora-distance/install
 	$(INSTALL_DIR) $(1)/usr/bin/nemea
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/siot-lora-distance $(1)/usr/bin/nemea/
 endef
-define Package/nemea-lora-replay-abp/install
+
+define Package/siot-lora-replay/install
 	$(INSTALL_DIR) $(1)/usr/bin/nemea
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/siot-lora-replay $(1)/usr/bin/nemea/
 endef
-define Package/nemea-wsn-detector/install
+
+define Package/siot-wsn-anomaly/install
 	$(INSTALL_DIR) $(1)/usr/bin/nemea
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/siot-wsn-anomaly $(1)/usr/bin/nemea/
 endef
@@ -126,4 +118,3 @@ $(eval $(call BuildPackage,siot-lora-airtime))
 $(eval $(call BuildPackage,siot-lora-distance))
 $(eval $(call BuildPackage,siot-lora-replay))
 $(eval $(call BuildPackage,siot-wsn-anomaly))
-

@@ -26,8 +26,8 @@ PKG_INSTALL:=1
 include $(INCLUDE_DIR)/package.mk
 
 define Package/poco-all
-  SECTION:=cesnet
-  CATEGORY:=CESNET
+  SECTION:=libs
+  CATEGORY:=Libraries
   TITLE:=Poco C++ libraries
   URL:=http://www.pocoproject.org/
   DEPENDS:=+libstdcpp +libpthread +librt +libopenssl
