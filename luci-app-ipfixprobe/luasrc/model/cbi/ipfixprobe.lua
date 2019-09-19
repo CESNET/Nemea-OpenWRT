@@ -4,7 +4,6 @@
 local sys = require "luci.sys"
 
 m = Map("ipfixprobe", translate("IPFIX exporter"))
-m.on_after_commit = function() luci.sys.call('/etc/init.d/ipfixprobe restart') end
 
 s = m:section(TypedSection, "profile", "Export profiles", "List of exporting processes")
 s.anonymous = false
@@ -15,7 +14,7 @@ nic = s:option(Value, "interface", translate("Monitored interface"))
 nic.rmempty = true
 local iface
 for k, v in pairs(luci.sys.net.devices()) do
-   nic:value(k, v)
+   nic:value(v, v)
 end
 
 pl = s:option(MultiValue, "plugins", translate("List of plugins"))
@@ -53,5 +52,9 @@ en.disabled = "0"
 en.default = "0"
 en.rmempty = False
 
+m.on_after_commit = function()
+  luci.sys.call('/etc/init.d/ipfixprobe reload')
+  luci.sys.call('/etc/init.d/ipfixprobe restart')
+end
 
 return m
