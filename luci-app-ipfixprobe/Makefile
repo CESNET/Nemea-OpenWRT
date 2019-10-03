@@ -31,11 +31,11 @@ define Package/luci-app-ipfixprobe
 	TITLE:=IPFIX exporter profiles
 	URL:=https://github.com/CESNET/NEMEA-OpenWrt
 	MAINTAINER:=Tomas Cejka <cejkat@cesnet.cz>
-	DEPENDS:=+nemea-ipfixprobe +luci-base
+	DEPENDS:=+ipfixprobe +luci-base
 endef
 
 define Package/luci-app-ipfixprobe/description
-	This package allows you to configure and inspect IPFIX exporter nemea-ipfixprobe using LuCI.
+	This package allows you to configure and inspect IPFIX exporter ipfixprobe using LuCI.
 endef
 
 define Build/Compile
