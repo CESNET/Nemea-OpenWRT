@@ -23,7 +23,6 @@ pl:value("http", "HTTP")
 pl:value("https", "HTTPS")
 pl:value("smtp", "SMTP")
 pl:value("sip", "SIP")
-pl:value("arp", "ARP")
 pl:value("ntp", "NTP")
 pl.delimiter = ","
 pl.default = "basic"
