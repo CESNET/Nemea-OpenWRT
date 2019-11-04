@@ -28,6 +28,9 @@ script:
   - echo "src-cpy nemea $SRC_PATH" > feeds.conf
   - ./scripts/feeds update
   - ./scripts/feeds install -a
+  - echo "src-git packages https://github.com/openwrt/packages.git^3a2c97600f051ba47f9aa83a121f3de09f567480" > feeds.conf
+  - ./scripts/feeds update packages poco
+  - ./scripts/feeds install -p packages poco
   - make -j8 && { mkdir -p $HOME/dist-pkgs/turris-omnia; cp -r bin/*/packages $HOME/dist-pkgs/turris-omnia; true;} || make -j1 V=s
   - cd "$HOME/openwrt-sdk-turris"
   - echo "src-cpy nemea $SRC_PATH" > feeds.conf
