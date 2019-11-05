@@ -28,7 +28,7 @@ PKG_LICENSE_FILES:=LICENSE
 PKG_BUILD_PARALLEL:=1
 CMAKE_INSTALL:=1
 BUILD_DIR:=$(TOPDIR)/build_dir/turris
-PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(BUILD_VARIANT)/$(PKG_NAME)-$(_PKG_VERSION)
+PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(BUILD_VARIANT)/$(PKG_NAME)-$(PKG_VERSION)
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/cmake.mk
@@ -83,18 +83,23 @@ define Package/beeeon-gateway/config
 	source "$(SOURCE)/Config.in"
 endef
 
+define Package/beeeon-gateway-all/config
+        source "$(SOURCE)/Config.in"
+endef
+
+PKG_BUILD_DEPENDS += +poco-all python3/host +mosquitto
+
 ifeq ($(BUILD_VARIANT),all)
-	PKG_BUILD_DEPENDS += +poco-all python3/host +glib2 +bluez +openzwave +mosquitto
-else
-	PKG_BUILD_DEPENDS += +poco-all python3/host
+	PKG_BUILD_DEPENDS += +glib2 +bluez +openzwave
 endif
 
 define Package/beeeon-gateway
 	SECTION:=utils
 	CATEGORY:=Utilities
-	TITLE:=BeeeOn Gateway
+	TITLE:=BeeeOn Gateway (minimal version)
 	URL:=https://beeeon.github.io/gateway/
 	DEPENDS:=+poco-all
+	DEPENDS += +libmosquittopp
 	VARIANT:=minimal
 endef
 
@@ -105,7 +110,7 @@ endef
 define Package/beeeon-gateway-all
 	SECTION:=utils
 	CATEGORY:=Utilities
-	TITLE:=BeeeOn Gateway
+	TITLE:=BeeeOn Gateway (version with all modules enabled)
 	URL:=https://beeeon.github.io/gateway/
 	DEPENDS:=+poco-all
 	DEPENDS += +bluez-daemon +bluez-libs +glib2 +libmosquittopp +nemea-framework +libpcap +openzwave-config +libopenzwave
@@ -120,6 +125,7 @@ BEEEON_GATEWAY_MODULE_ENABLE += psdev \
 				vdev \
 				testing.center \
 				testing.collector \
+				exporter.mqtt \
 				gws
 
 ifeq ($(BUILD_VARIANT),all)
@@ -129,23 +135,21 @@ ifeq ($(BUILD_VARIANT),all)
 					bluetooth.reporting \
 					iqrf \
 					jablotron \
-					exporter.mqtt \
 					philipshue \
 					vpt \
 					zwave \
 					nemea
 else
 	BEEEON_GATEWAY_MODULE_DISABLE += belkinwemo \
-                                        blesmart \
-                                        bluetooth.availability \
-                                        bluetooth.reporting \
-                                        iqrf \
-                                        jablotron \
-                                        exporter.mqtt \
-                                        philipshue \
-                                        vpt \
-                                        zwave \
-                                        nemea
+					blesmart \
+					bluetooth.availability \
+					bluetooth.reporting \
+					iqrf \
+					jablotron \
+					philipshue \
+					vpt \
+					zwave \
+					nemea
 endif
 
 # Generate random BeeeOn Gateway ID
