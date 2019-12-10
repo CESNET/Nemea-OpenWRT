@@ -1,5 +1,5 @@
 menu "Configuration"
-	depends on PACKAGE_beeeon-gateway
+	depends on PACKAGE_beeeon-gateway-all
 
 choice
 	prompt "Gateway Identity"
@@ -7,22 +7,21 @@ choice
 config BEEEON_GATEWAY_ID_RANDOM
 	bool "random"
 	help
-	  BeeeOn Gateway ID would be generated during the build
-	  at random.
+		BeeeOn Gateway ID would be generated during the build
+		at random.
 
 config BEEEON_GATEWAY_ID_CUSTOM
 	bool "custom"
 	help
-	  BeeeOn Gateway ID is to be entered manually.
+		BeeeOn Gateway ID is to be entered manually.
 
 config BEEEON_GATEWAY_ID_CERT
 	bool "from certificate"
 	help
-	  BeeeOn Gateway ID would be extracted from the given
-	  certificate. It is thus required to give a path to
-	  the gateway's private key, certificate and signing
-	  certification authority.
-
+		BeeeOn Gateway ID would be extracted from the given
+		certificate. It is thus required to give a path to
+		the gateway's private key, certificate and signing
+		certification authority.
 endchoice
 
 config BEEEON_GATEWAY_ID_CUSTOM_VALUE
@@ -77,13 +76,10 @@ config BEEEON_GATEWAY_GWS_PORT
 endmenu
 
 menu "Modules"
-	depends on PACKAGE_beeeon-gateway
+	depends on PACKAGE_beeeon-gateway-all
 
 config BEEEON_GATEWAY_USB_UART_RECOMMENDED
 	bool
-	default y if BEEEON_GATEWAY_ZWAVE
-	default y if BEEEON_GATEWAY_IQRF
-	default y if BEEEON_GATEWAY_JABLOTRON
 	default n
 
 config BEEEON_GATEWAY_HAS_KMOD_USB_ACM
@@ -95,4 +91,40 @@ comment "You may need to select kmod-usb-acm to support UART-over-USB."
 	depends on BEEEON_GATEWAY_USB_UART_RECOMMENDED
 	depends on !BEEEON_GATEWAY_HAS_KMOD_USB_ACM
 
+config BEEEON_GATEWAY_HAS_LIBMOSQUITTOPP
+	bool
+	default y if PACKAGE_libmosquittopp
+	default n
+
+comment "MQTT exporter requires libmosquittopp"
+	depends on !BEEEON_GATEWAY_HAS_LIBMOSQUITTOPP
+
+config BEEEON_GATEWAY_MQTT_EXPORTER
+	bool "Exporting data via MQTT"
+	depends on BEEEON_GATEWAY_HAS_LIBMOSQUITTOPP
+	default n
+	help
+	  Enable exporting data over MQTT via mosquitto.
+
+menu "MQTT Exporter settings"
+	depends on BEEEON_GATEWAY_MQTT_EXPORTER
+
+config BEEEON_GATEWAY_MQTT_EXPORTER_HOST
+	string "MQTT host"
+	default "127.0.0.1"
+
+config BEEEON_GATEWAY_MQTT_EXPORTER_PORT
+	int "MQTT port"
+	default 1883
+	range 1 65535
+
+config BEEEON_GATEWAY_MQTT_EXPORTER_TOPIC
+	string "MQTT topic"
+	default "BeeeOnOut"
+
+config BEEEON_GATEWAY_MQTT_EXPORTER_CLIENT_ID
+	string "MQTT client ID"
+	default "Gateway"
+
+endmenu
 endmenu
