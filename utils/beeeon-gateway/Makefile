@@ -10,14 +10,14 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=beeeon-gateway
-PKG_VERSION:=v2019.7.1
+PKG_VERSION:=v2019.12.1
 PKG_RELEASE:=1
 INIT_SCRIPT_NAME:=$(PKG_NAME)
 
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/BeeeOn/gateway.git
-PKG_SOURCE_VERSION:=7328b4377efcba98d1fef25372f2d2d6a7e685f0
+PKG_SOURCE_VERSION:=27bc592e847278df5ca6866ebde6eb04ca29a4f2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_SOURCE_VERSION).tar.gz
 
@@ -28,8 +28,7 @@ PKG_LICENSE_FILES:=LICENSE
 PKG_BUILD_PARALLEL:=1
 CMAKE_INSTALL:=1
 BUILD_DIR:=$(TOPDIR)/build_dir/turris
-PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(BUILD_VARIANT)/$(PKG_NAME)-$(PKG_SOURCE_VERSION)
-PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(BUILD_VARIANT)/$(PKG_NAME)-$(PKG_SOURCE_VERSION)
+PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(BUILD_VARIANT)/$(PKG_NAME)-$(PKG_VERSION)
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/cmake.mk
@@ -49,11 +48,13 @@ ifeq ($(BUILD_VARIANT),all)
 		-DENABLE_JABLOTRON=ON \
 		-DENABLE_PHILIPS_HUE=ON \
 		-DENABLE_VEKTIVA=ON \
+		-DENABLE_CONRAD=OFF \
 		-DENABLE_PRESSURE_SENSOR=ON \
 		-DENABLE_VIRTUAL_DEVICES=ON \
 		-DENABLE_VPT=ON \
 		-DENABLE_ZWAVE=ON \
 		-DENABLE_TESTING_CENTER=ON \
+		-DENABLE_SONOFF=ON \
 		-DENABLE_NEMEA=ON
 else
 	CMAKE_OPTIONS += \
@@ -70,11 +71,13 @@ else
 		-DENABLE_JABLOTRON=OFF \
 		-DENABLE_PHILIPS_HUE=OFF \
 		-DENABLE_VEKTIVA=OFF \
+		-DENABLE_CONRAD=OFF \
 		-DENABLE_PRESSURE_SENSOR=ON \
 		-DENABLE_VIRTUAL_DEVICES=ON \
 		-DENABLE_VPT=OFF \
 		-DENABLE_ZWAVE=OFF \
 		-DENABLE_TESTING_CENTER=ON \
+		-DENABLE_SONOFF=OFF \
 		-DENABLE_NEMEA=OFF
 endif
 
@@ -129,6 +132,9 @@ BEEEON_GATEWAY_MODULE_ENABLE += psdev \
 				exporter.mqtt \
 				gws
 
+BEEEON_GATEWAY_MODULE_DISABLE += fitp \
+				conrad
+
 ifeq ($(BUILD_VARIANT),all)
 	BEEEON_GATEWAY_MODULE_ENABLE += belkinwemo \
 					blesmart \
@@ -139,6 +145,8 @@ ifeq ($(BUILD_VARIANT),all)
 					philipshue \
 					vpt \
 					zwave \
+					vektiva \
+					sonoff \
 					nemea
 else
 	BEEEON_GATEWAY_MODULE_DISABLE += belkinwemo \
@@ -150,6 +158,8 @@ else
 					philipshue \
 					vpt \
 					zwave \
+					vektiva \
+					sonoff \
 					nemea
 endif
 
