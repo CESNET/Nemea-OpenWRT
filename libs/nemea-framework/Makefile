@@ -6,8 +6,14 @@
 #
 
 include $(TOPDIR)/rules.mk
+
+ifndef include_mk
+include $(TOPDIR)/feeds/packages/lang/python/python3-package.mk
+include $(TOPDIR)/feeds/packages/lang/python/python3-host.mk
+else
 $(call include_mk, python3-package.mk)
 $(call include_mk, python3-host.mk)
+endif
 
 PKG_NAME:=nemea-framework
 PKG_REV:=41d663c
