@@ -1,0 +1,10 @@
+--- a/configure.ac	2020-01-24 11:53:32.585687188 -0500
++++ b/configure.ac	2020-01-24 11:52:18.784107825 -0500
+@@ -46,7 +46,6 @@
+ lora-airtime
+ lora-replay
+ lora-distance
+-ble-adv-collector
+ zwave-sdr-sniffer
+ zwave-collector
+ zwave-detector])

@@ -1,13 +1,16 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nemea-siot
-PKG_VERSION:=19-08.1
+PKG_VERSION:=20-20.1
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/CESNET/nemea-siot.git
-PKG_SOURCE_VERSION:=dd3b9a73af68aa54857b38ed18320c5078f08523
+PKG_SOURCE_VERSION:=192f924e1e2b174e9bb5f39cd42108a4ac2bfac6
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_SOURCE_VERSION).tar.gz
+
+PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_SOURCE_VERSION)
+PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_SOURCE_VERSION)
 
 PKG_MAINTAINER:=Tomas Cejka <cejkat@cesnet.cz>
 PKG_LICENSE:=BSD-3-Clause
@@ -58,6 +61,21 @@ endef
 define Package/siot-wsn-anomaly
   $(call Package/nemea-siot/Default)
   TITLE:=Wireless Sensor Network Detector (based on time series)
+endef
+
+define Package/siot-zwave-collector
+  $(call Package/nemea-siot/Default)
+  TITLE:=Zwave collector
+endef
+
+define Package/siot-zwave-detector
+  $(call Package/nemea-siot/Default)
+  TITLE:=Zwave detector
+endef
+
+define Package/siot-zwave-sniffer
+  $(call Package/nemea-siot/Default)
+  TITLE:=Zwave SDR sniffer
 endef
 
 TARGET_CFLAGS += \
@@ -112,9 +130,32 @@ define Package/siot-wsn-anomaly/install
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/siot-wsn-anomaly $(1)/usr/bin/nemea/
 endef
 
+define Package/siot-zwave-collector/install
+	$(INSTALL_DIR) $(1)/usr/bin/nemea
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/siot-zwave-collector $(1)/usr/bin/nemea/
+endef
+
+
+define Package/siot-zwave-detector/install
+	$(INSTALL_DIR) $(1)/usr/bin/nemea
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/siot-zwave-detector $(1)/usr/bin/nemea/
+endef
+
+
+define Package/siot-zwave-sniffer/install
+	$(INSTALL_DIR) $(1)/usr/bin/nemea
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/siot-zwave-sdr-sniffer $(1)/usr/bin/nemea/
+endef
+
+
+
+
 $(eval $(call BuildPackage,siot-ble-pairing))
 $(eval $(call BuildPackage,siot-hci-collector))
 $(eval $(call BuildPackage,siot-lora-airtime))
 $(eval $(call BuildPackage,siot-lora-distance))
 $(eval $(call BuildPackage,siot-lora-replay))
 $(eval $(call BuildPackage,siot-wsn-anomaly))
+$(eval $(call BuildPackage,siot-zwave-collector))
+$(eval $(call BuildPackage,siot-zwave-detector))
+$(eval $(call BuildPackage,siot-zwave-sniffer))
