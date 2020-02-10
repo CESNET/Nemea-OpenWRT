@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nemea-siot
-PKG_VERSION:=20-20.1
+PKG_VERSION:=20-01.1
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
