@@ -80,6 +80,11 @@ define Package/nemea-merger
 	$(call Package/nemea-modules/Default)
 	TITLE+=merger
 endef
+define Package/nemea-email_reporter
+	$(call Package/nemea-modules/Default)
+	TITLE+=email_reporter
+	DEPENDS+=+python3 +nemea-pytrap
+endef
 define Package/nemea-supervisorl
 	$(call Package/nemea-modules/Default)
 	TITLE+=supervisorl
@@ -148,6 +153,10 @@ define Package/nemea-merger/install
 	$(INSTALL_DIR) $(1)/usr/bin/nemea
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/merger $(1)/usr/bin/nemea/
 endef
+define Package/nemea-email_reporter/install
+	$(INSTALL_DIR) $(1)/usr/bin/nemea
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/email_reporter.py $(1)/usr/bin/nemea/
+endef
 define Package/nemea-supervisorl/install
 	$(INSTALL_DIR) $(1)/etc/init.d/
 	$(INSTALL_DIR) $(1)/etc/config/
@@ -166,5 +175,6 @@ $(eval $(call BuildPackage,nemea-traffic_repeater))
 $(eval $(call BuildPackage,nemea-topn))
 $(eval $(call BuildPackage,nemea-logger))
 $(eval $(call BuildPackage,nemea-merger))
+$(eval $(call BuildPackage,nemea-email_reporter))
 $(eval $(call BuildPackage,nemea-supervisorl))
 
