@@ -7,6 +7,13 @@
 
 include $(TOPDIR)/rules.mk
 
+ifndef include_mk
+include $(TOPDIR)/feeds/packages/lang/python/python3-package.mk
+include $(TOPDIR)/feeds/packages/lang/python/python3-host.mk
+else
+$(call include_mk, python3-package.mk)
+$(call include_mk, python3-host.mk)
+endif
 
 PKG_NAME:=nemea-framework
 PKG_REV:=41d663c
@@ -78,7 +85,6 @@ MAKE_FLAGS += \
 define Build/Configure
 	$(call Build/Configure/Default)
 endef
-
 define Build/InstallDev
 	$(INSTALL_DIR) $(2)/bin
 	$(CP) $(PKG_BUILD_DIR)/unirec/ur_processor.sh $(2)/bin/
@@ -105,4 +111,40 @@ define Package/nemea-framework/install
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/nemea/trap_stats $(1)/usr/bin/nemea/
 endef
 
+define Package/nemea-pytrap
+  $(call Package/nemea-framework)
+  TITLE:=NEMEA pytrap
+  DEPENDS:=+python3 +nemea-framework +libpthread
+endef
+
+define Package/nemea-pytrap/description
+Python API of libtrap and UniRec
+endef
+
+define Package/nemea-pytrap/install
+	cd $(PKG_BUILD_DIR)/pytrap; \
+	$(HOST_PYTHON3_BIN) ./setup.py install --prefix="/usr" --root=$(1)
+endef
+
+define BuildPytrap
+	cd $(PKG_BUILD_DIR)/pytrap; \
+	CC="$(TARGET_CC)" \
+	CCSHARED="$(TARGET_CC) $(FPIC)" \
+	CXX="$(TARGET_CXX)" \
+	LD="$(TARGET_CC)" \
+	LDFLAGS="$(TARGET_LDFLAGS) -L$(PKG_BUILD_DIR)/libtrap/src/.libs/ -L$(PKG_BUILD_DIR)/unirec/.libs/" \
+	LDSHARED="$(TARGET_CC) -shared" \
+	CFLAGS="$(TARGET_CFLAGS)" \
+	CPPFLAGS="$(TARGET_CPPFLAGS) -I$(PYTHON3_INC_DIR) -I$(PKG_BUILD_DIR)/libtrap/include/ -I$(PKG_BUILD_DIR)" \
+	$(HOST_PYTHON3_BIN) ./setup.py build
+endef
+
+define Build/Compile
+	$(call Build/Compile/Default)
+	$(call BuildPytrap)
+endef
+
 $(eval $(call BuildPackage,nemea-framework,+libpthread,+librt))
+
+$(eval $(call BuildPackage,nemea-pytrap,+libpthread,+libc))
+

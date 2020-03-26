@@ -1,8 +1,13 @@
 # NEMEA OpenWrt feed
 
 ## Description
+This OpenWrt package feed contains parts that are necessary for the SIoT project but are not ready to be deployed on the Turris Omnia router without certain changes. 
 
-This is an OpenWrt package feed containing [NEMEA system](https://github.com/CESNET/Nemea) components and P4 generated [IPFIX exporter](https://github.com/CESNET/NEMEA-Probe) for exporting flow data .
+Conditions for the pull request to master branch include:
+* Newer version of glib (2.58.3 or newer) in Turris OS
+* Poco libraries from [newer commit](https://github.com/openwrt/packages/commit/4712deffa57c9f919b1e60238daff7d164f6a695) in Turris OS
+
+Besides [NEMEA system](https://github.com/CESNET/Nemea) components and P4 generated [IPFIX exporter](https://github.com/CESNET/NEMEA-Probe) for exporting flow data, this Openwrt package feed contains [BeeeOn gateway] (https://github.com/BeeeOn/gateway).
 
 ![Infrastructure with NEMEA and OpenWRT router](doc/openwrt-scheme.png)
 
