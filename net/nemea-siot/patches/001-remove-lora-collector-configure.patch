@@ -1,0 +1,10 @@
+--- a/configure.ac	2020-04-28 05:23:43.317176682 -0400
++++ b/configure.ac	2020-04-28 05:25:09.458993152 -0400
+@@ -43,7 +43,6 @@
+ AC_CONFIG_SUBDIRS([hci-collector
+ ble-pairing
+ wsn-anomaly
+-lora-collector
+ lora-airtime
+ lora-replay
+ lora-distance

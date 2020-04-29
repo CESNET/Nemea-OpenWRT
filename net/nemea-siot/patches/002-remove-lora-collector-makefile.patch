@@ -1,0 +1,10 @@
+--- a/Makefile.am	2020-04-28 05:41:06.315152708 -0400
++++ b/Makefile.am	2020-04-28 05:41:25.035546967 -0400
+@@ -3,7 +3,6 @@
+ SUBDIRS=ble-pairing \
+ hci-collector \
+ wsn-anomaly \
+-lora-collector \
+ lora-airtime \
+ lora-replay \
+ lora-distance \
