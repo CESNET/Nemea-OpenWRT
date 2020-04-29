@@ -46,7 +46,7 @@ deploy:
   skip_cleanup: true
   local_dir: $HOME/dist-pkgs
   github_token: $GITHUB_TOKEN
-  target_branch: turris-packages
+  target_branch: turris-packages-devel
   on:
-    branch: master
+    branch: devel
 
