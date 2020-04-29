@@ -61,16 +61,19 @@ endef
 define Package/siot-ble-adv-collector
   $(call Package/nemea-siot/Default)
   TITLE:=BLE collector
+  DEPENDS+= +libstdcpp +bluez-libs
 endef
 
 define Package/siot-ble-conn-detector
   $(call Package/nemea-siot/Default)
   TITLE:=BLE connection detector
+  DEPENDS+= +libstdcpp +bluez-libs
 endef
 
 define Package/siot-ble-conn-guard
   $(call Package/nemea-siot/Default)
   TITLE:=BLE connection guard
+  DEPENDS+= +libstdcpp +bluez-libs
 endef
 
 define Package/siot-wsn-anomaly
