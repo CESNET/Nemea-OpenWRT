@@ -58,6 +58,21 @@ define Package/siot-lora-replay
   TITLE:=LoRaWAN Replay attack ABP detection
 endef
 
+define Package/siot-ble-adv-collector
+  $(call Package/nemea-siot/Default)
+  TITLE:=BLE collector
+endef
+
+define Package/siot-ble-conn-detector
+  $(call Package/nemea-siot/Default)
+  TITLE:=BLE connection detector
+endef
+
+define Package/siot-ble-conn-guard
+  $(call Package/nemea-siot/Default)
+  TITLE:=BLE connection guard
+endef
+
 define Package/siot-wsn-anomaly
   $(call Package/nemea-siot/Default)
   TITLE:=Wireless Sensor Network Detector (based on time series)
@@ -71,6 +86,11 @@ endef
 define Package/siot-zwave-detector
   $(call Package/nemea-siot/Default)
   TITLE:=Zwave detector
+endef
+
+define Package/siot-zwave-stats-creator
+  $(call Package/nemea-siot/Default)
+  TITLE:=Zwave stats creator
 endef
 
 define Package/siot-zwave-sniffer
@@ -125,6 +145,21 @@ define Package/siot-lora-replay/install
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/siot-lora-replay $(1)/usr/bin/nemea/
 endef
 
+define Package/siot-ble-adv-collector/install
+	$(INSTALL_DIR) $(1)/usr/bin/nemea
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/siot-ble-adv-collector $(1)/usr/bin/nemea/
+endef
+
+define Package/siot-ble-conn-detector/install
+	$(INSTALL_DIR) $(1)/usr/bin/nemea
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/siot-ble-conn-detector $(1)/usr/bin/nemea/
+endef
+
+define Package/siot-ble-conn-guard/install
+	$(INSTALL_DIR) $(1)/usr/bin/nemea
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/siot-ble-conn-guard $(1)/usr/bin/nemea/
+endef
+
 define Package/siot-wsn-anomaly/install
 	$(INSTALL_DIR) $(1)/usr/bin/nemea
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/siot-wsn-anomaly $(1)/usr/bin/nemea/
@@ -135,12 +170,15 @@ define Package/siot-zwave-collector/install
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/siot-zwave-collector $(1)/usr/bin/nemea/
 endef
 
-
 define Package/siot-zwave-detector/install
 	$(INSTALL_DIR) $(1)/usr/bin/nemea
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/siot-zwave-detector $(1)/usr/bin/nemea/
 endef
 
+define Package/siot-zwave-stats-creator/install
+	$(INSTALL_DIR) $(1)/usr/bin/nemea
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/siot-zwave-stats-creator $(1)/usr/bin/nemea/
+endef
 
 define Package/siot-zwave-sniffer/install
 	$(INSTALL_DIR) $(1)/usr/bin/nemea
@@ -155,7 +193,11 @@ $(eval $(call BuildPackage,siot-hci-collector))
 $(eval $(call BuildPackage,siot-lora-airtime))
 $(eval $(call BuildPackage,siot-lora-distance))
 $(eval $(call BuildPackage,siot-lora-replay))
+$(eval $(call BuildPackage,siot-ble-adv-collector))
+$(eval $(call BuildPackage,siot-ble-conn-detector))
+$(eval $(call BuildPackage,siot-ble-conn-guard))
 $(eval $(call BuildPackage,siot-wsn-anomaly))
 $(eval $(call BuildPackage,siot-zwave-collector))
 $(eval $(call BuildPackage,siot-zwave-detector))
+$(eval $(call BuildPackage,siot-zwave-stats-creator))
 $(eval $(call BuildPackage,siot-zwave-sniffer))
