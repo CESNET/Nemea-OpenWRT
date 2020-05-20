@@ -1,0 +1,76 @@
+Package: attr
+Version: 20160302-1
+Depends: libc, libattr
+Source: feeds/turrispackages/utils/attr
+License: LGPL-2.1 GPL-2.0
+LicenseFiles: doc/COPYING doc/COPYING.LGPL
+Section: utils
+Maintainer: Maxim Storchak <m.storchak@gmail.com>
+Architecture: mvebu
+Installed-Size: 12833
+Filename: attr_20160302-1_mvebu.ipk
+Size: 13817
+MD5Sum: 55e7be4f87a08e0172efe64a255e1f67
+SHA256sum: 613ce155ec650c4cfa7ff7758dc40122465780a0958e7a3ae91af805d4663c90
+Description:  Extended attributes support
+ This package provides xattr manipulation utilities
+ - attr
+ - getfattr
+ - setfattr
+
+Package: glib2
+Version: 2.46.2-2
+Depends: libc, zlib, libpthread, libffi, libattr
+Source: feeds/turrispackages/libs/glib2
+Section: libs
+Maintainer: Peter Wagner <tripolar@gmx.at>
+Architecture: mvebu
+Installed-Size: 913749
+Filename: glib2_2.46.2-2_mvebu.ipk
+Size: 909931
+MD5Sum: 52d73363577e5e1c8206d315b5a06434
+SHA256sum: bbf55a03c508a2b05adf5c2a8cd636140f9123acbed3e73127cbb0b5c80ae9de
+Description:  The GLib library of C routines
+
+Package: libattr
+Version: 20160302-1
+Depends: libc
+Source: feeds/turrispackages/utils/attr
+License: LGPL-2.1 GPL-2.0
+LicenseFiles: doc/COPYING doc/COPYING.LGPL
+Section: libs
+Maintainer: Maxim Storchak <m.storchak@gmail.com>
+Architecture: mvebu
+Installed-Size: 6629
+Filename: libattr_20160302-1_mvebu.ipk
+Size: 7643
+MD5Sum: 450ed6730885d8a378a25603744576dc
+SHA256sum: b1395bdfd0ed570d3f08a99d3ce2a19300c1fb8349fbeb51d580ba77af96c3c1
+Description:  Extended attributes support
+ This package provides libattr
+
+Package: libffi
+Version: 3.2.1-2
+Depends: libc
+Source: feeds/turrispackages/libs/libffi
+License: MIT
+LicenseFiles: LICENSE
+Section: libs
+Maintainer: Peter Wagner <tripolar@gmx.at>
+Architecture: mvebu
+Installed-Size: 6190
+Filename: libffi_3.2.1-2_mvebu.ipk
+Size: 7420
+MD5Sum: 94dcfe488e7d638f1ccbb26d95d72c49
+SHA256sum: cf37941b6792c8cb2ff2e2cbdf5b5e7066c900e4775a1048365c1b3daaee9015
+Description:  The libffi library provides a portable, high level programming interface to
+ various calling conventions. This allows a programmer to call any function
+ specified by a call interface description at run-time.
+ 
+ FFI stands for Foreign Function Interface. A foreign function interface is the
+ popular name for the interface that allows code written in one language to call
+ code written in another language. The libffi library really only provides the
+ lowest, machine dependent layer of a fully featured foreign function interface.
+ A layer must exist above libffi that handles type conversions for values passed
+ between the two languages.
+
