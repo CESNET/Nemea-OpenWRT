@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 
 PKG_NAME:=nemea-modules
-PKG_REV:=46ee2a2
+PKG_REV:=698ea55
 PKG_VERSION:=20-08.1
 PKG_RELEASE:=1
 
@@ -43,16 +43,6 @@ define Package/nemea-modules/Default
   TITLE:=NEMEA module
   URL:=https://github.com/CESNET/nemea-modules
   MENU:=1
-endef
-
-define Package/nemea-flow_meter
-	$(call Package/nemea-modules/Default)
-	TITLE+=flow_meter
-	DEPENDS+= +libpcap +libstdcpp
-endef
-
-define Package/conffiles/nemea-flow_meter
-/etc/config/flow_meter
 endef
 
 define Package/nemea-logreplay
@@ -91,10 +81,6 @@ define Package/nemea-supervisorl
 	DEPENDS=
 endef
 
-define Package/nemea-flow_meter/config
-	source "$(SOURCE)/Config.in"
-endef
-
 TARGET_CFLAGS += \
 	-ffunction-sections \
 	-fdata-sections
@@ -116,17 +102,6 @@ MAKE_FLAGS += \
 
 define Build/Configure
 	$(call Build/Configure/Default)
-endef
-
-define Package/nemea-flow_meter/install
-	$(INSTALL_DIR) $(1)/usr/bin/nemea
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nemea/flow_meter $(1)/usr/bin/nemea/
-
-	$(INSTALL_DIR) $(1)/etc/init.d
-	$(INSTALL_BIN) ./files/init.d/flow_meter $(1)/etc/init.d/
-
-	$(INSTALL_DIR) $(1)/etc/config
-	$(INSTALL_DATA) ./files/config/flow_meter $(1)/etc/config/
 endef
 
 define Package/nemea-flowcounter/install
@@ -168,7 +143,6 @@ define Package/conffiles/nemea-supervisorl
 /etc/config/nemea-supervisor
 endef
 
-$(eval $(call BuildPackage,nemea-flow_meter))
 $(eval $(call BuildPackage,nemea-flowcounter))
 $(eval $(call BuildPackage,nemea-logreplay))
 $(eval $(call BuildPackage,nemea-traffic_repeater))
