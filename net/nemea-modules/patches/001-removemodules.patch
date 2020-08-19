@@ -1,8 +1,8 @@
 diff --git a/Makefile.am b/Makefile.am
-index 3a69c87..ee8cc01 100644
+index bf173af..46f5f08 100644
 --- a/Makefile.am
 +++ b/Makefile.am
-@@ -1,68 +1,15 @@
+@@ -1,65 +1,14 @@
  ACLOCAL_AMFLAGS = -I m4
  
 -SUBDIRS= \
@@ -12,9 +12,9 @@ index 3a69c87..ee8cc01 100644
 -device_classifier \
 -email_reporter \
 +SUBDIRS=email_reporter \
-+flow_meter \
 +traffic_repeater \
  flowcounter \
+-flow_meter \
 -ipv6stats \
 -json_dump \
 -json_replay \
@@ -47,7 +47,8 @@ index 3a69c87..ee8cc01 100644
 -	debian/rules \
 -	debian/source \
 -	debian/watch
--
++topn
+ 
 -if HAVE_LIBNF
 -SUBDIRS += nfreader
 -SUBDIRS += nfwriter
@@ -56,17 +57,12 @@ index 3a69c87..ee8cc01 100644
 -if HAVE_LIBLUA
 -SUBDIRS += luamodule
 -endif
-+topn
- 
+-
 -if HAVE_BISON
 -SUBDIRS += unirecfilter
 -if HAVE_OPENSSL
 -SUBDIRS += scalar-aggregator
 -endif
--endif
--
--if COMPILE_FLOWMETER
--SUBDIRS += flow_meter
 -endif
 -
 -if HAVE_LIBCURL
@@ -77,7 +73,7 @@ index 3a69c87..ee8cc01 100644
  RPMDIR = RPMBUILD
  
 diff --git a/configure.ac b/configure.ac
-index 2942a95..cae8db5 100644
+index 14066c1..9c98d7b 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -43,11 +43,6 @@ AC_SUBST(BINDIR)
@@ -92,7 +88,7 @@ index 2942a95..cae8db5 100644
  RPM_REQUIRES=
  RPM_BUILDREQ=
  
-@@ -81,9 +76,6 @@ esac], [repobuild=false])
+@@ -95,9 +90,6 @@ esac], [repobuild=false])
  
  AX_C_BIGENDIAN_CROSS
  
@@ -102,7 +98,7 @@ index 2942a95..cae8db5 100644
  backup_libs=${LIBS}
  NONNEMEA_LIBS=${backup_libs}
  AC_SUBST(NEMEA_FRAMEWORK_LIBS)
-@@ -95,8 +87,6 @@ NEMEA_FRAMEWORK_LIBS=${LIBS}
+@@ -109,8 +101,6 @@ NEMEA_FRAMEWORK_LIBS=${LIBS}
  AC_SUBST(NEMEA_FRAMEWORK_LIBS)
  #LIBS=${backup_libs}
  
@@ -111,7 +107,7 @@ index 2942a95..cae8db5 100644
  
  AC_ARG_WITH([openssl],
          [AS_HELP_STRING([--without-openssl], [Force to disable openssl])],
-@@ -114,22 +104,6 @@ else
+@@ -128,61 +118,13 @@ else
    AC_DEFINE([HAVE_OPENSSL], [0], [Define to 1 if the openssl is available])
  fi
  
@@ -131,13 +127,6 @@ index 2942a95..cae8db5 100644
 -  AC_DEFINE([HAVE_LIBCURL], [0], [Define to 1 if the libcurl is available])
 -fi
 -
- AC_ARG_WITH([flowcachesize],
- 	AC_HELP_STRING([--with-flowcachesize=NUMBER],[Set default size of flow cache for flow_meter module in number of flow records.]),
- 	[
-@@ -143,36 +117,6 @@ AC_ARG_WITH([flowcachestats],
- 	]
- )
- 
 -AC_ARG_WITH([nfreader],
 -	AC_HELP_STRING([--without-nfreader], [Skip nfreader module.]),
 -        [if test "$withval" = "no"; then
@@ -158,37 +147,30 @@ index 2942a95..cae8db5 100644
 -RPM_REQUIRES+=" libnf"
 -RPM_BUILDREQ+=" libnf-devel"
 -fi
--
+ 
 -AC_CHECK_PROG(BISON, bison, yes, [""])
 -AC_CHECK_PROG(FLEX, flex, yes, [""])
--
+ 
 -AM_CONDITIONAL(HAVE_BISON, test xyes = x${BISON} -a xyes = x${FLEX})
 -if [[ -z "$HAVE_BISON_TRUE" ]]; then
 -RPM_BUILDREQ+=" bison"
 -RPM_BUILDREQ+=" flex"
 -fi
--
- AC_ARG_WITH([ndp],
- 	AC_HELP_STRING([--with-ndp],[Compile flow_meter with ndp library.]),
- 	[
-@@ -212,15 +156,8 @@ fi
- 
- AM_CONDITIONAL(COMPILE_FLOWMETER,  test x${libpcap} = xyes || test x${libnfb} = xyes)
  
 -AX_PROG_LUA([], [], [
 -AX_LUA_HEADERS([], [AC_MSG_WARN([lua.h not found. The luamodule module will not be compiled.])])
 -AX_LUA_LIBS([liblua=yes], AC_MSG_WARN([liblua not found. The luamodule module will not be compiled.]))
 -], [AC_MSG_WARN([lua not found. The luamodule module will not be compiled.])])
--
+ 
 -AM_CONDITIONAL(HAVE_LIBLUA, test x${liblua} = xyes)
--
+ 
  # Checks for header files.
 -AC_CHECK_HEADERS([arpa/inet.h locale.h netdb.h netinet/in.h stddef.h stdint.h stdlib.h string.h sys/socket.h sys/time.h syslog.h unistd.h omp.h])
 +AC_CHECK_HEADERS([arpa/inet.h locale.h netdb.h netinet/in.h stddef.h stdint.h stdlib.h string.h sys/socket.h sys/time.h syslog.h unistd.h])
  
  # Checks for typedefs, structures, and compiler characteristics.
  AC_HEADER_STDBOOL
-@@ -263,69 +200,17 @@ AM_CONDITIONAL(MAKE_DEB, test x$DEBUILD != x)
+@@ -225,66 +167,14 @@ AM_CONDITIONAL(MAKE_DEB, test x$DEBUILD != x)
  
  # list of all *.in (and Makefile.am) files to process by configure script
  AC_CONFIG_FILES([Makefile
@@ -205,10 +187,7 @@ index 2942a95..cae8db5 100644
 -                 device_classifier/libsvm/tools/Makefile
                   email_reporter/Makefile
                   flowcounter/Makefile
-                  flow_meter/Makefile
-                  flow_meter/flow_meter.bash
-                  flow_meter/tests/Makefile
--                 flow_meter/nfbCInterface/Makefile
+-                 flow_meter/Makefile
 -                 ipv6stats/Makefile
 -                 json_dump/Makefile
 -                 json_replay/Makefile
@@ -258,8 +237,3 @@ index 2942a95..cae8db5 100644
                 ])
  
  AC_SUBST(RPM_REQUIRES)
-@@ -358,3 +243,4 @@ echo
- echo "Installation...........: make install (as root if needed, with 'su' or 'sudo')"
- echo "  prefix...............: $prefix"
- echo
-+
