@@ -15,7 +15,7 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
     - name: Install dependencies
-      run: apt-get update; apt-get -y install build-essential git ncurses-dev 
+      run: sudo apt-get update; sudo apt-get -y install build-essential git ncurses-dev 
     - name: Run a one-line script
       run: git clone --depth 1 'https://gitlab.nic.cz/turris/turris-build' "$GITHUB_WORKSPACE"/../turris-build
     - name: Update feeds.conf for local repo
@@ -39,7 +39,7 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
     - name: Install dependencies
-      run: apt-get update; apt-get -y install build-essential git ncurses-dev wget
+      run: sudo apt-get update; sudo apt-get -y install build-essential git ncurses-dev wget
     - name: Download SDK
       run: cd ..; wget -O - "https://downloads.openwrt.org/releases/19.07.3/targets/ar71xx/generic/openwrt-sdk-19.07.3-ar71xx-generic_gcc-7.5.0_musl.Linux-x86_64.tar.xz" | tar -xzf - 
     - name: Update feeds.conf for local repo
