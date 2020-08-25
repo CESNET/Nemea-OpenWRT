@@ -39,15 +39,15 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
     - name: Install dependencies
-      run: sudo apt-get update; sudo apt-get -y install build-essential git ncurses-dev wget
+      run: sudo apt-get update; sudo apt-get -y install build-essential git ncurses-dev wget rsync
     - name: Download SDK
       run: cd ..; wget -O /dev/stdout "https://downloads.openwrt.org/releases/19.07.3/targets/ar71xx/generic/openwrt-sdk-19.07.3-ar71xx-generic_gcc-7.5.0_musl.Linux-x86_64.tar.xz" | tar -xJf - 
     - name: Update feeds.conf for local repo
-      run: cd "$GITHUB_WORKSPACE"/../openwrt-sdk-19.07.3-ar71xx-generic_gcc-7.5.0_musl.Linux-x86_64; echo "src-git cesnet $GITHUB_WORKSPACE" >> feeds.conf
-    - name: Prepare build for Turris MOX
-      run: cd "$GITHUB_WORKSPACE"/../openwrt-sdk-19.07.3-ar71xx-generic_gcc-7.5.0_musl.Linux-x86_64; ./scripts/feeds update -a; ./scripts/feeds install -p cesnet
+      run: cd "$GITHUB_WORKSPACE"/../openwrt-sdk-19.07.3-ar71xx-generic_gcc-7.5.0_musl.Linux-x86_64; echo "src-git cesnet $GITHUB_WORKSPACE" >> feeds.conf.default
+    - name: Prepare build for TPLINK Archer C7
+      run: cd "$GITHUB_WORKSPACE"/../openwrt-sdk-19.07.3-ar71xx-generic_gcc-7.5.0_musl.Linux-x86_64; ./scripts/feeds update -a; ./scripts/feeds install -a
     - name: Compile ipfixprobe package
-      run: cd "$GITHUB_WORKSPACE"/../openwrt-sdk-19.07.3-ar71xx-generic_gcc-7.5.0_musl.Linux-x86_64; make package/ipfixprobe/compile -j$(nproc)
+      run: cd "$GITHUB_WORKSPACE"/../openwrt-sdk-19.07.3-ar71xx-generic_gcc-7.5.0_musl.Linux-x86_64; make defconfig; make package/ipfixprobe/compile -j$(nproc)
     - uses: actions/upload-artifact@v2
       with:
         name: tplink-packages
