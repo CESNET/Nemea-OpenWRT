@@ -26,10 +26,12 @@ jobs:
       run: cd "$GITHUB_WORKSPACE"/../turris-build/build/; make package/ipfixprobe/compile -j$(nproc)
     - name: Compile nemea-modules package
       run: cd "$GITHUB_WORKSPACE"/../turris-build/build/; make package/nemea-modules/compile -j$(nproc)
+    - name: Collect artifacts
+      run: mkdir /tmp/mox-cesnet; cp "$GITHUB_WORKSPACE/../turris-build/build/bin/packages/aarch64_cortex-a53/cesnet"/* /tmp/mox-cesnet/ 
     - uses: actions/upload-artifact@v2
       with:
         name: turris-mox-packages
-        path: "$GITHUB_WORKSPACE/../turris-build/build/bin/packages/aarch64_cortex-a53/cesnet/"
+        path: /tmp/mox-cesnet/
   
   tplink:
     # The type of runner that the job will run on
@@ -48,7 +50,9 @@ jobs:
       run: cd "$GITHUB_WORKSPACE"/../openwrt-sdk-19.07.3-ar71xx-generic_gcc-7.5.0_musl.Linux-x86_64; ./scripts/feeds update -a; ./scripts/feeds install -a
     - name: Compile ipfixprobe package
       run: cd "$GITHUB_WORKSPACE"/../openwrt-sdk-19.07.3-ar71xx-generic_gcc-7.5.0_musl.Linux-x86_64; make defconfig; make package/ipfixprobe/compile -j$(nproc)
+    - name: Collect artifacts
+      run: mkdir /tmp/tplink-cesnet; cp "$GITHUB_WORKSPACE/../openwrt-sdk-19.07.3-ar71xx-generic_gcc-7.5.0_musl.Linux-x86_64/bin/packages/aarch64_cortex-a53/cesnet"/* /tmp/tplink-cesnet/ 
     - uses: actions/upload-artifact@v2
       with:
         name: tplink-packages
-        path: "$GITHUB_WORKSPACE/../turris-build/build/bin/packages/mips_24kc/cesnet/"
+        path: /tmp/tplink-cesnet/
