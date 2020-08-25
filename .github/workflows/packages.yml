@@ -51,7 +51,7 @@ jobs:
     - name: Compile ipfixprobe package
       run: cd "$GITHUB_WORKSPACE"/../openwrt-sdk-19.07.3-ar71xx-generic_gcc-7.5.0_musl.Linux-x86_64; make defconfig; make package/ipfixprobe/compile -j$(nproc)
     - name: Collect artifacts
-      run: mkdir /tmp/tplink-cesnet; cp "$GITHUB_WORKSPACE/../openwrt-sdk-19.07.3-ar71xx-generic_gcc-7.5.0_musl.Linux-x86_64/bin/packages/aarch64_cortex-a53/cesnet"/* /tmp/tplink-cesnet/ 
+      run: mkdir /tmp/tplink-cesnet; cp "$GITHUB_WORKSPACE/../openwrt-sdk-19.07.3-ar71xx-generic_gcc-7.5.0_musl.Linux-x86_64/bin/packages/mips_24kc/cesnet/"* /tmp/tplink-cesnet/ 
     - uses: actions/upload-artifact@v2
       with:
         name: tplink-packages
