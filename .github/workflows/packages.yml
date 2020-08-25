@@ -21,7 +21,7 @@ jobs:
     - name: Update feeds.conf for local repo
       run: cd "$GITHUB_WORKSPACE"/../turris-build; sed -i "s|^src-git cesnet.*|src-git cesnet $GITHUB_WORKSPACE|" feeds.conf
     - name: Prepare build for Turris MOX
-      run: ./compile_pkgs prepare_tools -t mox
+      run: cd "$GITHUB_WORKSPACE"/../turris-build; ./compile_pkgs prepare_tools -t mox
     - name: Compile ipfixprobe package
       run: cd "$GITHUB_WORKSPACE"/../turris-build/build/; make package/ipfixprobe/compile -j$(nproc)
     - name: Compile nemea-modules package
@@ -41,7 +41,7 @@ jobs:
     - name: Install dependencies
       run: sudo apt-get update; sudo apt-get -y install build-essential git ncurses-dev wget
     - name: Download SDK
-      run: cd ..; wget -O - "https://downloads.openwrt.org/releases/19.07.3/targets/ar71xx/generic/openwrt-sdk-19.07.3-ar71xx-generic_gcc-7.5.0_musl.Linux-x86_64.tar.xz" | tar -xzf - 
+      run: cd ..; wget -O /dev/stdout "https://downloads.openwrt.org/releases/19.07.3/targets/ar71xx/generic/openwrt-sdk-19.07.3-ar71xx-generic_gcc-7.5.0_musl.Linux-x86_64.tar.xz" | tar -xJf - 
     - name: Update feeds.conf for local repo
       run: cd "$GITHUB_WORKSPACE"/../openwrt-sdk-19.07.3-ar71xx-generic_gcc-7.5.0_musl.Linux-x86_64; echo "src-git cesnet $GITHUB_WORKSPACE" >> feeds.conf
     - name: Prepare build for Turris MOX
