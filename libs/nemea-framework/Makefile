@@ -16,8 +16,8 @@ $(call include_mk, python3-host.mk)
 endif
 
 PKG_NAME:=nemea-framework
-PKG_REV:=41d663c
-PKG_VERSION:=2.1.0
+PKG_REV:=055a202
+PKG_VERSION:=2.1.1
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git

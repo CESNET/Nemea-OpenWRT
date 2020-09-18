@@ -31,7 +31,7 @@ define Package/luci-app-ipfixprobe
 	TITLE:=IPFIX exporter profiles
 	URL:=https://github.com/CESNET/NEMEA-OpenWrt
 	MAINTAINER:=Tomas Cejka <cejkat@cesnet.cz>
-	DEPENDS:=+ipfixprobe +luci-base
+	DEPENDS:=+ipfixprobe +luci-base +luci-compat
 endef
 
 define Package/luci-app-ipfixprobe/description

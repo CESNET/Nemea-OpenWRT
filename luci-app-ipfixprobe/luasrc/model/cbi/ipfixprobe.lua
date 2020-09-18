@@ -20,12 +20,22 @@ end
 pl = s:option(MultiValue, "plugins", translate("List of plugins"))
 pl:value("basic", "Basic")
 pl:value("http", "HTTP")
-pl:value("https", "HTTPS")
+pl:value("tls", "TLS")
 pl:value("smtp", "SMTP")
 pl:value("sip", "SIP")
 pl:value("ntp", "NTP")
+pl:value("rtsp", "RTSP")
+pl:value("dns", "DNS")
+pl:value("arp", "ARP")
+pl:value("passivedns", "Passive DNS (dumped DNS data)")
+pl:value("pstats", "PSTATS (Per-Packet-Information)")
+pl:value("ssdp", "SSDP")
+pl:value("dnssd", "DNS-Service Discovery")
+pl:value("dnssd:txt", "DNS-Service Discovery with extexded TXT")
+pl:value("ovpn", "OpenVPN")
+
 pl.delimiter = ","
-pl.default = "basic"
+pl.default = "basic,pstats"
 pl.rmempty = false
 
 link = s:option(Value, "link", translate("Observation ID"), translate("Identification of link"))

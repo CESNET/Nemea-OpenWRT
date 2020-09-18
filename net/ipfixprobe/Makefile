@@ -9,15 +9,15 @@ include $(TOPDIR)/rules.mk
 
 
 PKG_NAME:=ipfixprobe
-PKG_REV:=523d1218ba0fcd331ef00bd5869432cda299d86c
+PKG_REV:=f2b7fc1
 
-PKG_VERSION:=1.0
+PKG_VERSION:=2.17.1
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_VERSION:=$(PKG_REV)
 PKG_SOURCE_SUBDIR:=ipfixprobe-$(PKG_VERSION)
-PKG_SOURCE_URL:=https://github.com/CESNET/NEMEA-probe
+PKG_SOURCE_URL:=https://github.com/CESNET/ipfixprobe
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_REV).tar.gz
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 
@@ -40,9 +40,9 @@ define Package/ipfixprobe
   SECTION:=net
   CATEGORY:=Network
   #SUBMENU:=P4_exporter
-  DEPENDS:=+libpcap
-  TITLE:=P4 generated IPFIX exporter
-  URL:=https://github.com/CESNET/NEMEA-probe
+  DEPENDS:=+libpcap +libstdcpp
+  TITLE:=IPFIX flow exporter
+  URL:=https://github.com/CESNET/ipfixprobe
   MENU:=1
 endef
 
@@ -54,24 +54,10 @@ define Package/conffiles/ipfixprobe
 /etc/config/ipfixprobe
 endef
 
-TARGET_CFLAGS += \
-	-ffunction-sections \
-	-fdata-sections
-
-CONFIGURE_VARS += \
-	ac_cv_linux_vers=$(LINUX_VERSION) \
-	ac_cv_header_libusb_1_0_libusb_h=no \
-	ac_cv_netfilter_can_compile=no
-
 CONFIGURE_ARGS += \
 	--enable-shared \
 	--enable-static \
-   --disable-silent-rules \
-	--with-build-cc="$(HOSTCC)" \
-	--with-flowcachesize=$(CONFIG_IPFIXPROBE_FLOW_CACHE_SIZE)
-
-MAKE_FLAGS += \
-	CCOPT="$(TARGET_CFLAGS) -I$(BUILD_DIR)/linux/include"
+	--disable-silent-rules
 
 define Build/Configure
 	$(call Build/Configure/Default)
