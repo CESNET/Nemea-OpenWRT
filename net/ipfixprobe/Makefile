@@ -12,7 +12,7 @@ PKG_NAME:=ipfixprobe
 PKG_REV:=f2b7fc1
 
 PKG_VERSION:=2.17.1
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_VERSION:=$(PKG_REV)
@@ -64,8 +64,8 @@ define Build/Configure
 endef
 
 define Package/ipfixprobe/install
-	$(INSTALL_DIR) $(1)/usr/bin/
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/ipfixprobe $(1)/usr/bin/ipfixprobe
+	$(INSTALL_DIR) $(1)/usr/bin/nemea
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/ipfixprobe $(1)/usr/bin/nemea/ipfixprobe
 
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) ./files/init.d/ipfixprobe $(1)/etc/init.d/
