@@ -19,7 +19,7 @@ STOP=50
 
 USE_PROCD=1
 
-CONFIG_FILE=ipfixprobe
+CONF_FILE=/etc/config/ipfixprobe
 BIN_FILE=/usr/bin/ipfixprobe
 
 . /lib/functions.sh
@@ -60,7 +60,7 @@ start_profile()
 
 start_service()
 {
-   config_load "$CONFIG_FILE"
+   config_load "$CONF_FILE"
 
    if [ $# -eq 0 ]; then
       # start all (enabled) profiles
