@@ -9,9 +9,9 @@ include $(TOPDIR)/rules.mk
 
 
 PKG_NAME:=ipfixprobe
-PKG_REV:=5f7541f
+PKG_REV:=867b5ad
 
-PKG_VERSION:=2.18.0
+PKG_VERSION:=3.0.0
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
