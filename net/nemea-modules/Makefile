@@ -139,7 +139,7 @@ define Package/nemea-supervisorl/install
 	$(INSTALL_DATA) ./files/config/nemea-supervisor $(1)/etc/config/nemea-supervisor
 endef
 
-define Package/conffiles/nemea-supervisorl
+define Package/nemea-supervisorl/conffiles
 /etc/config/nemea-supervisor
 endef
 

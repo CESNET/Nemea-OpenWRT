@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 
 PKG_NAME:=ipfixprobe
-PKG_REV:=867b5ad
+PKG_REV:=7e49839
 
 PKG_VERSION:=3.0.0
 PKG_RELEASE:=1
@@ -50,7 +50,7 @@ define Package/ipfixprobe/config
 	source "$(SOURCE)/Config.in"
 endef
 
-define Package/conffiles/ipfixprobe
+define Package/ipfixprobe/conffiles
 /etc/config/ipfixprobe
 endef
 
