@@ -1,4 +1,4 @@
-# ipfixprobe, P4 generated exporter
+# ipfixprobe, IPFIX flow exporter
 # Copyright (C) 2019 CESNET
 
 #
@@ -15,7 +15,7 @@
 #     respawn_retry     - maximum number of times to attempt respawning before giving up, 0 means newer stop trying to respawn
 #     core              - size of generated core file, "0" - don't generate file, "unlimited" - unlimited file size
 #     enabled           - enable start daemon instance for that profile, NOTE: if profile is directly specified for start script
-#                         (example: '/etc/init.d/flow_meter start wan profileX profileY lan'), this option is ignored
+#                         (example: '/etc/init.d/ipfixprobe start wan profileX profileY lan'), this option is ignored
 #
 
 config profile lan

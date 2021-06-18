@@ -1,5 +1,5 @@
 #!/bin/sh /etc/rc.common
-# ipfixprobe, P4 generated exporter
+# ipfixprobe, IPFIX flow exporter
 # Copyright (C) 2019 CESNET
 
 #
