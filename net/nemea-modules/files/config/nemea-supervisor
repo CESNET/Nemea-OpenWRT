@@ -14,7 +14,7 @@
 #
 
 config module ipfixprobe
-	option path /usr/bin/nemea/ipfixprobe
+	option path /usr/bin/ipfixprobe
 	option params "-x 192.168.0.2:4739 -u -p basic,http,dns -L 1 -D 0 -I br-lan"
 	option respawn 1
 	option respawn_threshold 3600
