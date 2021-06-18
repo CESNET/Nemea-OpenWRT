@@ -2,7 +2,7 @@
 
 ## Description
 
-This guide describes how to report flow_meter statistics by munin client on openwrt.
+This guide describes how to report ipfixprobe statistics by munin client on openwrt.
 
 ## muninlite client
 
@@ -11,7 +11,7 @@ Download and [install](https://trent.utfs.org/wiki/OpenWRT#muninlite) muninlite 
 ```
 flow_print_config() {
   echo "graph_title captured flow ${PROFILE}"
-  FLOW_PLUGINS="basic http https smtp passivedns dns ntp sip arp"
+  FLOW_PLUGINS="basic http tls smtp sip ntp rtsp dns passivedns pstats ssdp dnssd ovpn idpcontent netbios bstats phists wg"
 
   echo -n "graph_order"
     for i in ${FLOW_PLUGINS:-basic}; do
@@ -21,7 +21,7 @@ flow_print_config() {
 
   echo "graph_args --base 1000 --lower-limit 0"
   echo "graph_vlabel number of flows"
-  echo "graph_info This graph shows number of captured flows by flow_meter module with profile ${PROFILE}."
+  echo "graph_info This graph shows number of captured flows by ipfixprobe with profile ${PROFILE}."
   echo "graph_category network"
 
   for i in ${FLOW_PLUGINS:-basic}; do
@@ -34,9 +34,9 @@ flow_print_config() {
 }
 
 flow_print_values() {
-  for i in `pgrep flow_meter`; do
+  for i in `pgrep ipfixprobe`; do
     /usr/bin/nemea/trap_stats -s /tmp/trap-*_${i}.sock -1 | tail -n +3 | \
-        sed 's/^[\t ]*ID: [^,]*'${PROFILE}'\/\(basic\|http\|dns\|sip\|ntp\|arp\)[^,]*,/ID: \1,/; tx; d; :x; s/ //g' | \
+        sed 's/^[\t ]*ID: [^,]*'${PROFILE}'\/\(basic\|http\|tls\|smtp\|sip\|ntp\|rtsp\|dns\|passivedns\|pstats\|ssdp\|dnssd\|ovpn\|idpcontent\|netbios\|bstats\|phists\|wg\)[^,]*,/ID: \1,/; tx; d; :x; s/ //g' | \
         awk -F, '{split($1,arr,":"); fld=arr[2]; split($4,arr,":"); printf("%s.value %s\n", fld, arr[2]);}'
   done
 }
@@ -66,7 +66,7 @@ fetch_flow_lan() {
 }
 ```
 
-add `flow_wan flow_lan` to the `PLUGINS` variable. Munin node should report data about `lan` and `wan` flow_meter profiles.
+add `flow_wan flow_lan` to the `PLUGINS` variable. Munin node should report data about `lan` and `wan` ipfixprobe profiles.
 
 ## Other clients
 
