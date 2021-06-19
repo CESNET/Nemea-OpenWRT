@@ -39,7 +39,6 @@ include $(INCLUDE_DIR)/package.mk
 define Package/ipfixprobe
   SECTION:=net
   CATEGORY:=Network
-  #SUBMENU:=P4_exporter
   DEPENDS:=+libpcap +libstdcpp
   TITLE:=IPFIX flow exporter
   URL:=https://github.com/CESNET/ipfixprobe

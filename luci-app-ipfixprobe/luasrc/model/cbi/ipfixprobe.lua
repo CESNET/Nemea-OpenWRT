@@ -26,13 +26,17 @@ pl:value("sip", "SIP")
 pl:value("ntp", "NTP")
 pl:value("rtsp", "RTSP")
 pl:value("dns", "DNS")
-pl:value("arp", "ARP")
 pl:value("passivedns", "Passive DNS (dumped DNS data)")
 pl:value("pstats", "PSTATS (Per-Packet-Information)")
 pl:value("ssdp", "SSDP")
 pl:value("dnssd", "DNS-Service Discovery")
 pl:value("dnssd:txt", "DNS-Service Discovery with extexded TXT")
 pl:value("ovpn", "OpenVPN")
+pl:value("idpcontent", "IDPCONTENT (initial data packets content)")
+pl:value("netbios", "Netbios")
+pl:value("bstats", "BSTATS (burst packet stats)")
+pl:value("phists", "PHISTS (packet histograms - payload sizes and interpacket times)")
+pl:value("wg", "WireGuard")
 
 pl.delimiter = ","
 pl.default = "basic,pstats"

@@ -94,8 +94,7 @@ CONFIGURE_ARGS += \
 	--enable-shared \
 	--enable-static \
 	LIBS=-lm --bindir=/usr/bin/nemea --disable-silent-rules \
-	--with-build-cc="$(HOSTCC)" \
-	--with-flowcachesize=$(CONFIG_NEMEA_FLOW_CACHE_SIZE)
+	--with-build-cc="$(HOSTCC)"
 
 MAKE_FLAGS += \
 	CCOPT="$(TARGET_CFLAGS) -I$(BUILD_DIR)/linux/include"

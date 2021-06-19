@@ -1,7 +1,8 @@
 #!/bin/sh
 
 PROFILE="lan"
-FLOW_PLUGINS="basic http https smtp passivedns dns ntp sip arp"
+FLOW_PLUGINS="basic http tls smtp sip ntp rtsp dns passivedns pstats ssdp dnssd ovpn idpcontent netbios bstats phists wg"
+
 
 if [ "$1" == "config" ]; then
   echo "graph_title captured flow ${PROFILE}"
@@ -14,7 +15,7 @@ if [ "$1" == "config" ]; then
 
   echo "graph_args --base 1000 --lower-limit 0"
   echo "graph_vlabel number of flows"
-  echo "graph_info This graph shows number of captured flows by flow_meter module with profile ${PROFILE}."
+  echo "graph_info This graph shows number of captured flows by ipfixprobe with profile ${PROFILE}."
   echo "graph_category network"
 
   for i in ${FLOW_PLUGINS:-basic}; do
@@ -26,8 +27,8 @@ if [ "$1" == "config" ]; then
   done
 fi
 
-for i in `pgrep flow_meter`; do
+for i in `pgrep ipfixprobe`; do
  /usr/bin/nemea/trap_stats -s /tmp/trap-*_${i}.sock -1 | tail -n +3 | \
-     sed 's/^[\t ]*ID: [^,]*'${PROFILE}'\/\(basic\|http\|dns\|sip\|ntp\|arp\)[^,]*,/ID: \1,/; tx; d; :x; s/ //g' | \
+     sed 's/^[\t ]*ID: [^,]*'${PROFILE}'\/\(basic\|http\|tls\|smtp\|sip\|ntp\|rtsp\|dns\|passivedns\|pstats\|ssdp\|dnssd\|ovpn\|idpcontent\|netbios\|bstats\|phists\|wg\)[^,]*,/ID: \1,/; tx; d; :x; s/ //g' | \
      awk -F, '{split($1,arr,":"); fld=arr[2]; split($4,arr,":"); printf("%s.value %s\n", fld, arr[2]);}'
 done
