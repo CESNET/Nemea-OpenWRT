@@ -1,35 +1,18 @@
-#
-# Copyright (C) 2006-2013 OpenWrt.org
-#
-# This is free software, licensed under the GNU General Public License v2.
-# See /LICENSE for more information.
-#
-
 include $(TOPDIR)/rules.mk
 
-
-PKG_NAME:=nemea-modules
-PKG_REV:=3abc31d
-PKG_VERSION:=20-08.19
+PKG_NAME:=namea-modules
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_VERSION:=$(PKG_REV)
-PKG_SOURCE_SUBDIR:=nemea-modules-$(PKG_VERSION)
-PKG_SOURCE_URL:=https://github.com/CESNET/nemea-modules
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_REV).tar.gz
-PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
-
-PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
-
-PKG_FIXUP:=autoreconf
-
-
-PKG_LICENSE:=GPLv2
-PKG_LICENSE_FILES:=COPYING
+PKG_SOURCE_URL:=https://github.com/CESNET/nemea-modules.git
+PKG_SOURCE_DATE:=2020-09-20
+PKG_SOURCE_VERSION:=996c3353050320470004e11977c68f26367e02bc
+PKG_MIRROR_HASH:=3de5cd13d61620b6f6aca8a2a78e0f1b293ea52ad0081b2b2903d4f56a27c3f3
 
 PKG_MAINTAINER:=Tomas Cejka <cejkat@cesnet.cz>
+PKG_LICENSE:=BSD-3-Clause
 
+PKG_FIXUP:=autoreconf
 PKG_INSTALL:=1
 PKG_BUILD_PARALLEL:=1
 
@@ -42,43 +25,48 @@ define Package/nemea-modules/Default
   DEPENDS:=+nemea-framework +libpthread +librt
   TITLE:=NEMEA module
   URL:=https://github.com/CESNET/nemea-modules
-  MENU:=1
 endef
 
 define Package/nemea-logreplay
 	$(call Package/nemea-modules/Default)
 	TITLE+=logreplay
-	DEPENDS+= +libstdcpp
+	DEPENDS+=+libstdcpp
 endef
+
 define Package/nemea-flowcounter
 	$(call Package/nemea-modules/Default)
 	TITLE+=flowcounter
 endef
+
 define Package/nemea-traffic_repeater
 	$(call Package/nemea-modules/Default)
 	TITLE+=traffic_repeater
 endef
+
 define Package/nemea-topn
 	$(call Package/nemea-modules/Default)
 	TITLE+=topn
 endef
+
 define Package/nemea-logger
 	$(call Package/nemea-modules/Default)
 	TITLE+=logger
 endef
+
 define Package/nemea-merger
 	$(call Package/nemea-modules/Default)
 	TITLE+=merger
 endef
+
 define Package/nemea-email_reporter
 	$(call Package/nemea-modules/Default)
 	TITLE+=email_reporter
-	DEPENDS+=+python3 +nemea-pytrap
+	DEPENDS+=+python3 +python3-nemea-pytrap
 endef
+
 define Package/nemea-supervisorl
 	$(call Package/nemea-modules/Default)
 	TITLE+=supervisorl
-	DEPENDS=
 endef
 
 TARGET_CFLAGS += \
@@ -135,7 +123,7 @@ define Package/nemea-supervisorl/install
 	$(INSTALL_DIR) $(1)/etc/init.d/
 	$(INSTALL_DIR) $(1)/etc/config/
 	$(INSTALL_BIN) ./files/init.d/nemea-supervisorl $(1)/etc/init.d/
-	$(INSTALL_DATA) ./files/config/nemea-supervisor $(1)/etc/config/nemea-supervisor
+	$(INSTALL_CONF) ./files/config/nemea-supervisor $(1)/etc/config/nemea-supervisor
 endef
 
 define Package/nemea-supervisorl/conffiles
