@@ -56,7 +56,8 @@ endef
 CONFIGURE_ARGS += \
 	--enable-shared \
 	--enable-static \
-	--disable-silent-rules
+	--disable-silent-rules \
+	--with-flowcachesize=$(CONFIG_IPFIXPROBE_FLOW_CACHE_SIZE)
 
 define Build/Configure
 	$(call Build/Configure/Default)
