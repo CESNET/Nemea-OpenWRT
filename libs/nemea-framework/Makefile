@@ -16,8 +16,8 @@ $(call include_mk, python3-host.mk)
 endif
 
 PKG_NAME:=nemea-framework
-PKG_REV:=055a202
-PKG_VERSION:=2.1.1
+PKG_REV:=e4cf87e
+PKG_VERSION:=2.1.2
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
@@ -58,17 +58,6 @@ endef
 define Package/nemea-framework/config
 	source "$(SOURCE)/Config.in"
 endef
-
-TARGET_CFLAGS += \
-	-ffunction-sections \
-	-fdata-sections \
-	--std=gnu99
-
-CONFIGURE_VARS += \
-	ac_cv_linux_vers=$(LINUX_VERSION) \
-	ac_cv_header_libusb_1_0_libusb_h=no \
-	ac_cv_netfilter_can_compile=no
-
 
 CONFIGURE_ARGS += \
 	--enable-shared \
