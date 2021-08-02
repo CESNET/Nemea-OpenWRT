@@ -9,8 +9,8 @@ include $(TOPDIR)/rules.mk
 
 
 PKG_NAME:=nemea-modules
-PKG_REV:=3abc31d
-PKG_VERSION:=20-08.19
+PKG_REV:=baddf92
+PKG_VERSION:=21-07.29
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
@@ -80,15 +80,6 @@ define Package/nemea-supervisorl
 	TITLE+=supervisorl
 	DEPENDS=
 endef
-
-TARGET_CFLAGS += \
-	-ffunction-sections \
-	-fdata-sections
-
-CONFIGURE_VARS += \
-	ac_cv_linux_vers=$(LINUX_VERSION) \
-	ac_cv_header_libusb_1_0_libusb_h=no \
-	ac_cv_netfilter_can_compile=no
 
 CONFIGURE_ARGS += \
 	--enable-shared \
