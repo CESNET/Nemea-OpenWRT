@@ -9,9 +9,9 @@ include $(TOPDIR)/rules.mk
 
 
 PKG_NAME:=ipfixprobe
-PKG_REV:=7fbe77a
+PKG_REV:=cb9411d
 
-PKG_VERSION:=3.2.0
+PKG_VERSION:=4.4.0
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
@@ -39,7 +39,7 @@ include $(INCLUDE_DIR)/package.mk
 define Package/ipfixprobe
   SECTION:=net
   CATEGORY:=Network
-  DEPENDS:=+libpcap +libstdcpp
+  DEPENDS:=+libstdcpp +libatomic +libopenssl
   TITLE:=IPFIX flow exporter
   URL:=https://github.com/CESNET/ipfixprobe
   MENU:=1
