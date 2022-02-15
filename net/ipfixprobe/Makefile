@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 
 PKG_NAME:=ipfixprobe
-PKG_REV:=cb9411d
+PKG_REV:=2b0568d
 
 PKG_VERSION:=4.4.0
 PKG_RELEASE:=1
