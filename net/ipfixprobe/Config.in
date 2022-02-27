@@ -2,6 +2,6 @@ menu "Configuration"
    config IPFIXPROBE_FLOW_CACHE_SIZE
       int "Flow cache size"
       help
-         Set size of flow cache in number of flow records. Default is 8192.
-      default 8192
+         Set default size of flow cache as an exponent to the power of 2 number. Default is 14.
+      default 14
 endmenu
