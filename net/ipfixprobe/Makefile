@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ipfixprobe
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/CESNET/ipfixprobe.git
@@ -21,7 +21,7 @@ include $(INCLUDE_DIR)/package.mk
 define Package/ipfixprobe
   SECTION:=net
   CATEGORY:=Network
-  DEPENDS:=+libstdcpp +libatomic +libopenssl
+  DEPENDS:=+libstdcpp +libatomic +IPFIXPROBE_QUIC:libopenssl +IPFIXPROBE_PCAP:libpcap +IPFIXPROBE_NEMEA:nemea-framework
   TITLE:=IPFIX flow exporter
   URL:=https://github.com/CESNET/ipfixprobe
 endef
@@ -44,12 +44,20 @@ CONFIGURE_ARGS += \
 	--enable-shared \
 	--enable-static \
 	--disable-silent-rules \
-	--with-flowcachesize=$(CONFIG_IPFIXPROBE_FLOW_CACHE_SIZE)
+	--with-flowcachesize=$(CONFIG_IPFIXPROBE_FLOW_CACHE_SIZE) \
+	--with-flowlinesize=$(CONFIG_IPFIXPROBE_FLOW_CACHELINE_SIZE)
 
+ifeq ($(CONFIG_IPFIXPROBE_PCAP),y)
+  CONFIGURE_ARGS += --with-pcap
+endif
 
-define Build/Configure
-	$(call Build/Configure/Default)
-endef
+ifeq ($(CONFIG_IPFIXPROBE_QUIC),y)
+  CONFIGURE_ARGS += --with-quic
+endif
+
+ifeq ($(CONFIG_IPFIXPROBE_NEMEA),y)
+  CONFIGURE_ARGS += --with-nemea
+endif
 
 define Package/ipfixprobe/install
 	$(INSTALL_DIR) $(1)/usr/bin/
@@ -63,3 +71,4 @@ define Package/ipfixprobe/install
 endef
 
 $(eval $(call BuildPackage,ipfixprobe))
+

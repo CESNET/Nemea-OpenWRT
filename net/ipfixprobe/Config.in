@@ -1,7 +1,32 @@
-menu "Configuration"
+menu "Flow cache configuration"
    config IPFIXPROBE_FLOW_CACHE_SIZE
       int "Flow cache size"
       help
          Set default size of flow cache as an exponent to the power of 2 number. Default is 14.
       default 14
+   config IPFIXPROBE_FLOW_CACHELINE_SIZE
+      int "Flow cache line size"
+      help
+         Set default size of flow line, accept exponent to the power of 2 number. Default is 2.
+      default 2
+endmenu
+menu "Plugins"
+   config IPFIXPROBE_PCAP
+      bool "Enable PCAP (requires libpcap)"
+      depends on PACKAGE_ipfixprobe
+      help
+         Enable pcap input plugin to load PCAP files and capture on NIC. There is "raw" input plugin available by default.
+      default n
+   config IPFIXPROBE_QUIC
+      bool "Enable QUIC processing plugin (requires libopenssl)"
+      depends on PACKAGE_ipfixprobe
+      help
+         Enable QUIC plugin to decrypt the protocol header and export information.
+      default y
+   config IPFIXPROBE_NEMEA
+      bool "Enable UniRec output plugin (requires NEMEA)"
+      depends on PACKAGE_ipfixprobe
+      help
+         Enable UniRec plugin to export IP flows via NEMEA (TRAP) interface in UniRec format.
+      default n
 endmenu
