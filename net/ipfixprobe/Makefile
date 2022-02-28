@@ -1,36 +1,18 @@
-#
-# Copyright (C) 2006-2013 OpenWrt.org
-#
-# This is free software, licensed under the GNU General Public License v2.
-# See /LICENSE for more information.
-#
-
 include $(TOPDIR)/rules.mk
 
-
 PKG_NAME:=ipfixprobe
-PKG_REV:=7fbe77a
-
-PKG_VERSION:=3.2.0
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_VERSION:=$(PKG_REV)
-PKG_SOURCE_SUBDIR:=ipfixprobe-$(PKG_VERSION)
-PKG_SOURCE_URL:=https://github.com/CESNET/ipfixprobe
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_REV).tar.gz
-PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
-
-PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
-
-PKG_FIXUP:=autoreconf
-
-
-PKG_LICENSE:=GPLv2
-PKG_LICENSE_FILES:=COPYING
+PKG_SOURCE_URL:=https://github.com/CESNET/ipfixprobe.git
+PKG_SOURCE_DATE:=2021-07-28
+PKG_SOURCE_VERSION:=2b0568da5731c571dbb0182aed7c2374c764c27d
+PKG_MIRROR_HASH:=1dec3f72153807d793004fd8d3b34bcd9c1ec99f3d41cc9e01937459ff086bd5
 
 PKG_MAINTAINER:=Tomas Cejka <cejkat@cesnet.cz>
+PKG_LICENSE:=BSD-3-Clause
 
+PKG_FIXUP:=autoreconf
 PKG_INSTALL:=1
 PKG_BUILD_PARALLEL:=1
 
@@ -39,10 +21,15 @@ include $(INCLUDE_DIR)/package.mk
 define Package/ipfixprobe
   SECTION:=net
   CATEGORY:=Network
-  DEPENDS:=+libpcap +libstdcpp
+  DEPENDS:=+libstdcpp +libatomic +IPFIXPROBE_QUIC:libopenssl +IPFIXPROBE_PCAP:libpcap +IPFIXPROBE_NEMEA:nemea-framework
   TITLE:=IPFIX flow exporter
   URL:=https://github.com/CESNET/ipfixprobe
-  MENU:=1
+endef
+
+define Package/ipfixprobe/description
+  The ipfixprobe tool is a flow exporter that creates bi-directional IP flows (biflows) from packets captured via network interface
+  and and exports them to IPFIX flow collector. It is capable of plugins to enrich IPFIX data with application information and statistics
+  of network communication - connections.
 endef
 
 define Package/ipfixprobe/config
@@ -56,11 +43,21 @@ endef
 CONFIGURE_ARGS += \
 	--enable-shared \
 	--enable-static \
-	--disable-silent-rules
+	--disable-silent-rules \
+	--with-flowcachesize=$(CONFIG_IPFIXPROBE_FLOW_CACHE_SIZE) \
+	--with-flowlinesize=$(CONFIG_IPFIXPROBE_FLOW_CACHELINE_SIZE)
 
-define Build/Configure
-	$(call Build/Configure/Default)
-endef
+ifeq ($(CONFIG_IPFIXPROBE_PCAP),y)
+  CONFIGURE_ARGS += --with-pcap
+endif
+
+ifeq ($(CONFIG_IPFIXPROBE_QUIC),y)
+  CONFIGURE_ARGS += --with-quic
+endif
+
+ifeq ($(CONFIG_IPFIXPROBE_NEMEA),y)
+  CONFIGURE_ARGS += --with-nemea
+endif
 
 define Package/ipfixprobe/install
 	$(INSTALL_DIR) $(1)/usr/bin/
@@ -70,7 +67,8 @@ define Package/ipfixprobe/install
 	$(INSTALL_BIN) ./files/init.d/ipfixprobe $(1)/etc/init.d/
 
 	$(INSTALL_DIR) $(1)/etc/config
-	$(INSTALL_DATA) ./files/config/ipfixprobe $(1)/etc/config/
+	$(INSTALL_CONF) ./files/config/ipfixprobe $(1)/etc/config/
 endef
 
 $(eval $(call BuildPackage,ipfixprobe))
+
