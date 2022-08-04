@@ -5,9 +5,9 @@ PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/CESNET/ipfixprobe.git
-PKG_SOURCE_DATE:=2022-03-18
-PKG_SOURCE_VERSION:=254d2c22920a864fd48923206ea28064f1230f55
-PKG_MIRROR_HASH:=2c5eb139d1669a9576a8ee3a047ab1abc1308f0ba564bc26306f2ed7bb6ca190
+PKG_SOURCE_DATE:=2022-08-05
+PKG_SOURCE_VERSION:=7ab7b0b672007310c939d00fbc278ac3fb008a78
+PKG_MIRROR_HASH:=30f9fdd7454955015fc92be62b01efcb9bc086dae648cdb8ab43f9b116f16c5e
 
 PKG_MAINTAINER:=Tomas Cejka <cejkat@cesnet.cz>
 PKG_LICENSE:=BSD-3-Clause
@@ -62,6 +62,7 @@ endif
 define Package/ipfixprobe/install
 	$(INSTALL_DIR) $(1)/usr/bin/
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/ipfixprobe $(1)/usr/bin/ipfixprobe
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/ipfixprobe_stats $(1)/usr/bin/ipfixprobe_stats
 
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) ./files/init.d/ipfixprobe $(1)/etc/init.d/
