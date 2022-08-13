@@ -4,7 +4,7 @@ on:
   push:
     branches: '*'
   pull_request:
-    branches: '*'
+    branches: 'master'
 
 jobs:
   turris_mox:
@@ -18,13 +18,13 @@ jobs:
     - name: Install dependencies
       run: sudo apt-get update; sudo apt-get -y install build-essential git ncurses-dev 
     - name: Run a one-line script
-      run: git clone -b v5.3.5 --depth 1 'https://gitlab.nic.cz/turris/turris-build' "$GITHUB_WORKSPACE"/../turris-build
+      run: git clone -b v5.4.0 --depth 1 'https://gitlab.nic.cz/turris/turris-build' "$GITHUB_WORKSPACE"/../turris-build
     - name: Update feeds.conf for local repo
       run: cd "$GITHUB_WORKSPACE"/../turris-build; sed -i "s|^src-git cesnet.*|src-git cesnet $GITHUB_WORKSPACE|" feeds.conf
     - name: Prepare build for Turris MOX
       run: cd "$GITHUB_WORKSPACE"/../turris-build; ./compile_pkgs prepare_tools -t mox
     - name: Compile ipfixprobe package
-      run: cd "$GITHUB_WORKSPACE"/../turris-build/build/; make package/ipfixprobe/compile -j$(nproc)
+      run: cd "$GITHUB_WORKSPACE"/../turris-build/build/; make package/luci-app-ipfixprobe/compile -j$(nproc)
     - name: Compile nemea-modules package
       run: cd "$GITHUB_WORKSPACE"/../turris-build/build/; make package/nemea-modules/compile -j$(nproc)
     - name: Collect artifacts
@@ -45,13 +45,13 @@ jobs:
     - name: Install dependencies
       run: sudo apt-get update; sudo apt-get -y install build-essential git ncurses-dev wget rsync
     - name: Download SDK
-      run: cd ..; wget -O /dev/stdout "https://downloads.openwrt.org/releases/21.02.2/targets/ath79/generic/openwrt-sdk-21.02.2-ath79-generic_gcc-8.4.0_musl.Linux-x86_64.tar.xz" | tar -xJf -
+      run: cd ..; wget -O /dev/stdout "https://downloads.openwrt.org/releases/21.02.3/targets/ath79/generic/openwrt-sdk-21.02.3-ath79-generic_gcc-8.4.0_musl.Linux-x86_64.tar.xz" | tar -xJf -
     - name: Update feeds.conf for local repo
       run: cd "$GITHUB_WORKSPACE"/../openwrt-sdk-*-generic_gcc-*_musl.Linux-x86_64; echo "src-git cesnet $GITHUB_WORKSPACE" >> feeds.conf.default
     - name: Prepare build for TPLINK Archer C7
       run: cd "$GITHUB_WORKSPACE"/../openwrt-sdk-*-generic_gcc-*_musl.Linux-x86_64; ./scripts/feeds update -a; ./scripts/feeds install -a
     - name: Compile ipfixprobe package
-      run: cd "$GITHUB_WORKSPACE"/../openwrt-sdk-*-generic_gcc-*_musl.Linux-x86_64; make defconfig; make package/ipfixprobe/compile -j$(nproc)
+      run: cd "$GITHUB_WORKSPACE"/../openwrt-sdk-*-generic_gcc-*_musl.Linux-x86_64; make defconfig; make package/luci-app-ipfixprobe/compile -j$(nproc)
     - name: Collect artifacts
       run: mkdir /tmp/tplink-cesnet; cp "$GITHUB_WORKSPACE"/../openwrt-sdk-*-generic_gcc-*_musl.Linux-x86_64/bin/packages/mips_24kc/cesnet/* /tmp/tplink-cesnet/
     - uses: actions/upload-artifact@v2
