@@ -23,7 +23,7 @@ jobs:
       run: cd "$GITHUB_WORKSPACE"/../turris-build; sed -i "s|^src-git cesnet.*|src-git cesnet $GITHUB_WORKSPACE|" feeds.conf
     - name: Prepare build for Turris MOX
       run: cd "$GITHUB_WORKSPACE"/../turris-build; ./compile_pkgs prepare_tools -t mox
-    - name: Compile ipfixprobe package
+    - name: Compile luci-app-ipfixprobe package
       run: cd "$GITHUB_WORKSPACE"/../turris-build/build/; make package/luci-app-ipfixprobe/compile -j$(nproc)
     - name: Compile nemea-modules package
       run: cd "$GITHUB_WORKSPACE"/../turris-build/build/; make package/nemea-modules/compile -j$(nproc)
