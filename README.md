@@ -2,18 +2,25 @@
 
 ## Description
 
-This is an OpenWrt package feed containing [NEMEA system](https://github.com/CESNET/Nemea) components and [IPFIX exporter](https://github.com/CESNET/ipfixprobe) for exporting flow data.
+This is an OpenWrt package feed containing primarily
+[ipfixprobe](https://github.com/CESNET/ipfixprobe) IP flow exporter (monitoring
+probe) and some [NEMEA system](https://github.com/CESNET/NEMEA) components to
+process the flow data.
+
+The big picture is shown in the following figure. OpenWrt devices/routers can
+be deployed as monitoring probes that aggregate information about flowing
+packets and extract useful information for monitoring and analysis systems. The
+output of ipfixprobe running on the OpenWrt device are IP flow data that can be
+exported in IPFIX data format and sent to a flow collector (storage, analysis,
+intrusion/anomaly detection, visualization).
 
 ![Infrastructure with NEMEA and OpenWRT router](doc/openwrt-scheme.png)
 
-The figure above shows OpenWRT router with running NEMEA flow exporter [ipfixprobe](https://github.com/CESNET/ipfixprobe/tree/master).
-Since OpenWRT routers usually use big-endian architecture, it is necessary to use a special module [endiverter](https://github.com/CESNET/Nemea-Modules/tree/master/endiverter) that converts values of UniRec fields to the byte-order that is used on x86 architecture.
-Due to performace reasons, this conversion is not done automatically in libtrap nor UniRec.
 
-## Usage
+## Usage (of this feed)
 
-To use these packages, add the following line to the feeds.conf
-in the OpenWrt buildroot:
+To build and use the contained packages, add the following line to the `feeds.conf` file
+in the OpenWrt buildroot (https://github.com/openwrt/openwrt):
 
 ```
 src-git nemea https://github.com/CESNET/Nemea-OpenWRT
@@ -26,8 +33,18 @@ To install package definitions, run:
 ./scripts/feeds install -a -p nemea
 ```
 
-The NEMEA packages should now appear in `make menuconfig`.
+The ipfixprobe and NEMEA packages should appear in `make menuconfig` now.
 
-## Munin
+Package build can be started, e.g., using:
 
-NEMEA module ipfixprobe can report statistics using munin client. See [this guide](https://github.com/CESNET/Nemea-OpenWRT/tree/master/net/nemea-modules/munin/README.md).
+`make package/luci-app-ipfixprobe/compile`
+
+`make package/ipfixprobe/compile`
+
+(to build luci (GUI) plugin and ipfixprobe)
+
+The results will be present in `./bin/packages/` directory of the buildroot.
+
+Note: the build process might be found in the set up
+[Github action](https://github.com/CESNET/Nemea-OpenWRT/blob/master/.github/workflows/packages.yml#L37).
+
