@@ -16,7 +16,7 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
     - name: Install dependencies
-      run: sudo apt-get update; sudo apt-get -y install build-essential git ncurses-dev 
+      run: sudo apt-get update; sudo apt-get -y install build-essential git ncurses-dev python2
     - name: Run a one-line script
       run: git clone -b v5.4.0 --depth 1 'https://gitlab.nic.cz/turris/turris-build' "$GITHUB_WORKSPACE"/../turris-build
     - name: Update feeds.conf for local repo
