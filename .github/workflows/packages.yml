@@ -18,7 +18,7 @@ jobs:
     - name: Install dependencies
       run: sudo apt-get update; sudo apt-get -y install build-essential git ncurses-dev python2
     - name: Run a one-line script
-      run: git clone -b v5.4.0 --depth 1 'https://gitlab.nic.cz/turris/turris-build' "$GITHUB_WORKSPACE"/../turris-build
+      run: git clone -b v6.2.0 --depth 1 'https://gitlab.nic.cz/turris/turris-build' "$GITHUB_WORKSPACE"/../turris-build
     - name: Update feeds.conf for local repo
       run: cd "$GITHUB_WORKSPACE"/../turris-build; sed -i "s|^src-git cesnet.*|src-git cesnet $GITHUB_WORKSPACE|" feeds.conf
     - name: Prepare build for Turris MOX
@@ -45,7 +45,7 @@ jobs:
     - name: Install dependencies
       run: sudo apt-get update; sudo apt-get -y install build-essential git ncurses-dev wget rsync
     - name: Download SDK
-      run: cd ..; wget -O /dev/stdout "https://downloads.openwrt.org/releases/21.02.3/targets/ath79/generic/openwrt-sdk-21.02.3-ath79-generic_gcc-8.4.0_musl.Linux-x86_64.tar.xz" | tar -xJf -
+      run: cd ..; wget -O /dev/stdout "https://downloads.openwrt.org/releases/22.03.3/targets/ath79/generic/openwrt-sdk-22.03.3-ath79-generic_gcc-11.2.0_musl.Linux-x86_64.tar.xz" | tar -xJf -
     - name: Update feeds.conf for local repo
       run: cd "$GITHUB_WORKSPACE"/../openwrt-sdk-*-generic_gcc-*_musl.Linux-x86_64; echo "src-git cesnet $GITHUB_WORKSPACE" >> feeds.conf.default
     - name: Prepare build for TPLINK Archer C7
