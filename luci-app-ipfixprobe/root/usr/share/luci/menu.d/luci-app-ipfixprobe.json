@@ -1,0 +1,13 @@
+{
+	"admin/services/ipfixprobe": {
+		"title": "IPFIX probe",
+		"order": 50,
+		"action": {
+			"type": "view",
+			"path": "services/ipfixprobe"
+		},
+		"depends": {
+			"acl": [ "luci-app-ipfixprobe" ]
+		}
+	}
+}

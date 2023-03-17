@@ -1,0 +1,11 @@
+{
+	"luci-app-ipfixprobe": {
+		"description": "Grant UCI access for luci-app-ipfixprobe",
+		"read": {
+			"uci": [ "ipfixprobe" ],
+		},
+		"write": {
+			"uci": [ "ipfixprobe" ]
+		}
+	}
+}
