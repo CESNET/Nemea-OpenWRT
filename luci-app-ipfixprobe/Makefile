@@ -1,8 +1,8 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-ipfixprobe
-PKG_VERSION:=0.2
-PKG_SOURCE_DATE=2022-03-19
+PKG_VERSION:=0.3
+PKG_SOURCE_DATE=2023-03-17
 PKG_RELEASE:=1
 
 PKG_MAINTAINER:=Tomas Cejka <cejkat@cesnet.cz>
@@ -17,7 +17,7 @@ define Package/luci-app-ipfixprobe
 	TITLE:=IPFIX exporter profiles
 	URL:=https://github.com/CESNET/NEMEA-OpenWrt
 	MAINTAINER:=Tomas Cejka <cejkat@cesnet.cz>
-	DEPENDS:=+ipfixprobe +luci-base +luci-compat
+	DEPENDS:=+ipfixprobe +luci-base
 endef
 
 define Package/luci-app-ipfixprobe/description
@@ -28,9 +28,10 @@ define Build/Compile
 endef
 
 define Package/luci-app-ipfixprobe/install
-	$(INSTALL_DIR) $(1)/usr/lib/lua/luci
-	$(CP) ./luasrc/* $(1)/usr/lib/lua/luci
+	$(INSTALL_DIR) $(1)/www
+	$(CP) ./htdocs/* $(1)/www/
+	$(INSTALL_DIR) $(1)/
+	$(CP) ./root/* $(1)/
 endef
 
 $(eval $(call BuildPackage,luci-app-ipfixprobe))
-
