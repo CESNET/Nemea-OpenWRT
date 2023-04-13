@@ -1,6 +1,6 @@
 #!/bin/sh /etc/rc.common
 # ipfixprobe, IPFIX flow exporter
-# Copyright (C) 2022 CESNET
+# Copyright (C) 2022-2023 CESNET
 
 #
 # How to use:
@@ -23,25 +23,27 @@ PROG=/usr/bin/ipfixprobe
 validate_section_ipfixprobe()
 {
     uci_load_validate ipfixprobe ipfixprobe "$1" "$2" \
+        'enabled:bool:0' \
         'interfaces:list(string)' \
         'plugins:list(string)' \
+        'split_biflow:bool:0' \
         'ipfix_host:host:127.0.0.1' \
         'ipfix_port:port:4739' \
         'ipfix_udp:bool:1' \
-        'cache_size:integer' \
-        'cache_line:integer' \
-        'active_timeout:integer' \
-        'inactive_timeout:integer' \
-        'link:integer' \
-        'dir:integer' \
-        'split_biflow:bool:0' \
-        'ipfix_mtu:integer:1452' \
+        'ipfix_mtu:uinteger:1452' \
+        'link:uinteger' \
+        'dir:uinteger' \
+        'active_timeout:uinteger:300' \
+        'inactive_timeout:uinteger:30' \
+        'raw_blocks:uinteger:2' \
+        'raw_packetsinblock:uinteger:10' \
+        'cache_size:uinteger:1024' \
+        'cache_line:uinteger:4' \
         'respawn:bool:1' \
-        'respawn_threshold:integer:3600' \
-        'respawn_timeout:integer:5' \
-        'respawn_retry:integer:5' \
-        'core:bool:0' \
-        'enabled:bool:0'
+        'respawn_threshold:uinteger:3600' \
+        'respawn_timeout:uinteger:5' \
+        'respawn_retry:uinteger:5' \
+        'core:bool:0'
 }
 
 handle_interface() {
@@ -60,9 +62,14 @@ ipfixprobe_profile()
 {
    local PROFILE="$1"
 
+   [ "$2" = 0 ] || {
+      echo "Validation failed"
+      return 1
+   }
+
    if [ "$enabled" -eq 0 ]; then
       logger -p daemon.notice -t ipfixprobe "ipfixprobe profile $PROFILE disabled"
-      return 1
+      return 0
    else
       logger -p daemon.notice -t ipfixprobe "ipfixprobe profile $PROFILE enabled"
    fi
@@ -71,16 +78,16 @@ ipfixprobe_profile()
 
    procd_set_param command "$PROG"
 
-   config_list_foreach "$PROFILE"   interfaces   handle_interface     "${raw_blocks:-2}" "${raw_packetsinblock:-10}"
-   config_list_foreach "$PROFILE"   plugins     handle_plugins	     ""
+   config_list_foreach "$PROFILE"  interfaces  handle_interface     "${raw_blocks}" "${raw_packetsinblock}"
+   config_list_foreach "$PROFILE"  plugins     handle_plugins       ""
 
-   [ "${ipfix_udp:-0}" -eq 1 ] && UDP_PARAM=";u"
-   [ "${split_biflow:-0}" -eq 1 ] && SPLIT_PARAM=";S"
+   [ "${ipfix_udp}" -eq 1 ] && UDP_PARAM=";u"
+   [ "${split_biflow}" -eq 1 ] && SPLIT_PARAM=";S"
 
-   procd_append_param command -o "ipfix;h=$ipfix_host;p=${ipfix_port:-4739};I=${link:-0};d=${dir:-0}$UDP_PARAM;m=${ipfix_mtu:-1458}"
-   procd_append_param command -s "cache;s=${cache_size:-10};l=${cache_line:-2};a=${active_timeout:-300};i=${inactive_timeout:-30}$SPLIT_PARAM"
+   procd_append_param command -o "ipfix;h=$ipfix_host;p=${ipfix_port};I=${link};d=${dir}$UDP_PARAM;m=${ipfix_mtu}"
+   procd_append_param command -s "cache;s=${cache_size};l=${cache_line};a=${active_timeout};i=${inactive_timeout}$SPLIT_PARAM"
 
-   procd_set_param limits core="${core:-0}"
+   procd_set_param limits core="${core}"
    procd_set_param stdout 1
    procd_set_param stderr 1
    procd_close_instance
@@ -96,4 +103,3 @@ service_triggers() {
    procd_add_reload_trigger "$NAME"
    procd_add_validation validate_section_ipfixprobe
 }
-
