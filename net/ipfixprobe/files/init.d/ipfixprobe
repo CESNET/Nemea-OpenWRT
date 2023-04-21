@@ -37,8 +37,8 @@ validate_section_ipfixprobe()
         'inactive_timeout:uinteger:30' \
         'raw_blocks:uinteger:2' \
         'raw_packetsinblock:uinteger:10' \
-        'cache_size:uinteger:1024' \
-        'cache_line:uinteger:4' \
+        'cache_size:uinteger:10' \
+        'cache_line:uinteger:2' \
         'respawn:bool:1' \
         'respawn_threshold:uinteger:3600' \
         'respawn_timeout:uinteger:5' \
