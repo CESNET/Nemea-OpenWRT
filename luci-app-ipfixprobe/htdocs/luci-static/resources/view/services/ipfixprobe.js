@@ -6,25 +6,6 @@
 'require validation';
 'require tools.widgets as widgets';
 
-function validatePowerOf2(sid, s) {
-	if (s == null || s == '')
-		return true;
-
-	var x = validation.parseInteger(s);
-
-	if (isNaN(x) || x < 1) {
-		// Must be unsigned integer
-		return _('Expecting: positive integer value');
-	}
-
-	if (Math.log2(x) % 1 !== 0) {
-		// Must be power of 2
-		return _('Expecting: power of 2, e.g. 16, 128, 2048,...');
-	}
-
-	return true;
-}
-
 return view.extend({
 	render: function(data) {
 		var m, s, o;
@@ -122,14 +103,14 @@ return view.extend({
 		o.default = '10';
 
 		o = s.taboption('advanced', form.Value, 'cache_size', _('Size of flow cache'),
-			_('Number of entries. Must be power of 2 (i.e. 2**N).'));
-		o.default = '1024';
-		o.validate = validatePowerOf2;
+			_('Number of entries given by an exponent 2**N.'));
+		o.datatype = 'and(uinteger,min(4),max(30))';
+		o.default = '10';
 
 		o = s.taboption('advanced', form.Value, 'cache_line', _('Size of flow cache line'),
-			_('Number of entries. Must be power of 2 (i.e. 2**N).'));
-		o.default = '4';
-		o.validate = validatePowerOf2;
+			_('Number of entries given by an exponent 2**N.'));
+		o.datatype = 'and(uinteger,max(30))';
+		o.default = '2';
 
 		o = s.taboption('advanced', form.Flag, 'respawn', _('Respawn'),
 			_('Enable respawn of crashed process.'));
