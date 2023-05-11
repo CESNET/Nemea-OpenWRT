@@ -1,93 +1,45 @@
 # NEMEA ipfixprobe
-# Copyright (C) 2022 CESNET
+# Copyright (C) 2022-2023 CESNET
 
-#
-# Available options for profiles, "list" options can be used repeatedly:
+# Available options for profiles, 'list' options can be used repeatedly:
 # list interfaces   - list of NIC, e.g., eth0, enp0s1, ...
 # list plugins      - list of plugin names, see 'ipfixprobe -h process' for help
 #      ipfix_host   - address of IPFIX collector
 #      ipfix_port   - port of IPFIX collector, default: 4739
 #      ipfix_udp    - 1 to export to IPFIX collector via UDP, 0 via TCP
-#      cache_size   - size of flow cache as an exponent 2**N, default: 10
-#      cache_line   - size of flow cache line as an exponent 2**N, default: 2
+#      cache_size   - size of flow cache as exponent of 2, default: 1024
+#      cache_line   - size of flow cache line as exponent of 2, default: 4
 #      active_timeout   - active timeout in seconds, default: 300
 #      inactive_timeout - inactive timeout in seconds, default: 30
-#      link              - identification of link/router
-#      dir               - identification of direction/NIC
+#      link              - unsigned integer as identification of link/router
+#      dir               - unsigned integer as identification of direction/NIC
 #      split_biflow      - 1 to split biflow to uniflow, default: 0 to use biflow
-#      ipfix_mtu         - size of max transmission unit (MTU), default: 1458
+#      ipfix_mtu         - size of max transmission unit (MTU), default: 1452
 #
 #      respawn           - enable respawn of crashed process
 #      respawn_threshold - timeout in seconds for restarting a service after it closes
 #      respawn_timeout   - max time in seconds to wait for a process respawn to complete
 #      respawn_retry     - max number of attempts to respawn before giving up, 0 means newer stop trying to respawn
-#      core              - size of coredump, "0" - not generate, "unlimited" - unlimited size
+#      core              - size of coredump, '0' - not generate, 'unlimited' - unlimited size
 #
 #      enabled           - 1 to enable start daemon instance for that profile, NOTE: if profile is directly specified for start script
 #                         (example: '/etc/init.d/ipfixprobe start wan profileX profileY lan'), this option is ignored
-#
 
-config profile lan
-	list interfaces br-lan
-	#list interfaces eth0
-	list plugins "basicplus"
-	list plugins "dns"
-	list plugins "http"
-	list plugins "pstats"
-	list plugins "ovpn"
-	list plugins "wg"
-	list plugins "dnssd;txt"
-	list plugins "ssdp"
-	list plugins "tls"
-	list plugins "quic"
-	option raw_blocks	3
-	option raw_packetsinblock	10
-	option ipfix_host	127.0.0.1
-	option ipfix_port	4739
-	option ipfix_enable	1
-	option ipfix_udp	1
-	option cache_size	14
-	option cache_line	2
-	option active_timeout	300
-	option inactive_timeout	30
-	option link 0x1
-	option dir 1
-        option split_biflow     0
-	option respawn 1
-	option respawn_threshold 3600
-	option respawn_timeout 5
-	option respawn_retry 5
-	option core 0
-	option enabled 1
-
-config profile wan
-	list interfaces eth0
-	list plugins "basicplus"
-	list plugins "dns"
-	list plugins "http"
-	list plugins "pstats"
-	list plugins "ovpn"
-	list plugins "wg"
-	list plugins "dnssd;txt"
-	list plugins "ssdp"
-	list plugins "tls"
-	list plugins "quic"
-	option raw_blocks	3
-	option raw_packetsinblock	10
-	option ipfix_host	127.0.0.1
-	option ipfix_port	4739
-	option ipfix_udp	1
-	option cache_size	14
-	option cache_line	2
-	option active_timeout	300
-	option inactive_timeout	30
-	option link 0x1
-	option dir 0
-        option split_biflow     0
-	option respawn 1
-	option respawn_threshold 3600
-	option respawn_timeout 5
-	option respawn_retry 5
-	option core 0
-	option enabled 1
-
+config profile 'lan'
+	option enabled '0'
+	list interfaces 'br-lan'
+	list plugins 'basicplus'
+	list plugins 'dns'
+	list plugins 'http'
+	list plugins 'pstats'
+	list plugins 'ovpn'
+	list plugins 'wg'
+	list plugins 'dnssd;txt'
+	list plugins 'ssdp'
+	list plugins 'tls'
+	list plugins 'quic'
+	option ipfix_host '127.0.0.1'
+	option ipfix_port '4739'
+	option ipfix_udp '1'
+	option link '1'
+	option dir '1'
