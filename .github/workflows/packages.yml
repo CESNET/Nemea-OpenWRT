@@ -14,7 +14,7 @@ jobs:
 
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v5
     - name: Install dependencies
       run: sudo apt-get update; sudo apt-get -y install build-essential git ncurses-dev
     - name: Run a one-line script
@@ -41,7 +41,7 @@ jobs:
 
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v5
     - name: Install dependencies
       run: sudo apt-get update; sudo apt-get -y install build-essential git ncurses-dev wget rsync
     - name: Download SDK
